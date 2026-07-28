@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Rafael M. Rubião"
 title_separator          : "-"
 name                     : &name "Rafael M. Rubião"
-description              : &description "personal description"
+description              : &description "Rafael M. Rubião — PhD student in Business Economics at UCLA Anderson. Research in behavioral, development, and political economy."
 url                      : https://rafaelrubiao.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "rafaelrubiao/rafaelrubiao.github.io"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Rafael M. Rubião"
   avatar           : "profile2_compressed.jpg"
-  bio              : "PhD student at UCLA"
+  bio              : "PhD student in Business Economics, UCLA Anderson"
   location         : "Los Angeles, CA"
   employer         : "University of California, Los Angeles"
   #pubmed           : #"https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
@@ -96,7 +96,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : "academicpages"
+  github           : "rafaelrubiao"
   google_plus      :
   keybase          :
   instagram        :
