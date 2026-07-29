@@ -31,13 +31,17 @@ every time instead of being re-improvised in each conversation.
 
 ────────────────────────────────────────────────────────────────────────────── -->
 
-<!-- TODO(Rafael): the QSF skill goes here — the Qualtrics survey-format tool we built.
-     I did not have the details on hand when this page was written, so I have left the
-     entry out rather than describe it inaccurately. Send me the description, the
-     repo/download link, and the trigger conditions, and I will fill it in using the
-     template above. -->
+### AI-Led Interview Toolkit (Qualtrics QSF)
 
-*First entries coming shortly.*
+A ready-to-import Qualtrics survey implementing the AI-led interview method we developed
+for [*Is Money Overrated?*](https://www.nber.org/papers/w35423) — moving beyond static,
+predefined survey instruments by combining the flexibility of qualitative interviewing
+with the discipline of closed-ended survey measurement.
+
+*Survey file and documentation coming soon.*
+
+<!-- TODO(Rafael): add the QSF download link + implementation appendix from
+     ai_interview_toolkit once uploaded. -->
 
 ## Packages
 
