@@ -41,7 +41,7 @@ People often make important choices in pursuit of higher income, but do they pla
 with [Juan Pablo Chauvin](https://www.jpchauvin.com/) and [Miguel Ángel Talamas Marcos](https://www.migueltalamas.org/)
 {: .paper-meta}
 
-*IDB Working Paper No. 13989* &nbsp;·&nbsp; Submitted
+*SSRN Working Paper*, 2026 &nbsp;·&nbsp; Submitted
 {: .paper-meta}
 
 [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6153086) [IDB](https://publications.iadb.org/en/undercounting-child-mother-births)
