@@ -56,11 +56,9 @@ Accurate demographic data are essential for effective policy design, yet the pri
 ## Work in Progress
 
 - **Human Capital and Political Capital** — with Julian Martinez-Correa (University of
-  Chicago). How negative labor market experiences shape people's political leaning and
+  Chicago) and [Valdemar Pinho Neto](https://sites.google.com/view/valdemarneto/home)
+  (FGV EPGE). How negative labor market experiences shape people's political leaning and
   voting behavior, and why.
-- **Minimum legal age of sexual consent and adolescent outcomes in Mexico** — with Juan
-  Pablo Chauvin and Miguel Ángel Talamas Marcos. Effects of changes in Mexican states'
-  age-of-consent laws on early fertility, early marriage, and crime incidence.
 
 ## Policy and Other Writings
 
