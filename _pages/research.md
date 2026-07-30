@@ -32,7 +32,7 @@ People often make important choices in pursuit of higher income, but do they pla
 
 <div class="paper-entry">
   <div class="paper-entry__img">
-    <img src="/images/wp-child-mother-births.png" alt="Two scatterplots of log births recorded in the census against log births implied by the census ten years later. For mothers aged 15 to 24 the points sit on the 45-degree line; for mothers aged 10 to 14 they sit well below it, indicating undercounting.">
+    <img src="/images/wp-child-mother-births.png" alt="Two line charts comparing Mexican birth counts by year across Census 2000, 2010, 2015, and 2020, INEGI vital registry, WHO registry, and UN World Population Prospects estimates. For mothers aged 15-24 the series broadly agree; for mothers aged 10-14 the census-based counts fall well below the registry and UN series in most years, indicating undercounting.">
   </div>
   <div class="paper-entry__body" markdown="1">
 
