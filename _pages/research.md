@@ -57,8 +57,7 @@ Accurate demographic data are essential for effective policy design, yet the pri
 
 - **Human Capital and Political Capital** — with Julian Martinez-Correa (University of
   Chicago) and [Valdemar Pinho Neto](https://sites.google.com/view/valdemarneto/home)
-  (FGV EPGE). How negative labor market experiences shape people's political leaning and
-  voting behavior, and why.
+  (FGV EPGE).
 
 ## Policy and Other Writings
 
