@@ -1,26 +1,23 @@
 # main links links
 main:
 
+  - title: "Research"
+    url: /research/
+
+  - title: "Code & Resources"
+    url: /code/
+
   - title: "CV"
     url: /cv/
 
-  #- title: "Research"
-   # url: /research/
-
  # - title: "Talks"
-#    url: /talks/    
+#    url: /talks/
 
-  #- title: "Code & Other Resources"
-   # url: /code/
-
-    
   #- title: "Personal"
   #  url: /personal/
-        
+
  # - title: "Blog Posts"
   #  url: /year-archive/
-    
 
-    
   #- title: "Guide"
   #  url: /markdown/
