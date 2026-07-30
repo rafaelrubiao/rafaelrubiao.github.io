@@ -1,0 +1,291 @@
+%!TeX program = pdflatex
+% Rafael M. Rubião — Curriculum Vitae
+% Built on Geoff Boeing's CV template
+% Email: boeing@usc.edu | Web: https://geoffboeing.com/ | Repo: https://github.com/gboeing/cv
+
+\documentclass[11pt,letterpaper]{report}
+
+\usepackage[T1]{fontenc} % output T1 font encoding (8-bit) for accented characters as single glyph
+\usepackage[strict,autostyle]{csquotes} % smart and nestable quote marks
+\usepackage[USenglish]{babel} % regionalize hyphens, quote marks, etc automatically
+\usepackage{microtype}% improve text appearance with kerning, etc
+\usepackage{datetime} % enable formatting of date output
+\usepackage{tabto}    % make nice tabbing
+\usepackage{hyperref} % enable hyperlinks and pdf metadata
+\usepackage{geometry} % manually set page margins
+\usepackage{enumitem} % enumerate with [resume] option
+\usepackage{titlesec} % allow custom section fonts
+\usepackage{setspace} % custom line spacing
+\usepackage[super]{nth} % rank
+
+% what is your name?
+\newcommand{\myname}{Rafael M. Rubi\~ao}
+
+% select default typefaces
+\usepackage{ebgaramond} % document's serif typeface
+\usepackage{tgheros}    % document's sans serif typeface
+
+% how far to tab for list items with left-aligned date: different fonts need different widths
+\newcommand{\listtabwidth}{1.7cm}
+
+% define font to use as document's title
+\newcommand{\namefont}[1]{{\normalfont\bfseries\Huge{#1}}}
+
+% set section heading fonts and before/after spacing
+\SetTracking{encoding=*, family=\sfdefault}{30} % increase sans serif headings tracking
+\titleformat{\section}{\lsstyle\sffamily\small\bfseries\uppercase}{}{}{}{}
+% tightened from 23pt to 15pt so the CV still fits on one page after the
+% Working Papers section was added
+\titlespacing{\section}{0pt}{15pt plus 4pt minus 4pt}{6pt plus 2pt minus 2pt}
+
+% set subsection heading fonts and before/after spacing
+\titleformat{\subsection}{\lsstyle\sffamily\footnotesize\bfseries}{}{}{}{}
+\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 4pt}{4pt plus 2pt minus 2pt}
+
+% set page margins (assumes letter paper)
+\geometry{body={7.2in, 10.3in},
+    left=0.6in,
+    top=0.5in}
+
+% prevent paragraph indentation
+\setlength\parindent{0em}
+
+% set line spacing
+\setstretch{0.8}
+
+% define space between list items
+\newcommand{\listitemspace}{0.25em}
+
+% make unordered lists without bullets and use compact spacing
+\renewenvironment{itemize}
+{\begin{list}{}{\setlength{\leftmargin}{0em}
+                \setlength{\parskip}{0em}
+                \setlength{\itemsep}{\listitemspace}
+                \setlength{\parsep}{\listitemspace}}}
+{\end{list}}
+
+% make tabbed lists so content is left-aligned next to years
+\TabPositions{\listtabwidth}
+\newlist{tablist}{description}{3}
+\setlist[tablist]{leftmargin=\listtabwidth,
+    labelindent=0em,
+    topsep=0em,
+    partopsep=0em,
+    itemsep=\listitemspace,
+    parsep=\listitemspace,
+    font=\normalfont}
+
+% print only the month and year when using \today
+\newdateformat{monthyeardate}{\monthname[\THEMONTH] \THEYEAR}
+
+% define hyperlink appearance and metadata for pdf properties
+\hypersetup{
+    colorlinks  = true,
+    urlcolor    = black,
+    citecolor   = black,
+    linkcolor   = black,
+    pdfauthor   = {\myname},
+    pdfkeywords = {behavioral economics, development economics, subjective well-being, beliefs, economics of the family, political economy},
+    pdftitle    = {\myname: Curriculum Vitae},
+    pdfsubject  = {Curriculum Vitae},
+    pdfpagemode = UseNone
+}
+
+\begin{document}
+    \raggedright{}
+
+    % display your name as the document title
+    \textbf{\namefont{\myname}}
+
+    % affiliation and contact info blocks
+    \vspace{1em}
+    \begin{minipage}[t]{0.700\textwidth}
+        % current primary affiliation, left-aligned
+       University of California, Los Angeles \\
+      Anderson School of Management \\
+        110 Westwood Plaza, Los Angeles, CA
+    \end{minipage}
+    \begin{minipage}[t]{0.295\textwidth}
+        % contact info details, right-aligned
+        \flushright{}
+        \href{mailto:rafael.rubiao.phd@anderson.ucla.edu}{rafael.rubiao.phd@anderson.ucla.edu} \\
+        +1 202 926 5839 \\
+        \href{https://rafaelrubiao.github.io}{rafaelrubiao.github.io}
+    \end{minipage}
+
+%----------------------------------------------------------------------------------------
+%	EDUCATION
+%----------------------------------------------------------------------------------------
+
+    \section*{Education}
+
+    \begin{tablist}
+        \item[PhD]  \tab{}Global Economics and Management, \textbf{University of California, Los Angeles}, 2023-Present \\
+        \item[MSc]  \tab{}Economics \textit{with Distinction}, \textbf{University College London}, 2019 \\
+        \item[BSc]  \tab{}Economics, Universidade Federal de Minas Gerais, 2017%, GPA 4.25/5
+         %item[Other] \tab{}
+
+    \end{tablist}
+
+
+%----------------------------------------------------------------------------------------
+    \section*{Employment}
+
+    \begin{tablist}
+
+        \item[2021-23]   \tab{}Inter-American Development Bank, Department of Research -- Research Fellow\\
+                              Principal Investigator: Juan Pablo Chauvin
+
+        \item[2020-21]   \tab{}World Bank, Poverty and Equity Global Practice -- Consultant \\
+                              Task Team Leaders: Gabriel Lara Ibarra, Liliana D Sousa
+
+        \item[2015-17]   \tab{}Development Bank of Minas Gerais, Research and Strategy Departments -- Intern
+
+
+
+
+    \end{tablist}
+
+%----------------------------------------------------------------------------------------
+    \section*{Grants, Awards and Fellowships}
+
+
+
+    \begin{tablist}
+        % \item[2022] \tab{}ESW IADB Grant (42,000 USD) \\
+        \item[2018] \tab{}Chevening Awards Scholarship, UCL/U.K. Foreign \& Commonwealth Office \\
+        \item[2018] \tab{}ABDE-IDB Selected Papers Prize, Brazilian Association for Economic Development \\
+       % \item[2017] \tab{}Travel Grant Edital Circula Minas, Government of Minas Gerais  \\
+        \item[2014] \tab{}Young Researcher Scholarship, CNPQ/UFMG  \\
+       % \item[2013] \tab{}Young Researcher Scholarship, CNPQ/UFMG \\
+
+    \end{tablist}
+
+
+
+
+%----------------------------------------------------------------------------------------
+    \section*{Research}
+%-----------------------------------------
+    \subsection*{Working Papers}
+
+      \begin{tablist}
+
+            \item[2026] \tab{}"\href{https://www.nber.org/papers/w35423}{Is Money Overrated? Misperceived Satisfaction from Income}" (with Ricardo Perez-Truglia) \\
+                              \textit{NBER Working Paper No.\ 35423}
+
+            \item[2026] \tab{}"\href{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6153086}{The Undercounting of Births to Child Mothers}" (with Juan Pablo Chauvin and Miguel \'Angel Talamas Marcos) \\
+                              \textit{SSRN Working Paper} -- Submitted
+
+       \end{tablist}
+%-----------------------------------------
+    \subsection*{Select Work in Progress}
+
+      \begin{tablist}
+
+            % TODO(Rafael): add a start year for this project if you want one shown.
+            \item[] \tab{}"Human Capital and Political Capital" (with Julian Martinez-Correa and Valdemar Pinho Neto)
+            %\item[2022--] \tab{}"Voters Response to COVID-19 Deaths: An Instrumental Variables Approach" (with Juan Pablo Chauvin)
+            %\item[2022--] \tab{}"Mobile Internet Rollout and Gender-Based Violence: The Role of Beliefs and Communication" (with Juan Pablo Chauvin)
+
+       \end{tablist}
+%-----------------------------------------
+    % \subsection*{Research Assistant}
+    %     \begin{tablist}
+    %         \item[2021-22] \tab{}"Gender and Electoral Incentives: Evidence from Crisis Response" (Juan Pablo Chauvin and Clémence Tricaud)
+    %         \item[2021-22] \tab{}"Airports Connections and Internal Migration in Brazil" (Juan Pablo Chauvin and Jasmina Chauvin)
+    %         \item[2021-22] \tab{}"Airports Connections and Internal Migration in Brazil" (Juan Pablo Chauvin and Jasmina Chauvin)
+    %   \end{tablist}
+
+%-----------------------------------------
+    \subsection*{Policy and Other Writings}
+
+    \begin{tablist}
+
+        \item[2021] \tab{}Rubi\~ao, R. M.; Lara Ibarra, G.; and Fleury, E. Indirect Tax Incidence in Brazil : Assessing the Distributional Effects of Potential Tax Reforms. \emph{Policy Research Working Paper}; No 9891; World Bank, Washington, DC.
+
+        \item[2020] \tab{}Rubi\~ao, R. M.; Sousa, L.; and Cereda, F. COVID-19, Labor Market Shocks, and Poverty in Brazil: A Microsimulation Analysis. Policy Note. Poverty and Equity GP, World Bank,  Washington, DC.
+
+        \item[2018] \tab{}Rubi\~ao, R. M. Bancos de Desenvolvimento em quest\~ao: o impacto do ocaso dos fundos estaduais no "D" do BDMG. In: Pr\^emio ABDE-BID. Associa\c{c}\~ao Brasileira de Desenvolvimento. ABDE Editorial,  Rio de Janeiro, 2018. p. 99-126.
+
+        \item[2017] \tab{}Rubi\~ao, R. M. A short but deep dive into the economics of arts: Art Entrepreneurs in a Peripheral Market. \textit{Artivate: A Journal of Entrepreneurship in the Arts}, Arizona State University, 7(2), 3-26.
+
+    \end{tablist}
+
+%-----------------------------------------
+    \subsection*{Conference presentations}
+
+    \begin{tablist}
+    \item[2016] \tab{} 19th International Conference of the Association for Cultural Economics International ACEI (Spain)
+
+     \end{tablist}
+%----------------------------------------------------------------------------------------
+   % \section*{Other Courses}
+     % \begin{tablist}
+
+
+
+     %  \end{tablist}
+%----------------------------------------------------------------------------------------
+    \section*{References}
+          \begin{tablist}
+               \item[Prof. Ricardo Perez-Truglia] -- University of California, Los Angeles -- Contact: \href{mailto:ricardo.truglia@anderson.ucla.edu}{ricardo.truglia@anderson.ucla.edu}
+               \item[Prof. Natalie Bau] -- University of California, Los Angeles -- Contact: \href{mailto:nbau@g.ucla.edu}{nbau@g.ucla.edu}
+               \item[Prof. Cl\'emence Tricaud] -- University of California, Los Angeles -- Contact: \href{mailto:clemence.tricaud@anderson.ucla.edu}{clemence.tricaud@anderson.ucla.edu}
+          \end{tablist}
+
+
+%----------------------------------------------------------------------------------------
+\section*{Skills}
+
+    \begin{tablist}
+     \item[Code] \tab{}Stata, Python, R, Git, LaTex
+     \item[Idiom]  \tab{}Portuguese (native), English, French, Spanish (fluent)
+     \item[Other] \tab GRE: Q170(96pctl)/V166(97pctl) | TOEFL: 113 | Real Analysis (UCSC):A+ (\nth{2} out of 46)
+
+         %  \item[Test Scores] \tab{}GRE: Q 170 (96th), V 166 (97th), AW 5 (91th) \\
+
+    \end{tablist}
+
+
+
+
+
+
+    %\section*{Courses Taught}
+
+
+
+%----------------------------------------------------------------------------------------
+  %  \section*{Other Work Experience}
+
+    %\begin{tablist}
+
+
+
+  %  \end{tablist}
+
+
+
+    % display today's date as Month Year after a vertical space below the end of the text
+    % NOTE: this was \begin{left} ... \end{left}, which is not a real LaTeX environment
+    % (it expands to the math-mode \left and throws "Missing $ inserted"). flushleft is
+    % the intended behaviour and compiles cleanly.
+    \begin{flushleft}
+            \vfill
+              \vfill
+              \vfill
+        \footnotesize{Updated \monthyeardate\today}
+        \end{flushleft}
+
+\end{document}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+    \section*{Areas of Interest}
+
+    \begin{itemize}
+
+        \item Development, Health and Behavioral Economics; Economics of Family and Gender; Political Economy
+
+    \end{itemize}

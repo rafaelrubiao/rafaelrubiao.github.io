@@ -2,3 +2,9 @@ _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
+
+# LaTeX build artefacts from compiling files/Rubiao_RafaelM_CV.tex
+*.aux
+*.log
+*.out
+*.synctex.gz

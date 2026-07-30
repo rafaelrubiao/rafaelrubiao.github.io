@@ -16,7 +16,10 @@ gem "github-pages", group: :jekyll_plugins
 
 # gem "jekyll"
 
-gem "wdm", "~> 0.1.0" if Gem.win_platform?
+# wdm is the Windows file-watcher used by `jekyll serve`. 0.1.x does not build
+# against Ruby 3.x; 0.2.0 does. Windows-only, so this does not affect the
+# GitHub Pages build.
+gem "wdm", "~> 0.2.0" if Gem.win_platform?
 gem "webrick"
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]

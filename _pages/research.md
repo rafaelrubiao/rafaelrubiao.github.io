@@ -21,7 +21,7 @@ with [Ricardo Perez-Truglia](https://www.ricardotruglia.com/)
 *NBER Working Paper No. 35423*, July 2026
 {: .paper-meta}
 
-[NBER](https://www.nber.org/papers/w35423) [Online Appendix](https://data.nber.org/data-appendix/w35423/) [Pre-registration](https://www.socialscienceregistry.org/trials/18251) [QSF Builder Skill](/code/#qsf-builder-ai-led-interview-toolkit)
+[NBER](https://www.nber.org/papers/w35423) [Online Appendix](https://data.nber.org/data-appendix/w35423/) [Pre-registration](https://www.socialscienceregistry.org/trials/18251) [AI Interview Toolkit](/code/#ai-led-interview-toolkit)
 {: .paper-links}
 
 People often make important choices in pursuit of higher income, but do they place too much weight on income when deciding what path to take? We propose a simple model of misspecified learning in which individuals overestimate the marginal satisfaction from income—the expected effect of an income increase on overall life satisfaction—and therefore give income too much importance in their decisions. Guided by this model, we designed a pre-registered experiment that elicits beliefs about the marginal satisfaction from income and randomly assigns scientific evidence about it. Respondents report beliefs about the marginal satisfaction from income that are substantially above the scientific-evidence benchmark, both for themselves and for others, with a larger gap for themselves. These gaps shrink when respondents are exposed to scientific evidence, and the effects persist one month later. To study whether these beliefs matter for behavior, we measure income-versus-non-income trade-offs using job-choice scenarios tailored to each respondent and a real-world decision the respondent is facing. To elicit the latter, we make a methodological contribution: an AI-led interview method that moves beyond static, predefined survey instruments by combining the flexibility of qualitative interviewing with the discipline of closed-ended survey measurement. We find that these beliefs are consequential: after learning that income matters less for life satisfaction than they initially thought, respondents place less weight on income in their decisions.
@@ -68,6 +68,10 @@ Accurate demographic data are essential for effective policy design, yet the pri
 - **Rubião, R. M.**; Sousa, L.; and Cereda, F. (2020). COVID-19, Labor Market Shocks, and
   Poverty in Brazil: A Microsimulation Analysis. *Policy Note*, Poverty and Equity Global
   Practice, World Bank, Washington, DC.
+- **Rubião, R. M.** (2018). Bancos de Desenvolvimento em questão: o impacto do ocaso dos
+  fundos estaduais no "D" do BDMG. In: *Prêmio ABDE-BID*, Associação Brasileira de
+  Desenvolvimento, ABDE Editorial, Rio de Janeiro, pp. 99–126. — *Winner, ABDE-IDB Selected
+  Papers Prize.*
 - **Rubião, R. M.** (2017). [A short but deep dive into the economics of arts: Art
   Entrepreneurs in a Peripheral
   Market](https://www.artivate.org/index.php/artivate/article/download/81/70). *Artivate:
