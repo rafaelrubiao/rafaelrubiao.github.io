@@ -31,17 +31,20 @@ every time instead of being re-improvised in each conversation.
 
 ────────────────────────────────────────────────────────────────────────────── -->
 
-### AI-Led Interview Toolkit (Qualtrics QSF)
+### QSF Builder (AI-Led Interview Toolkit)
 
-A ready-to-import Qualtrics survey implementing the AI-led interview method we developed
-for [*Is Money Overrated?*](https://www.nber.org/papers/w35423) — moving beyond static,
+A Claude Code skill that generates ready-to-import Qualtrics QSF surveys implementing the
+AI-led interview method we developed for [*Is Money Overrated?*](https://www.nber.org/papers/w35423) — moving beyond static,
 predefined survey instruments by combining the flexibility of qualitative interviewing
 with the discipline of closed-ended survey measurement.
 
-*Survey file and documentation coming soon.*
+**Use it when:** building a Qualtrics survey that needs an AI-led interview block.
 
-<!-- TODO(Rafael): add the QSF download link + implementation appendix from
-     ai_interview_toolkit once uploaded. -->
+*Skill file and documentation coming soon.*
+
+<!-- TODO(Rafael): add the skill download link + implementation appendix from
+     ai_interview_toolkit once uploaded. Confirmed with Rafael: only the QSF-building
+     skill goes here, not the raw survey/QSF file itself. -->
 
 ## Packages
 
