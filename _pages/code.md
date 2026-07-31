@@ -75,37 +75,18 @@ want → a complete `.qsf` ready to import.
 Survey instruments and companion material from my papers, packaged so other researchers can
 reuse them.
 
-### AI-Led Interview Toolkit
+### [AI-Led Interview Toolkit](/code/qualtrics-llm/)
 
-The AI-led interview module from [*Is Money Overrated? Misperceived Satisfaction from
-Income*](https://www.nber.org/papers/w35423), packaged so it can be dropped into any
-Qualtrics survey. The method moves beyond static, predefined survey instruments by combining
-the flexibility of qualitative interviewing with the discipline of closed-ended survey
-measurement.
+An interview led by a large language model, run inside an ordinary Qualtrics survey — the
+module from [*Is Money Overrated?*](https://www.nber.org/papers/w35423), packaged so it can be
+dropped into someone else's survey. The respondent describes a real decision in their own
+words, the model asks up to three adaptive follow-up questions, and it then generates a
+personalized binary choice you can use in ordinary closed-ended outcome questions.
 
-A respondent describes, in their own words, a real decision they are facing. A large language
-model, called in real time from inside the survey, asks up to three adaptive follow-up
-questions — clarifying the situation, then probing the main upside, then the main downside.
-It then generates a personalized binary choice with a one-sentence description of the
-trade-off, which the respondent checks for accuracy. Later questions can use the generated
-options in ordinary closed-ended outcome questions.
+Includes an importable `.qsf`, an implementation guide, and the four interview prompts. Basic
+use requires no programming.
 
-**What you get:** an importable `.qsf` containing only the interview module, an
-implementation guide covering setup, customization and failure behavior, a data dictionary,
-and the four interview prompts verbatim.
-**What you need:** a Qualtrics account and an OpenAI API key. Basic use requires no
-programming — you import the template once, paste in your key, and edit the prompts as plain
-text in the Survey Flow.
-
-The repository also includes `build_qsf.py`, the script that regenerates the template from
-our fielded survey. It is there for reproducibility and is not needed to use the toolkit.
-
-[Repository](https://github.com/rafaelrubiao/ai-interview-toolkit) · [Qualtrics template (.qsf)](https://github.com/rafaelrubiao/ai-interview-toolkit/raw/main/AI_Interview_Module.qsf) · [Implementation guide (PDF)](https://github.com/rafaelrubiao/ai-interview-toolkit/raw/main/guide/guide.pdf)
-
-To pass messages between the survey and the model, the template adapts the
-Qualtrics–JavaScript code of Costello, Pennycook, and Rand (2024), "Durably Reducing
-Conspiracy Beliefs Through Dialogues with AI," *Science* 385(6714), eadq1814. The interview
-protocol, prompts, and choice-generation step are our own.
+[Full details and downloads →](/code/qualtrics-llm/)
 
 ## Replication Material
 
