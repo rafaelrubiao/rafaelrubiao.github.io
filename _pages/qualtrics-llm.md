@@ -57,7 +57,3 @@ To pass messages between the survey and the model, the template adapts the
 Qualtrics–JavaScript code of Costello, Pennycook, and Rand (2024), "Durably Reducing
 Conspiracy Beliefs Through Dialogues with AI," *Science* 385(6714), eadq1814. The interview
 protocol, prompts, and choice-generation step are our own.
-
-The toolkit is released under the MIT License. That covers our protocol, prompts, guide, and
-build script; it does not extend to the adapted JavaScript, which remains under whatever terms
-that work carries.
