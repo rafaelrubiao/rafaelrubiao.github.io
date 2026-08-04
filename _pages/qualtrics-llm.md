@@ -10,30 +10,8 @@ the module we built for [*Is Money Overrated? Misperceived Satisfaction from
 Income*](https://www.nber.org/papers/w35423) (Perez-Truglia and Rubião, NBER Working Paper
 No. 35423), packaged so it can be dropped into someone else's survey.
 
-The method moves beyond static, predefined survey instruments by combining the flexibility of
-qualitative interviewing with the discipline of closed-ended survey measurement. The
-respondent talks about their own situation in their own words; what comes out the other end
-is a closed-ended question you can analyze like any other.
-
 [Repository](https://github.com/rafaelrubiao/ai-interview-toolkit) · [Qualtrics template (.qsf)](https://github.com/rafaelrubiao/ai-interview-toolkit/raw/main/AI_Interview_Module.qsf) · [Implementation guide (PDF)](https://github.com/rafaelrubiao/ai-interview-toolkit/raw/main/guide/guide.pdf)
 {: .paper-links}
-
-## How the interview works
-
-A respondent describes, in their own words, a real decision they are facing. In our survey it
-was a decision that traded off higher income against something else they valued.
-
-The model then asks up to three adaptive follow-up questions, called in real time from inside
-the survey: it acknowledges the situation and asks for clarification, then probes the main
-upside, then the main downside.
-
-At the end it generates a personalized binary decision — Option A, Option B, and a
-one-sentence description of the trade-off. That description is shown back to the respondent,
-who rates how accurately it captures their situation and says when they expect to decide.
-
-Later questions can pipe the generated options into any closed-ended outcome question. The
-template includes the two we used: a choice question and a life-satisfaction question. There
-is also a graceful exit path for respondents whose situation the model cannot work with.
 
 ## What is in the toolkit
 
