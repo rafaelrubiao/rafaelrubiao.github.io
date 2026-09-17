@@ -61,18 +61,18 @@ Accurate demographic data are essential for effective policy design, yet the pri
 
 ## Policy and Other Writings
 
-- Lara Ibarra, G.; **Rubião, R. M.**; and Fleury, E. (2021). [Indirect Tax Incidence in
+- Lara Ibarra, G.; **Macedo-Rubião, R.**; and Fleury, E. (2021). [Indirect Tax Incidence in
   Brazil: Assessing the Distributional Effects of Potential Tax
   Reforms](https://openknowledge.worldbank.org/handle/10986/36783). *Policy Research
   Working Paper No. 9891*, World Bank, Washington, DC.
-- **Rubião, R. M.**; Sousa, L.; and Cereda, F. (2020). COVID-19, Labor Market Shocks, and
+- **Macedo-Rubião, R.**; Sousa, L.; and Cereda, F. (2020). COVID-19, Labor Market Shocks, and
   Poverty in Brazil: A Microsimulation Analysis. *Policy Note*, Poverty and Equity Global
   Practice, World Bank, Washington, DC.
-- **Rubião, R. M.** (2018). Bancos de Desenvolvimento em questão: o impacto do ocaso dos
+- **Macedo-Rubião, R.** (2018). Bancos de Desenvolvimento em questão: o impacto do ocaso dos
   fundos estaduais no "D" do BDMG. In: *Prêmio ABDE-BID*, Associação Brasileira de
   Desenvolvimento, ABDE Editorial, Rio de Janeiro, pp. 99–126. — *Winner, ABDE-IDB Selected
   Papers Prize.*
-- **Rubião, R. M.** (2017). [A short but deep dive into the economics of arts: Art
+- **Macedo-Rubião, R.** (2017). [A short but deep dive into the economics of arts: Art
   Entrepreneurs in a Peripheral
   Market](https://www.artivate.org/index.php/artivate/article/download/81/70). *Artivate:
   A Journal of Entrepreneurship in the Arts*, 7(2), 3–26.

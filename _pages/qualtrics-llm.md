@@ -7,7 +7,7 @@ author_profile: true
 
 An interview led by a large language model, run inside an ordinary Qualtrics survey. This is
 the module we built for [*Is Money Overrated? Misperceived Satisfaction from
-Income*](https://www.nber.org/papers/w35423) (Perez-Truglia and Rubião, NBER Working Paper
+Income*](https://www.nber.org/papers/w35423) (Perez-Truglia and Macedo-Rubião, NBER Working Paper
 No. 35423), packaged so it can be dropped into someone else's survey.
 
 [Repository](https://github.com/rafaelrubiao/ai-interview-toolkit) · [Qualtrics template (.qsf)](https://github.com/rafaelrubiao/ai-interview-toolkit/raw/main/AI_Interview_Module.qsf) · [Implementation guide (PDF)](https://github.com/rafaelrubiao/ai-interview-toolkit/raw/main/guide/guide.pdf)
@@ -50,7 +50,7 @@ JavaScript for API calls, embedded data, and display logic.
 
 If you use the module, please cite the paper it comes from:
 
-> Perez-Truglia, Ricardo, and Rafael M. Rubião. "Is Money Overrated? Misperceived Satisfaction
+> Perez-Truglia, Ricardo, and Rafael Macedo-Rubião. "Is Money Overrated? Misperceived Satisfaction
 > from Income." *NBER Working Paper No. 35423*, July 2026.
 
 To pass messages between the survey and the model, the template adapts the
