@@ -7,10 +7,10 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Rafael M. Rubião"
+title                    : "Rafael Macedo-Rubião"
 title_separator          : "-"
-name                     : &name "Rafael M. Rubião"
-description              : &description "Rafael M. Rubião — PhD student in Business Economics at UCLA Anderson. Research in behavioral, development, and political economy."
+name                     : &name "Rafael Macedo-Rubião"
+description              : &description "Rafael Macedo-Rubião — PhD student in Business Economics at UCLA Anderson. Research in development, labor, behavioral, and political economy."
 url                      : https://rafaelrubiao.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "rafaelrubiao/rafaelrubiao.github.io"
@@ -80,7 +80,7 @@ analytics:
 
 # Site Author
 author:
-  name             : "Rafael M. Rubião"
+  name             : "Rafael Macedo-Rubião"
   avatar           : "profile2_compressed.jpg"
   bio              : "PhD student in Business Economics, UCLA Anderson"
   location         : "Los Angeles, CA"
