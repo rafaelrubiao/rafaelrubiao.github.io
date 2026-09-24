@@ -2,6 +2,27 @@
    Site-specific styles
    ========================================================================== */
 
+/* author name under the sidebar photo stays on one line: on desktop it scales
+   with the sidebar column (never above the theme size). 9cqi leaves headroom
+   for Segoe UI, which sets wider than Roboto. The 0.78em floor (~14px) keeps
+   the name above the bio's size in the narrow 925-1279px column; nowrap lets
+   it overhang into the ~50px empty gutter there instead of wrapping. The
+   container is desktop-only because below $large .author__content is an
+   auto-width table cell that inline-size containment would collapse. */
+.sidebar .author__content {
+  @include breakpoint($large) {
+    container-type: inline-size;
+  }
+}
+
+.sidebar .author__name {
+  white-space: nowrap;
+
+  @include breakpoint($large) {
+    font-size: unquote("clamp(0.78em, 9cqi, #{$type-size-5})");
+  }
+}
+
 /* section headers get a subtle rule under them */
 .page__content {
 
