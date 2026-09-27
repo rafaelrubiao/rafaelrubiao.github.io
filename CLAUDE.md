@@ -21,6 +21,13 @@ and the local build workflow don't break.
   `research.md`, `code.md`, `qualtrics-llm.md` (AI interview toolkit),
   `cv.md`. Custom styles in `_sass/_custom.scss` (imported from
   `assets/css/main.scss`); paper figures in `images/wp-*.png`.
+- Availability polls: unlisted pages `/femba-poll/` and `/emba-poll/`
+  (`_pages/{femba,emba}-poll.html` → `_includes/availability-poll.html`,
+  `assets/js/availability-poll.js`). Responses go to a Google Apps Script web
+  app (`_apps-script/availability-poll.gs`, not published) that writes to the
+  owner's private Google Sheet; its URL is `availability_poll_endpoint` in
+  `_config.yml`. The slot list (DAYS × TIMES) is defined in both the .js and
+  the .gs file and must stay identical.
 - Research page convention: Working Papers (figure beside abstract), then
   Work in Progress, then Policy and Other Writings — lists, modeled on
   jpchauvin.com/papers.
