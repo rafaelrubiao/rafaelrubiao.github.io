@@ -19,7 +19,9 @@
  *   4. In the Settings tab, type a password in cell B1. You will type it on the
  *      results page. (Empty B1 = results page switched off.)
  *   5. Deploy > New deployment > gear icon > Web app.
- *      Execute as: Me. Who has access: Anyone. Click Deploy.
+ *      Execute as: Me. Who has access: Anyone (not "Anyone with Google account",
+ *      which would make students sign in). Click Deploy. Use a personal Gmail
+ *      account: a university account may not offer "Anyone".
  *   6. Copy the Web app URL (it ends in /exec) into availability_poll_endpoint
  *      in _config.yml.
  *
@@ -30,8 +32,13 @@
  *   Log          every submission received, in order; never overwritten
  *   Settings     the results-page password (B1)
  *
- * After editing this file, publish the change under the same URL with
- * Deploy > Manage deployments > pencil icon > Version: New version > Deploy.
+ * In the FEMBA and EMBA tabs, don't accept Sheets' offer to convert the emails to
+ * "people chips" (a resubmission would then get a second row), and don't insert
+ * rows right under the header (Summary would skip them; run setup again to fix).
+ *
+ * After replacing the code with a new version of this file, publish it under the
+ * same URL: Deploy > Manage deployments > pencil icon > Version: New version >
+ * Deploy (Implantar > Gerenciar implantações > lápis > Versão: Nova versão > Implantar).
  */
 
 const CLASSES = ['FEMBA', 'EMBA'];
@@ -126,7 +133,9 @@ function doPost(e) {
 
     // One submission at a time, so two students never write to the same row.
     const lock = LockService.getScriptLock();
-    lock.waitLock(30000);
+    if (!lock.tryLock(60000)) {
+      return reply_({ ok: false, error: 'Many people are submitting right now. Please wait a minute and press Submit again.' });
+    }
     try {
       const ss = SpreadsheetApp.getActiveSpreadsheet();
       if (!ss.getSheetByName('Log')) setup();
@@ -137,19 +146,21 @@ function doPost(e) {
       const sheet = ss.getSheetByName(cls);
       const emails = sheet.getRange(1, 1, sheet.getLastRow(), 1).getValues().map(r => r[0]);
       const row = emails.indexOf(email) + 1;  // 0 if this email has not answered before
-      const count = row > 1 ? sheet.getRange(row, 3).getValue() + 1 : 1;
+      const count = row > 1 ? (Number(sheet.getRange(row, 3).getValue()) || 0) + 1 : 1;
       const record = [email, now, count].concat(SLOTS.map(s => chosen.includes(s) ? 1 : 0));
       if (row > 1) {
         sheet.getRange(row, 1, 1, record.length).setValues([record]);
       } else {
         sheet.appendRow(record);
       }
+      SpreadsheetApp.flush();  // finish the writes before the next submission reads the sheet
     } finally {
       lock.releaseLock();
     }
     return reply_({ ok: true });
   } catch (err) {
-    return reply_({ ok: false, error: 'The server could not record your answer (' + err.message + '). Please try again.' });
+    console.error(err);  // details in the Apps Script editor under Executions
+    return reply_({ ok: false, error: 'Something went wrong on the server. Please press the button again.' });
   }
 }
 
@@ -160,7 +171,7 @@ function doPost(e) {
 function results_(password) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const settings = ss.getSheetByName('Settings');
-  const expected = settings ? String(settings.getRange('B1').getValue()).trim() : '';
+  const expected = settings ? settings.getRange('B1').getDisplayValue().trim() : '';  // exactly what B1 shows
   if (!expected) {
     return reply_({ ok: false, error: 'No results password is set. Type one in cell B1 of the Settings tab of the Google Sheet.' });
   }
