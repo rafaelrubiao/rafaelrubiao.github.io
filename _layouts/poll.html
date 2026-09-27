@@ -1,0 +1,23 @@
+---
+layout: compress
+---
+
+{% comment %}
+  Bare page for the availability polls (/femba-poll/, /emba-poll/, /poll-results/):
+  the site's styles, but no navigation, sidebar or footer.
+{% endcomment %}
+
+<!doctype html>
+<html lang="{{ site.locale | slice: 0,2 }}" class="no-js">
+  <head>
+    {% include head.html %}
+    {% include head/custom.html %}
+  </head>
+
+  <body>
+    <main class="poll-page">
+      <h1>{{ page.title }}</h1>
+      {{ content }}
+    </main>
+  </body>
+</html>

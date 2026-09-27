@@ -129,6 +129,17 @@
   }
 }
 
+/* bare page around the polls (_layouts/poll.html) */
+.poll-page {
+  max-width: 42em;
+  margin: 0 auto;
+  padding: 2em 1em 3em;
+
+  h1 {
+    margin-top: 0;
+  }
+}
+
 /* availability polls (/femba-poll/, /emba-poll/; see _includes/availability-poll.html).
    Rules are nested (.poll .poll__x) so they outrank the theme's .page__content p. */
 .poll {
