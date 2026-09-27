@@ -1,0 +1,29 @@
+---
+title: "Availability Poll Results"
+permalink: /poll-results/
+author_profile: false
+sitemap: false
+robots: noindex
+---
+
+<div class="poll" data-endpoint="{{ site.availability_poll_endpoint }}">
+  <p class="poll__closed" hidden>The poll backend is not set up yet (availability_poll_endpoint in _config.yml is empty).</p>
+
+  <form class="poll__login" novalidate>
+    <label class="poll__step" for="poll-password">Password</label>
+    <input class="poll__input poll__password" id="poll-password" type="password" autocomplete="current-password">
+    <button class="poll__submit" type="submit">Show results</button>
+  </form>
+  <p class="poll__error" role="alert" hidden></p>
+
+  <div class="poll__results" hidden>
+    <p class="poll__hint">Number of students who can attend each one-hour slot (latest response per email).
+      All times pm, Pacific Time. As of <span class="poll__asof"></span>.
+      <button class="poll__refresh" type="button">Refresh</button></p>
+    <div class="poll__classes"></div>
+  </div>
+
+  <div class="poll__tip" role="tooltip" hidden></div>
+</div>
+
+<script src="{{ '/assets/js/availability-poll-results.js' | relative_url }}"></script>

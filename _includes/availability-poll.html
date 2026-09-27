@@ -1,0 +1,33 @@
+{% comment %}
+  Availability poll, used by _pages/femba-poll.html and _pages/emba-poll.html:
+    {% include availability-poll.html class="FEMBA" %}
+  The slot grid and the submission are built in assets/js/availability-poll.js.
+{% endcomment %}
+
+<div class="poll" data-class="{{ include.class }}" data-endpoint="{{ site.availability_poll_endpoint }}">
+  <p class="poll__closed" hidden>This poll is not accepting responses right now.</p>
+
+  <form class="poll__form" novalidate>
+    <label class="poll__step" for="poll-email">1. Your Anderson email</label>
+    <input class="poll__input poll__email" id="poll-email" type="email" autocomplete="email" autocapitalize="none"
+           spellcheck="false" placeholder="you@anderson.ucla.edu">
+    <p class="poll__error poll__error--email" hidden>Please enter your Anderson email (ending in @anderson.ucla.edu).</p>
+
+    <p class="poll__step">2. Click every time slot you <strong>can</strong> attend</p>
+    <p class="poll__hint">Selected slots turn green; click again to undo. Choose as many as you like.
+      Each slot is one hour. All times are pm, Pacific Time (PT).</p>
+    <div class="poll__grid"></div>
+
+    <button class="poll__submit" type="submit">Submit</button>
+    <p class="poll__error poll__error--submit" role="alert" hidden></p>
+  </form>
+
+  <div class="poll__done" role="status" hidden>
+    <p class="poll__done-title">Thank you!</p>
+    <p>Your availability has been recorded. You can close this page.</p>
+    <p class="poll__hint">Made a mistake? Reload the page and submit again with the same email. Only your latest
+      submission counts.</p>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/availability-poll.js' | relative_url }}"></script>

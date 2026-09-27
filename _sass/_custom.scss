@@ -128,3 +128,238 @@
     }
   }
 }
+
+/* availability polls (/femba-poll/, /emba-poll/; see _includes/availability-poll.html).
+   Rules are nested (.poll .poll__x) so they outrank the theme's .page__content p. */
+.poll {
+  max-width: 40em;
+  font-family: $sans-serif;
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .poll__closed {
+    padding: 0.75em 1em;
+    background: mix(#fff, $warning-color, 85%);
+    border-left: 4px solid $warning-color;
+    border-radius: $border-radius;
+  }
+
+  .poll__step {
+    margin: 1.5em 0 0.4em;
+    font-weight: bold;
+  }
+
+  .poll__hint {
+    margin: 0 0 0.9em;
+    font-size: $type-size-6;
+    color: $gray;
+  }
+
+  .poll__input {
+    width: 100%;
+    padding: 0.6em 0.75em;
+    font-size: 1em;
+    border: 1px solid $light-gray;
+    border-radius: $border-radius;
+  }
+
+  .poll__error {
+    margin: 0.4em 0 0;
+    font-size: $type-size-6;
+    font-weight: bold;
+    color: darken($danger-color, 15%);
+  }
+
+  .poll__grid {
+    display: grid;
+    grid-template-columns: auto repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    align-items: center;
+  }
+
+  .poll__time {
+    font-size: $type-size-6;
+    line-height: 1.25;
+    text-align: center;
+    color: $dark-gray;
+  }
+
+  .poll__day {
+    padding-right: 0.4em;
+    font-size: $type-size-6;
+    font-weight: bold;
+  }
+
+  .poll__slot {
+    height: 44px;
+    padding: 0;
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: bold;
+    background: #fff;
+    border: 1px solid $light-gray;
+    border-radius: $border-radius;
+    cursor: pointer;
+    touch-action: manipulation;  // no double-tap zoom when tapping slots quickly
+    transition: none;            // turn green immediately (theme fades form buttons)
+    -webkit-tap-highlight-color: transparent;
+
+    @media (hover: hover) {
+      &:hover {
+        background: #e6f4ea;
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid $link-color;
+      outline-offset: 2px;
+    }
+
+    &[aria-pressed="true"] {
+      background: #2da44e;
+      border-color: #1f883d;
+
+      &::after {
+        content: "\2713";
+      }
+    }
+  }
+
+  .poll__submit {
+    display: block;
+    width: 100%;
+    margin-top: 1.75em;
+    padding: 0.8em;
+    color: #fff;
+    font-size: $type-size-4;
+    font-weight: bold;
+    background: $link-color;
+    border: 0;
+    border-radius: $border-radius;
+    cursor: pointer;
+    touch-action: manipulation;
+
+    &:hover {
+      background: darken($link-color, 8%);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .poll__done {
+    padding: 1.25em 1.5em;
+    background: #e6f4ea;
+    border-left: 4px solid #2da44e;
+    border-radius: $border-radius;
+
+    p {
+      margin: 0.4em 0;
+    }
+  }
+
+  .poll__done-title {
+    font-size: $type-size-4;
+    font-weight: bold;
+  }
+
+  /* results page (/poll-results/) */
+  .poll__refresh {
+    padding: 0;
+    color: $link-color;
+    font-size: 1em;
+    text-decoration: underline;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .poll__class {
+    margin-top: 2em;
+  }
+
+  .poll__table {
+    width: 100%;
+    margin-bottom: 0.5em;
+    font-size: 1em;
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 3px;  // surface gap between cells
+    table-layout: fixed;
+
+    thead {
+      background: none;
+      border: 0;
+    }
+
+    th {
+      padding: 0.2em;
+      font-size: $type-size-6;
+      text-align: center;
+      color: $dark-gray;
+      border: 0;
+    }
+
+    tbody th {
+      width: 3em;
+      text-align: left;
+    }
+
+    td {
+      height: 44px;
+      padding: 0;
+      color: $gray;
+      font-weight: bold;
+      text-align: center;
+      background: #fff;
+      border: 1px solid $lighter-gray;
+      border-radius: $border-radius;
+
+      &:hover,
+      &:focus {
+        outline: 2px solid $dark-gray;
+        outline-offset: 1px;
+      }
+    }
+  }
+
+  .poll__legend {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: $type-size-6;
+    color: $gray;
+
+    span {
+      margin: 0 0.3em;
+    }
+
+    i {
+      width: 1.6em;
+      height: 0.9em;
+      border-radius: 2px;
+    }
+  }
+
+  .poll__legend-zero {
+    background: #fff;
+    border: 1px solid $light-gray;
+  }
+
+  .poll__tip {
+    position: fixed;
+    z-index: 20;
+    padding: 0.3em 0.6em;
+    font-size: $type-size-6;
+    color: $dark-gray;
+    background: #fff;
+    border: 1px solid $light-gray;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+  }
+}
