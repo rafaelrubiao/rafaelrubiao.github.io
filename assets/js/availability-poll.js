@@ -77,7 +77,9 @@
         poll.scrollIntoView();
       })
       .catch(function () {
-        fail('Could not reach the server. Please check your connection and try again.');
+        // Also reached when Google saved the answer but its confirmation got lost;
+        // submitting again is harmless because only the latest answer counts.
+        fail('Your answer may not have been saved. Please press Submit again; only your latest answer counts.');
       });
   });
 
