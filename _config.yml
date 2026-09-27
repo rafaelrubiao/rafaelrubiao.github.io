@@ -23,7 +23,7 @@ talkmap_link             : false #change to true to add link to talkmap on talks
 # Availability polls (/femba-poll/, /emba-poll/): Google Apps Script web-app URL
 # (ends in /exec) that records the responses; see _apps-script/availability-poll.gs.
 # While empty, the poll pages say they are not accepting responses.
-availability_poll_endpoint : ""
+availability_poll_endpoint : "https://script.google.com/macros/s/AKfycbztX1T_uFYi5XWHMqijFmp4ardTIomZr3repZPFSXnvS0-Z3D3iyz6--jbxadCI0uvG/exec"
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
   disqus:
