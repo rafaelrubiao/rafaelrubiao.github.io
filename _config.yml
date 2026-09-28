@@ -248,6 +248,11 @@ defaults:
       layout: talk
       author_profile: true
       share: true
+  # unlisted class games (plain HTML files under games/): keep them out of sitemap.xml
+  - scope:
+      path: "games"
+    values:
+      sitemap: false
 
 # Sass/SCSS
 sass:
