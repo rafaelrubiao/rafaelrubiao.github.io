@@ -31,6 +31,11 @@ and the local build workflow don't break.
   (`_pages/poll-results.html`, `assets/js/availability-poll-results.js`) shows
   the counts (never emails) to whoever types the password in the sheet's
   Settings tab (B1).
+- Unlisted class games: plain HTML files under `games/` (e.g.
+  `games/bertrand/index.html` → `/games/bertrand/`), shared by link only and
+  never linked from the site. Each carries its own `noindex` tag; a
+  `_config.yml` default keeps `games/` out of `sitemap.xml`. Styled after the
+  MGMT 405 course site (navy/gold, Carlito + Source Sans 3).
 - Research page convention: Working Papers (figure beside abstract), then
   Work in Progress, then Policy and Other Writings — lists, modeled on
   jpchauvin.com/papers.

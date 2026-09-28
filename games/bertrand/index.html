@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Boeing vs Airbus — Differentiated Price Competition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Unlisted class page: shared by link only, kept out of search engines. -->
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B2B4E'/%3E%3Crect y='27' width='32' height='5' fill='%23E09F3E'/%3E%3C/svg%3E" />
+  <!-- Fonts and colours follow the MGMT 405 course website (nvoigtla.github.io/MGMT-405-EMBA). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;600;700&display=swap" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"
+          integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ"
+          crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --navy: #0B2B4E; --gold: #E09F3E; --palegold: #F6E8C9; --cream: #FDF6E6; --cream-edge: #E4D3A8;
+      --bg: #F1F4F8; --surface: #FFFFFF; --surface-2: #F7F9FC;
+      --rule: #D8DFE8; --rule-soft: #E7ECF3;
+      --ink: #0B2B4E; --ink-2: #4C5867; --ink-3: #77828F;
+      --shadow-sm: 0 1px 2px rgba(11, 43, 78, .08);
+      --focus: #1B6FC4; --danger: #C00000;
+      /* chart series: the navy and gold families, stepped to pass colour-blind and contrast checks */
+      --boeing: #1F5A96; --airbus: #B7791F;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: Carlito, Calibri, "Segoe UI", system-ui, sans-serif;
+      font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+    }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+    [hidden] { display: none !important; }
+    .num { font-variant-numeric: tabular-nums; }
+    .lbl {
+      font-family: "Source Sans 3", Carlito, system-ui, sans-serif; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em; font-size: 11px; color: var(--ink-3);
+    }
+
+    /* top bar and title band */
+    .topbar { background: var(--navy); color: #fff; border-bottom: 3px solid var(--gold); }
+    .topbar-in {
+      max-width: 1200px; margin: 0 auto; padding: 11px 22px;
+      display: flex; justify-content: space-between; align-items: center; gap: 14px;
+    }
+    .tb-tag { font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 15.5px; }
+    .tb-sub { font-size: 13.5px; color: #B9CADB; }
+
+    .page { max-width: 1200px; margin: 0 auto; padding: 18px 22px 40px; }
+    .band {
+      background: var(--navy); color: #fff; border-bottom: 4px solid var(--gold);
+      border-radius: 9px 9px 0 0; padding: 12px 18px; box-shadow: var(--shadow-sm);
+    }
+    .band-top { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 18px; flex-wrap: wrap; }
+    .band h1 { margin: 0; font-size: clamp(21px, 2.3vw, 27px); line-height: 1.16; letter-spacing: -.012em; }
+    .band .kicker {
+      font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 12.5px;
+      letter-spacing: .07em; text-transform: uppercase;
+    }
+    .band p { margin: 6px 0 0; font-size: 15.5px; color: #C3D4E5; }
+
+    /* layout: the model on the left, play and results on the right */
+    .layout {
+      display: grid; grid-template-columns: minmax(0, 370px) minmax(0, 1fr);
+      gap: 16px; align-items: start; margin-top: 14px;
+    }
+    .stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+    .model { position: sticky; top: 14px; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .model { position: static; }
+    }
+
+    .panel {
+      background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+      box-shadow: var(--shadow-sm); overflow: hidden;
+    }
+    .box-hd {
+      margin: 0; background: var(--navy); color: #fff; padding: 8px 14px;
+      display: flex; align-items: center; gap: 10px;
+      font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 14.5px;
+    }
+    .step {
+      display: inline-grid; place-items: center; width: 21px; height: 21px; flex: none;
+      border-radius: 50%; background: var(--palegold); color: var(--navy); font-size: 12px;
+    }
+    .chip {
+      margin-left: auto; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+      background: var(--palegold); color: #5E4210; border-radius: 20px; padding: 2px 9px;
+    }
+    .panel-bd { padding: 14px 16px; }
+    .panel-bd > p { margin: 0 0 10px; color: var(--ink-2); font-size: 15.5px; }
+
+    /* 1. model */
+    .math {
+      font-family: "Cambria Math", Cambria, "STIX Two Math", "Latin Modern Math", Georgia, serif;
+      font-size: 17px; color: var(--ink); background: var(--surface-2);
+      border: 1px solid var(--rule-soft); border-radius: 8px; padding: 10px 14px; margin: 0 0 10px;
+    }
+    .math div + div { margin-top: 4px; }
+    .math var, .note var { font-style: italic; }
+    .note { font-size: 14.5px; color: var(--ink-2); margin: 0 0 12px; }
+    .note var { font-family: "Cambria Math", Cambria, Georgia, serif; }
+    .firms { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    fieldset { margin: 0; padding: 10px 12px 12px; border: 1px solid var(--rule); border-radius: 9px; min-width: 0; }
+    legend { padding: 0 5px; font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 13.5px; }
+    .field { display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: center; gap: 8px; margin-top: 7px; }
+    .field label { font-family: "Cambria Math", Cambria, Georgia, serif; font-style: italic; font-size: 16px; }
+    .key { font-size: 13px; color: var(--ink-3); margin: 10px 0 0; }
+    .choke {
+      margin: 12px 0 0; padding: 8px 12px; border-radius: 8px; font-size: 14.5px;
+      background: var(--cream); border: 1px solid var(--cream-edge); color: var(--ink-2);
+    }
+    .choke b { color: var(--ink); }
+
+    input[type=number] {
+      font: inherit; font-size: 15px; color: var(--ink); background: var(--surface); width: 100%;
+      border: 1px solid var(--rule); border-radius: 7px; padding: 5px 9px; box-shadow: var(--shadow-sm);
+    }
+    input[type=number]:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px rgba(27, 111, 196, .18); }
+
+    .warn {
+      margin: 10px 0 0; padding: 7px 11px; border-radius: 7px; font-size: 14.5px; font-weight: 700;
+      color: var(--danger); background: rgba(192, 0, 0, .07); border-left: 3px solid var(--danger);
+    }
+
+    /* 2. play */
+    .play label { display: block; font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+    .play-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .play-row input { width: 150px; font-size: 21px; padding: 7px 12px; font-variant-numeric: tabular-nums; }
+    .btn {
+      font: inherit; font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 14.5px;
+      border-radius: 8px; padding: 10px 18px; cursor: pointer; touch-action: manipulation;
+      border: 1px solid var(--rule); background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm);
+    }
+    .btn:hover { border-color: var(--gold); }
+    .btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .btn.primary:hover { background: #123A66; border-color: var(--gold); }
+    .hint { margin: 7px 0 0; font-size: 13.5px; color: var(--ink-3); }
+
+    .result {
+      margin-top: 16px; border: 1px solid var(--cream-edge); background: var(--cream);
+      border-radius: 9px; padding: 12px 14px;
+    }
+    .headline { margin: 0; font-size: 18px; }
+    .headline b { font-size: 25px; margin-left: 4px; color: var(--airbus); }
+    .mini { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; }
+    .mini caption { text-align: left; padding-bottom: 4px; }
+    .mini th, .mini td { padding: 5px 10px; border-top: 1px solid var(--cream-edge); text-align: right; font-variant-numeric: tabular-nums; }
+    .mini thead th, .mini thead td { border-top: 0; font-size: 13px; color: var(--ink-3); font-weight: 400; }
+    .mini th[scope=row] { text-align: left; font-family: "Source Sans 3", sans-serif; font-weight: 700; }
+    .swatch { display: inline-block; width: 16px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 7px; }
+
+    /* 3. charts */
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    @media (max-width: 1100px) { .charts { grid-template-columns: 1fr; } }
+    figure { margin: 0; min-width: 0; }
+    figcaption { margin-bottom: 4px; }
+    .chart-box { position: relative; height: 260px; }
+    .chart-box .empty {
+      position: absolute; inset: 0 0 30px 40px; display: grid; place-items: center;
+      font-size: 14.5px; color: var(--ink-3); pointer-events: none;
+    }
+
+    /* 4. history */
+    .table-wrap { overflow-x: auto; }
+    table.hist { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px; }
+    .hist th, .hist td { padding: 7px 14px; text-align: right; border-bottom: 1px solid var(--rule-soft); }
+    .hist thead th { background: var(--surface-2); color: var(--ink-2); font-size: 14px; font-weight: 700; border-bottom-color: var(--rule); }
+    .hist td { font-variant-numeric: tabular-nums; }
+    .hist th:first-child, .hist td:first-child { text-align: left; }
+    .hist tr.latest td { background: var(--cream); }
+    .hist tr.change td { text-align: left; font-size: 13.5px; color: #8A5B12; background: #FBF3E1; }
+    .hist .empty-row td { text-align: left; color: var(--ink-3); }
+
+    /* phones: a little more room for the content */
+    @media (max-width: 600px) {
+      .topbar-in { padding: 10px 14px; }
+      .page { padding: 14px 12px 32px; }
+      .panel-bd { padding: 12px 13px; }
+      .mini th, .mini td { padding: 5px 6px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="tb-tag">Managerial Economics</span>
+    <span class="tb-sub">In-class game</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="band">
+    <div class="band-top">
+      <h1>Boeing vs Airbus</h1>
+      <span class="kicker">Differentiated price competition</span>
+    </div>
+    <p>You are Boeing (Firm B). The computer plays Airbus (Firm A).
+      Each round you pick Boeing’s price. Airbus responds according to its best-response function.</p>
+  </div>
+
+  <div class="layout">
+
+    <!-- 1. Demand & cost (editable) -->
+    <section class="panel model" aria-labelledby="h-model">
+      <h2 class="box-hd" id="h-model"><span class="step">1</span> Demand and cost <span class="chip">You can edit</span></h2>
+      <div class="panel-bd">
+        <p>Linear demand system:</p>
+        <div class="math">
+          <div><var>Q</var><sub>A</sub> = <var>a</var><sub>A</sub> − <var>b</var><sub>A</sub><var>P</var><sub>A</sub> + <var>c</var><sub>A</sub><var>P</var><sub>B</sub><sup>eff</sup></div>
+          <div><var>Q</var><sub>B</sub> = <var>a</var><sub>B</sub> − <var>b</var><sub>B</sub><var>P</var><sub>B</sub> + <var>c</var><sub>B</sub><var>P</var><sub>A</sub></div>
+        </div>
+        <p class="note">where <var>P</var><sub>B</sub><sup>eff</sup> = min(<var>P</var><sub>B</sub>, <var>P</var><sub>B</sub><sup>choke</sup>),
+          and <var>P</var><sub>B</sub><sup>choke</sup> is the price where Boeing’s <var>Q</var><sub>B</sub> hits 0 along Airbus’s best response.
+          Marginal costs: MC<sub>A</sub> (Airbus), MC<sub>B</sub> (Boeing).</p>
+
+        <div class="firms">
+          <fieldset>
+            <legend>Airbus (Firm A)</legend>
+            <div class="field"><label for="aA">a<sub>A</sub></label><input id="aA" type="number" step="any" value="400" /></div>
+            <div class="field"><label for="bA">b<sub>A</sub></label><input id="bA" type="number" step="any" value="2" /></div>
+            <div class="field"><label for="cA">c<sub>A</sub></label><input id="cA" type="number" step="any" value="1" /></div>
+            <div class="field"><label for="mcA">MC<sub>A</sub></label><input id="mcA" type="number" step="any" value="200" /></div>
+          </fieldset>
+          <fieldset>
+            <legend>Boeing (Firm B)</legend>
+            <div class="field"><label for="aB">a<sub>B</sub></label><input id="aB" type="number" step="any" value="400" /></div>
+            <div class="field"><label for="bB">b<sub>B</sub></label><input id="bB" type="number" step="any" value="2" /></div>
+            <div class="field"><label for="cB">c<sub>B</sub></label><input id="cB" type="number" step="any" value="1" /></div>
+            <div class="field"><label for="mcB">MC<sub>B</sub></label><input id="mcB" type="number" step="any" value="200" /></div>
+          </fieldset>
+        </div>
+        <p class="key"><i>a</i>: demand intercept · <i>b</i>: own-price effect · <i>c</i>: cross-price effect · MC: marginal cost</p>
+
+        <p id="paramWarning" class="warn" role="alert" hidden></p>
+        <p class="choke">Current choke price for Boeing (computed from demand system): <b id="capDisplay" class="num">—</b></p>
+      </div>
+    </section>
+
+    <div class="stack">
+
+      <!-- 2. Play -->
+      <section class="panel" aria-labelledby="h-play">
+        <h2 class="box-hd" id="h-play"><span class="step">2</span> Choose Boeing’s price</h2>
+        <div class="panel-bd">
+          <form id="playForm" class="play" novalidate>
+            <label for="boeingPrice">Boeing price <var>P</var><sub>B</sub></label>
+            <div class="play-row">
+              <input id="boeingPrice" type="number" min="150" max="500" step="any" value="300" inputmode="decimal" />
+              <button id="playBtn" type="submit" class="btn primary">Play round</button>
+              <button id="resetBtn" type="button" class="btn">Reset game</button>
+            </div>
+            <p class="hint">Choose a price between 150 and 500, then click Play round (or press Enter).</p>
+            <p id="warning" class="warn" role="alert" hidden></p>
+          </form>
+
+          <div class="result" aria-live="polite">
+            <p class="headline">Airbus responded with price: <b id="paOut" class="num">—</b></p>
+            <table class="mini" id="roundTable" hidden>
+              <caption class="lbl" id="roundCaption"></caption>
+              <thead><tr><td></td><th scope="col">Price</th><th scope="col">Quantity</th><th scope="col">Profit</th></tr></thead>
+              <tbody>
+                <tr><th scope="row"><span class="swatch" style="background:var(--boeing)"></span>Boeing (you)</th>
+                  <td id="rPB"></td><td id="rQB"></td><td id="rPiB"></td></tr>
+                <tr><th scope="row"><span class="swatch" style="background:var(--airbus)"></span>Airbus</th>
+                  <td id="rPA"></td><td id="rQA"></td><td id="rPiA"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Graphs -->
+      <section class="panel" aria-labelledby="h-charts">
+        <h2 class="box-hd" id="h-charts"><span class="step">3</span> Prices and profits over time</h2>
+        <div class="panel-bd">
+          <p>Track the evolution of prices and profits round by round.</p>
+          <div class="charts">
+            <figure>
+              <figcaption class="lbl">Prices</figcaption>
+              <div class="chart-box">
+                <canvas id="priceChart" role="img" aria-label="Line chart of Boeing's and Airbus's prices by round. The same numbers are in the History of play table."></canvas>
+                <p class="empty">Play a round to start the chart.</p>
+              </div>
+            </figure>
+            <figure>
+              <figcaption class="lbl">Profits</figcaption>
+              <div class="chart-box">
+                <canvas id="profitChart" role="img" aria-label="Line chart of Boeing's and Airbus's profits by round. The same numbers are in the History of play table."></canvas>
+                <p class="empty">Play a round to start the chart.</p>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. History table -->
+      <section class="panel" aria-labelledby="h-history">
+        <h2 class="box-hd" id="h-history"><span class="step">4</span> History of play</h2>
+        <div class="table-wrap">
+          <table class="hist">
+            <thead>
+              <tr>
+                <th scope="col">Round</th>
+                <th scope="col">P<sub>B</sub> (Boeing)</th>
+                <th scope="col">P<sub>A</sub> (Airbus)</th>
+                <th scope="col">Q<sub>B</sub></th>
+                <th scope="col">Q<sub>A</sub></th>
+                <th scope="col">π<sub>B</sub></th>
+                <th scope="col">π<sub>A</sub></th>
+              </tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script>
+  let round = 0;
+  const history = [];   // one entry per round, including the parameters it was played with
+
+  let chokePriceCap = Infinity; // recomputed from parameters
+
+  const $ = id => document.getElementById(id);
+  const fmt = x => Math.round(x);
+  // Display only: thousands separators and a true minus sign (the model itself is unrounded, as before).
+  const show = x => (fmt(x) || 0).toLocaleString("en-US").replace("-", "−");
+
+  const PARAM_LABELS = {
+    aA: "a<sub>A</sub>", bA: "b<sub>A</sub>", cA: "c<sub>A</sub>", MC_A: "MC<sub>A</sub>",
+    aB: "a<sub>B</sub>", bB: "b<sub>B</sub>", cB: "c<sub>B</sub>", MC_B: "MC<sub>B</sub>"
+  };
+
+  // Reads the parameters, checks them, and updates the choke-price line. params.ok is
+  // false when the game cannot be played with them.
+  function getParams() {
+    const read = id => ($(id).value.trim() === "" ? NaN : Number($(id).value));
+    const params = {
+      aA: read("aA"),
+      bA: read("bA"),
+      cA: read("cA"),
+      aB: read("aB"),
+      bB: read("bB"),
+      cB: read("cB"),
+      MC_A: read("mcA"),
+      MC_B: read("mcB")
+    };
+
+    let msg = "";
+    if (Object.values(params).some(x => !isFinite(x))) {
+      msg = "Fill in every parameter with a number.";
+    } else if (params.bA <= 0 || params.bB <= 0) {
+      msg = "b_A and b_B must be positive (downward-sloping own-price effects).";
+    }
+    $("paramWarning").textContent = msg;
+    $("paramWarning").hidden = !msg;
+    params.ok = !msg;
+
+    chokePriceCap = params.ok ? computeChokePriceCap(params) : Infinity;
+    if (!params.ok) {
+      $("capDisplay").textContent = "—";
+    } else if (isFinite(chokePriceCap)) {
+      $("capDisplay").textContent = fmt(chokePriceCap);
+    } else {
+      $("capDisplay").textContent = "none (Boeing's demand never reaches 0 along Airbus's best response)";
+    }
+
+    return params;
+  }
+
+  // Compute choke price: PB such that Q_B(PB, P_A^BR(PB)) = 0
+  // (Infinity when there is no such positive price: then Airbus's demand is never capped.)
+  function computeChokePriceCap(params) {
+    const { aA, bA, cA, aB, bB, cB, MC_A } = params;
+
+    // Airbus BR: P_A^BR(P_B) = (aA + cA P_B + bA MC_A) / (2 bA)
+    // Q_B(P_B) = aB - bB P_B + cB * P_A^BR(P_B) = N + D * P_B
+    const N = aB + cB * (aA + bA * MC_A) / (2 * bA);
+    const D = (cB * cA) / (2 * bA) - bB;
+
+    if (Math.abs(D) < 1e-8) return Infinity;
+
+    const PB_cap = -N / D;
+    if (!isFinite(PB_cap) || PB_cap <= 0) return Infinity;
+
+    return PB_cap;
+  }
+
+  // Airbus best response using capped PB in the BR:
+  // P_A = (aA + cA * PB_eff + bA MC_A) / (2 bA), where PB_eff = min(PB, chokePriceCap)
+  function bestResponseAirbus(PB, params) {
+    const { aA, bA, cA, MC_A } = params;
+
+    const PB_eff = Math.min(PB, chokePriceCap);
+    const PA_cont = (aA + cA * PB_eff + bA * MC_A) / (2 * bA);
+    return Math.round(PA_cont);
+  }
+
+  // Compute quantities and profits
+  function compute(PA, PB, params) {
+    const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
+
+    // For Airbus demand, only PB capped at choke enters the cross term
+    const PB_eff_for_A = Math.min(PB, chokePriceCap);
+
+    let QA_raw = aA - bA * PA + cA * PB_eff_for_A;
+    let QA = Math.max(0, QA_raw);
+
+    // Boeing demand uses actual PB and PA; once PB is too high, Q_B <= 0 and we truncate to 0
+    let QB_raw = aB - bB * PB + cB * PA;
+    let QB = Math.max(0, QB_raw);
+
+    return {
+      QA,
+      QB,
+      piA: (PA - MC_A) * QA,
+      piB: (PB - MC_B) * QB
+    };
+  }
+
+  // History table. A parameter change between rounds gets its own marker row, so rounds
+  // played under different parameters are never mixed up silently.
+  function updateHistory() {
+    const body = $("historyBody");
+    body.innerHTML = "";
+    if (!history.length) {
+      body.innerHTML = '<tr class="empty-row"><td colspan="7">No rounds played yet.</td></tr>';
+      return;
+    }
+    history.forEach((h, i) => {
+      if (i > 0) {
+        const prev = history[i - 1].params;
+        const changed = Object.keys(PARAM_LABELS)
+          .filter(k => prev[k] !== h.params[k])
+          .map(k => `${PARAM_LABELS[k]} ${prev[k]} → ${h.params[k]}`);
+        if (changed.length) {
+          const note = document.createElement("tr");
+          note.className = "change";
+          note.innerHTML = `<td colspan="7">Parameters changed before round ${h.round}: ${changed.join(", ")}</td>`;
+          body.appendChild(note);
+        }
+      }
+      const tr = document.createElement("tr");
+      if (i === history.length - 1) tr.className = "latest";
+      tr.innerHTML = `
+        <td>${h.round}</td>
+        <td>${show(h.PB)}</td>
+        <td>${show(h.PA)}</td>
+        <td>${show(h.QB)}</td>
+        <td>${show(h.QA)}</td>
+        <td>${show(h.piB)}</td>
+        <td>${show(h.piA)}</td>
+      `;
+      body.appendChild(tr);
+    });
+  }
+
+  function updateLatest() {
+    const h = history[history.length - 1];
+    $("roundTable").hidden = !h;
+    if (!h) {
+      $("paOut").textContent = "—";
+      return;
+    }
+    $("paOut").textContent = show(h.PA);
+    $("roundCaption").textContent = `Round ${h.round}`;
+    $("rPB").textContent = show(h.PB);
+    $("rQB").textContent = show(h.QB);
+    $("rPiB").textContent = show(h.piB);
+    $("rPA").textContent = show(h.PA);
+    $("rQA").textContent = show(h.QA);
+    $("rPiA").textContent = show(h.piA);
+  }
+
+  // Charts
+  let priceChart, profitChart;
+
+  function lineChart(canvasId, yTitle, what) {
+    const css = getComputedStyle(document.documentElement);
+    const color = name => css.getPropertyValue(name).trim();
+    const series = [
+      { name: "Boeing", color: color("--boeing"), dash: [], point: "circle" },
+      { name: "Airbus", color: color("--airbus"), dash: [6, 4], point: "triangle" }
+    ];
+    return new Chart($(canvasId), {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: series.map(s => ({
+          label: `${s.name} ${what}`, data: [],
+          borderColor: s.color, backgroundColor: s.color, borderWidth: 2, borderDash: s.dash,
+          pointStyle: s.point, pointRadius: 4, pointHoverRadius: 6, pointHitRadius: 12
+        }))
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 250 },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: {
+            position: "top", align: "end",
+            labels: { usePointStyle: true, boxWidth: 8, boxHeight: 8, padding: 14, color: color("--ink-2") }
+          },
+          tooltip: {
+            backgroundColor: "#fff", titleColor: color("--ink"), bodyColor: color("--ink-2"),
+            borderColor: color("--rule"), borderWidth: 1, padding: 10, usePointStyle: true,
+            callbacks: {
+              title: items => `Round ${items[0].label}`,
+              label: item => ` ${item.dataset.label}: ${show(item.parsed.y)}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: "Round", color: color("--ink-3") },
+            grid: { display: false },
+            ticks: { color: color("--ink-3") }
+          },
+          y: {
+            title: { display: true, text: yTitle, color: color("--ink-3") },
+            grid: { color: ctx => (ctx.tick && ctx.tick.value === 0 ? color("--ink-3") : color("--rule-soft")) },
+            border: { display: false },
+            ticks: { color: color("--ink-3"), callback: v => show(v) }
+          }
+        }
+      }
+    });
+  }
+
+  function initCharts() {
+    Chart.defaults.font.family = 'Carlito, Calibri, "Segoe UI", system-ui, sans-serif';
+    Chart.defaults.font.size = 13;
+    priceChart = lineChart("priceChart", "Price", "price");
+    profitChart = lineChart("profitChart", "Profit", "profit");
+  }
+
+  function updateCharts() {
+    const labels = history.map(h => h.round);
+    priceChart.data.labels = labels;
+    priceChart.data.datasets[0].data = history.map(h => h.PB);
+    priceChart.data.datasets[1].data = history.map(h => h.PA);
+    profitChart.data.labels = labels;
+    profitChart.data.datasets[0].data = history.map(h => h.piB);
+    profitChart.data.datasets[1].data = history.map(h => h.piA);
+    priceChart.update();
+    profitChart.update();
+    document.querySelectorAll(".chart-box .empty").forEach(p => { p.hidden = history.length > 0; });
+  }
+
+  function setWarning(msg) {
+    $("warning").textContent = msg;
+    $("warning").hidden = !msg;
+  }
+
+  function playRound(event) {
+    event.preventDefault();
+    setWarning("");
+
+    const PB = Number($("boeingPrice").value);
+    if (!isFinite(PB) || PB < 150 || PB > 500) {
+      setWarning("Choose a price between 150 and 500.");
+      return;
+    }
+
+    const params = getParams();
+    if (!params.ok) {
+      setWarning("Fix the demand and cost parameters in section 1 first.");
+      return;
+    }
+    const PA = bestResponseAirbus(PB, params);
+    const { QA, QB, piA, piB } = compute(PA, PB, params);
+
+    round++;
+    history.push({ round, PA, PB, QA, QB, piA, piB, params });
+
+    updateLatest();
+    updateHistory();
+    updateCharts();
+  }
+
+  function resetGame() {
+    round = 0;
+    history.length = 0;
+    setWarning("");
+    updateLatest();
+    updateHistory();
+    updateCharts();
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    initCharts();
+    $("playForm").addEventListener("submit", playRound);
+    $("resetBtn").addEventListener("click", resetGame);
+    // the choke price and parameter checks follow every edit, not only the next round
+    ["aA", "bA", "cA", "aB", "bB", "cB", "mcA", "mcB"].forEach(id => $(id).addEventListener("input", getParams));
+    getParams();
+    updateHistory();
+  });
+</script>
+
+</body>
+</html>
