@@ -303,9 +303,9 @@
         <div class="info-body">
         <dl>
           <dt data-game="simultaneous">Simultaneous <small>Bertrand</small></dt>
-          <dd data-game="simultaneous">Both firms set their prices at the same time, as in the Bertrand model from class. Airbus cannot see your
-            price this round, so it best-responds to the price you charged last round (in round 1 it opens at the
-            collusive price). If you best-respond to the price you expect from Airbus, prices converge to the Nash equilibrium.</dd>
+          <dd data-game="simultaneous">Both firms set their prices at the same time, as in the Bertrand model from class, so Airbus
+            cannot see your price. It charges its Bertrand–Nash equilibrium price in every round. Find the price that
+            maximizes your profit against it.</dd>
           <dt data-game="leader">Leader <small>Stackelberg: you move first</small></dt>
           <dd data-game="leader">You set your price first. Airbus sees it and replies with its best response, so choose your price
             anticipating that reaction.</dd>
@@ -462,6 +462,8 @@
     collusion: "Collusion (cartel)"
   };
 
+  const NO_NASH = "With these parameters there is no Nash equilibrium price for Airbus; change them in section 1.";
+
   const PARAM_LABELS = {
     aA: "a<sub>A</sub>", bA: "b<sub>A</sub>", cA: "c<sub>A</sub>", MC_A: "MC<sub>A</sub>",
     aB: "a<sub>B</sub>", bB: "b<sub>B</sub>", cB: "c<sub>B</sub>", MC_B: "MC<sub>B</sub>"
@@ -534,14 +536,13 @@
     return B > 0 ? Math.round((A + B * MC_A) / (2 * B)) : NaN;
   }
 
-  // Simultaneous game, round 1: Airbus has not seen any price of yours yet, so it opens at its
-  // collusive price, the one that maximizes the two firms' joint profit.
-  function airbusOpeningPrice(params) {
+  // Simultaneous game: Airbus cannot see your price, so it charges its Bertrand-Nash price, where
+  // the two best responses cross: P_A = (2 bB (aA + bA MC_A) + cA (aB + bB MC_B)) / (4 bA bB - cA cB).
+  function airbusNashPrice(params) {
     const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
-    const s = cA + cB;
-    const det = 4 * bA * bB - s * s;
-    const PA = (2 * bB * (aA + bA * MC_A - cB * MC_B) + s * (aB + bB * MC_B - cA * MC_A)) / det;
-    return det > 0 && PA > 0 ? Math.round(PA) : bestResponseAirbus(MC_B, params);
+    const det = 4 * bA * bB - cA * cB;
+    const PA = (2 * bB * (aA + bA * MC_A) + cA * (aB + bB * MC_B)) / det;
+    return det > 0 && PA > 0 ? Math.round(PA) : NaN;
   }
 
   // Airbus's price this round, by game type
@@ -549,9 +550,7 @@
     if (game === "leader") return bestResponseAirbus(PB, params);   // sees your price, then responds
     if (game === "follower") return airbusLeaderPrice(params);      // moved first
     if (game === "collusion") return PB;                            // matches your price
-    // simultaneous: cannot see your price this round, so it best-responds to your last one
-    const last = history[history.length - 1];
-    return last ? bestResponseAirbus(last.PB, params) : airbusOpeningPrice(params);
+    return airbusNashPrice(params);                                 // simultaneous: cannot see your price
   }
 
   // Compute quantities and profits
@@ -606,8 +605,10 @@
         }
       } else if (game === "collusion") {
         choke = bB > cB ? `${show(aB / (bB - cB))} (when Airbus matches your price)` : "none";
+      } else if (isFinite(airbusNashPrice(params))) {
+        choke = "depends on Airbus’s price";
       } else {
-        choke = "depends on Airbus’s price this round";
+        status = NO_NASH;
       }
     }
     $("gameStatus").innerHTML = status;
@@ -767,7 +768,9 @@
     }
     const PA = airbusPrice(PB, params);
     if (!isFinite(PA)) {
-      setWarning("With these parameters Airbus has no best price to lead with; change them in section 1.");
+      setWarning(game === "follower"
+        ? "With these parameters Airbus has no best price to lead with; change them in section 1."
+        : NO_NASH);
       return;
     }
     const { QA, QB, piA, piB } = compute(PA, PB, params);
