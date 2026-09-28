@@ -175,6 +175,81 @@
     .hist tr.change td { text-align: left; font-size: 13.5px; color: #8A5B12; background: #FBF3E1; }
     .hist .empty-row td { text-align: left; color: var(--ink-3); }
 
+    /* game selector */
+    .gamebar { margin-top: 14px; }
+    .gamebar-in { padding: 12px 16px 14px; }
+    .gamebar-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 9px; }
+    .gamebar-top h2 { margin: 0; }
+    .info-btn {
+      width: 24px; height: 24px; padding: 0; border-radius: 50%; cursor: pointer;
+      border: 1.5px solid var(--navy); background: var(--surface); color: var(--navy);
+      font: italic 700 14px/1 Georgia, "Times New Roman", serif;
+    }
+    .info-btn:hover, .info-btn[aria-expanded="true"] { background: var(--navy); color: #fff; border-color: var(--gold); }
+    .guide-link {
+      margin-left: auto; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink);
+      font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 14px;
+      border: 1px solid var(--rule); border-radius: 8px; padding: 7px 13px; background: var(--surface); box-shadow: var(--shadow-sm);
+    }
+    .guide-link:hover { border-color: var(--gold); }
+    .guide-link .ar { color: var(--gold); }
+    .toggle {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; padding: 4px;
+      background: var(--surface-2); border: 1px solid var(--rule); border-radius: 9px;
+    }
+    .toggle label { position: relative; display: block; }
+    .toggle input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+    .toggle span {
+      display: block; height: 100%; padding: 8px 6px; border-radius: 6px; text-align: center; line-height: 1.25;
+      font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 14.5px; color: var(--ink-2);
+    }
+    .toggle small { display: block; font-weight: 400; font-size: 12.5px; color: var(--ink-3); }
+    .toggle label:hover span { background: var(--surface); }
+    .toggle input:checked + span { background: var(--navy); color: #fff; box-shadow: var(--shadow-sm); }
+    .toggle input:checked + span small { color: #C3D4E5; }
+    .toggle input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
+    @media (max-width: 700px) { .toggle { grid-template-columns: 1fr 1fr; } }
+    /* (i) pop-up: what each game means */
+    .info-pop {
+      width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 0; color: var(--ink);
+      border: 1px solid var(--rule); border-radius: 10px; box-shadow: 0 12px 32px rgba(11, 43, 78, .28);
+    }
+    .info-pop[open] { display: flex; flex-direction: column; }   /* header stays put, the text scrolls */
+    .info-pop::backdrop { background: rgba(11, 43, 78, .38); }
+    .info-hd {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      background: var(--navy); color: #fff; padding: 10px 12px 10px 18px; border-bottom: 3px solid var(--gold);
+    }
+    .info-hd h3 { margin: 0; font-family: "Source Sans 3", sans-serif; font-size: 16px; }
+    .info-close {
+      background: none; border: 0; color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+      padding: 2px 8px; border-radius: 6px;
+    }
+    .info-close:hover { background: rgba(255, 255, 255, .15); }
+    .info-body { padding: 8px 18px 16px; overflow-y: auto; }
+    .info-body dl { margin: 0; display: grid; grid-template-columns: minmax(0, 190px) 1fr; font-size: 15px; }
+    .info-body dt, .info-body dd { margin: 0; padding: 10px 8px; border-bottom: 1px solid var(--rule-soft); }
+    .info-body dt { font-family: "Source Sans 3", sans-serif; font-weight: 700; }
+    .info-body dt small { display: block; font-weight: 400; font-size: 13px; color: var(--ink-3); }
+    .info-body dd { color: var(--ink-2); }
+    .info-body .current { background: var(--cream); }
+    .info-body dt.current::after {
+      content: "Current game"; display: block; margin-top: 3px; font-size: 11px; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase; color: #8A5B12;
+    }
+    .info-foot { margin: 12px 0 0; font-size: 14.5px; color: var(--ink-2); }
+    .info-foot a { color: var(--ink); text-decoration-color: var(--gold); }
+    @media (max-width: 600px) {
+      .info-body dl { grid-template-columns: 1fr; }
+      .info-body dt { border-bottom: 0; padding-bottom: 2px; }
+      .info-body dd { padding-top: 0; }
+    }
+    .status {
+      margin: 0 0 14px; padding: 9px 12px; border-radius: 8px; font-size: 15.5px; color: var(--ink-2);
+      background: var(--surface-2); border: 1px solid var(--rule-soft);
+    }
+    .status b { color: var(--airbus); font-size: 18px; }
+
     /* phones: a little more room for the content */
     @media (max-width: 600px) {
       .topbar-in { padding: 10px 14px; }
@@ -202,8 +277,50 @@
       <span class="kicker">Differentiated price competition</span>
     </div>
     <p>You are Boeing (Firm B). The computer plays Airbus (Firm A).
-      Each round you pick Boeing’s price. Airbus responds according to its best-response function.</p>
+      Each round you pick Boeing’s price. How Airbus sets its price depends on the game you choose below.</p>
   </div>
+
+  <!-- Game type -->
+  <section class="panel gamebar" aria-labelledby="h-game">
+    <div class="gamebar-in">
+      <div class="gamebar-top">
+        <h2 class="lbl" id="h-game">Game</h2>
+        <button type="button" class="info-btn" id="infoBtn" aria-haspopup="dialog" aria-controls="gameInfo"
+                aria-label="What do the games mean?" title="What do the games mean?">i</button>
+        <a class="guide-link" href="solve/" target="_blank" rel="noopener">How to solve each game (algebra) <span class="ar">→</span></a>
+      </div>
+      <div class="toggle" role="radiogroup" aria-labelledby="h-game">
+        <label><input type="radio" name="game" value="simultaneous" checked /><span>Simultaneous <small>(Bertrand)</small></span></label>
+        <label><input type="radio" name="game" value="leader" /><span>Leader <small>(Stackelberg)</small></span></label>
+        <label><input type="radio" name="game" value="follower" /><span>Follower <small>(Stackelberg)</small></span></label>
+        <label><input type="radio" name="game" value="collusion" /><span>Collusion <small>(cartel)</small></span></label>
+      </div>
+      <dialog class="info-pop" id="gameInfo" aria-labelledby="gameInfoTitle">
+        <div class="info-hd">
+          <h3 id="gameInfoTitle">What the four games mean</h3>
+          <button type="button" class="info-close" id="infoClose" aria-label="Close">×</button>
+        </div>
+        <div class="info-body">
+        <dl>
+          <dt data-game="simultaneous">Simultaneous <small>Bertrand</small></dt>
+          <dd data-game="simultaneous">Both firms set their prices at the same time, as in the Bertrand model from class. Airbus cannot see your
+            price this round, so it best-responds to the price you charged last round (in round 1 it opens at the
+            collusive price). If you best-respond to the price you expect from Airbus, prices converge to the Nash equilibrium.</dd>
+          <dt data-game="leader">Leader <small>Stackelberg: you move first</small></dt>
+          <dd data-game="leader">You set your price first. Airbus sees it and replies with its best response, so choose your price
+            anticipating that reaction.</dd>
+          <dt data-game="follower">Follower <small>Stackelberg: Airbus moves first</small></dt>
+          <dd data-game="follower">Airbus commits to its price first (you see it before you choose), anticipating your best response.
+            Your job is to find the best response to Airbus’s price.</dd>
+          <dt data-game="collusion">Collusion <small>cartel</small></dt>
+          <dd data-game="collusion">Airbus matches whatever price you set, as if the two firms had agreed to charge the same price.
+            With identical firms, the price that maximizes your profit then also maximizes the two firms’ joint profit.</dd>
+        </dl>
+        <p class="info-foot">Want the algebra? <a href="solve/" target="_blank" rel="noopener">How to solve each game, step by step</a>.</p>
+        </div>
+      </dialog>
+    </div>
+  </section>
 
   <div class="layout">
 
@@ -217,8 +334,8 @@
           <div><var>Q</var><sub>B</sub> = <var>a</var><sub>B</sub> − <var>b</var><sub>B</sub><var>P</var><sub>B</sub> + <var>c</var><sub>B</sub><var>P</var><sub>A</sub></div>
         </div>
         <p class="note">where <var>P</var><sub>B</sub><sup>eff</sup> = min(<var>P</var><sub>B</sub>, <var>P</var><sub>B</sub><sup>choke</sup>),
-          and <var>P</var><sub>B</sub><sup>choke</sup> is the price where Boeing’s <var>Q</var><sub>B</sub> hits 0 along Airbus’s best response.
-          Marginal costs: MC<sub>A</sub> (Airbus), MC<sub>B</sub> (Boeing).</p>
+          and <var>P</var><sub>B</sub><sup>choke</sup> is the price at which Boeing’s <var>Q</var><sub>B</sub> hits 0: once Boeing sells
+          nothing, raising its price no longer sends customers to Airbus. Marginal costs: MC<sub>A</sub> (Airbus), MC<sub>B</sub> (Boeing).</p>
 
         <div class="firms">
           <fieldset>
@@ -226,20 +343,20 @@
             <div class="field"><label for="aA">a<sub>A</sub></label><input id="aA" type="number" step="any" value="400" /></div>
             <div class="field"><label for="bA">b<sub>A</sub></label><input id="bA" type="number" step="any" value="2" /></div>
             <div class="field"><label for="cA">c<sub>A</sub></label><input id="cA" type="number" step="any" value="1" /></div>
-            <div class="field"><label for="mcA">MC<sub>A</sub></label><input id="mcA" type="number" step="any" value="200" /></div>
+            <div class="field"><label for="mcA">MC<sub>A</sub></label><input id="mcA" type="number" step="any" value="232" /></div>
           </fieldset>
           <fieldset>
             <legend>Boeing (Firm B)</legend>
             <div class="field"><label for="aB">a<sub>B</sub></label><input id="aB" type="number" step="any" value="400" /></div>
             <div class="field"><label for="bB">b<sub>B</sub></label><input id="bB" type="number" step="any" value="2" /></div>
             <div class="field"><label for="cB">c<sub>B</sub></label><input id="cB" type="number" step="any" value="1" /></div>
-            <div class="field"><label for="mcB">MC<sub>B</sub></label><input id="mcB" type="number" step="any" value="200" /></div>
+            <div class="field"><label for="mcB">MC<sub>B</sub></label><input id="mcB" type="number" step="any" value="232" /></div>
           </fieldset>
         </div>
         <p class="key"><i>a</i>: demand intercept · <i>b</i>: own-price effect · <i>c</i>: cross-price effect · MC: marginal cost</p>
 
         <p id="paramWarning" class="warn" role="alert" hidden></p>
-        <p class="choke">Current choke price for Boeing (computed from demand system): <b id="capDisplay" class="num">—</b></p>
+        <p class="choke">Boeing’s choke price in this game: <b id="capDisplay" class="num">—</b></p>
       </div>
     </section>
 
@@ -249,6 +366,7 @@
       <section class="panel" aria-labelledby="h-play">
         <h2 class="box-hd" id="h-play"><span class="step">2</span> Choose Boeing’s price</h2>
         <div class="panel-bd">
+          <p class="status" id="gameStatus" aria-live="polite"></p>
           <form id="playForm" class="play" novalidate>
             <label for="boeingPrice">Boeing price <var>P</var><sub>B</sub></label>
             <div class="play-row">
@@ -261,7 +379,7 @@
           </form>
 
           <div class="result" aria-live="polite">
-            <p class="headline">Airbus responded with price: <b id="paOut" class="num">—</b></p>
+            <p class="headline">Airbus’s price this round: <b id="paOut" class="num">—</b></p>
             <table class="mini" id="roundTable" hidden>
               <caption class="lbl" id="roundCaption"></caption>
               <thead><tr><td></td><th scope="col">Price</th><th scope="col">Quantity</th><th scope="col">Profit</th></tr></thead>
@@ -328,21 +446,28 @@
 <script>
   let round = 0;
   const history = [];   // one entry per round, including the parameters it was played with
+  let game = "simultaneous";
 
   let chokePriceCap = Infinity; // recomputed from parameters
 
   const $ = id => document.getElementById(id);
   const fmt = x => Math.round(x);
-  // Display only: thousands separators and a true minus sign (the model itself is unrounded, as before).
+  // Display only: thousands separators and a true minus sign.
   const show = x => (fmt(x) || 0).toLocaleString("en-US").replace("-", "−");
+
+  const GAME_NAMES = {
+    simultaneous: "Simultaneous (Bertrand)",
+    leader: "Leader (Stackelberg)",
+    follower: "Follower (Stackelberg)",
+    collusion: "Collusion (cartel)"
+  };
 
   const PARAM_LABELS = {
     aA: "a<sub>A</sub>", bA: "b<sub>A</sub>", cA: "c<sub>A</sub>", MC_A: "MC<sub>A</sub>",
     aB: "a<sub>B</sub>", bB: "b<sub>B</sub>", cB: "c<sub>B</sub>", MC_B: "MC<sub>B</sub>"
   };
 
-  // Reads the parameters, checks them, and updates the choke-price line. params.ok is
-  // false when the game cannot be played with them.
+  // Reads and checks the parameters; params.ok is false when the game cannot be played with them.
   function getParams() {
     const read = id => ($(id).value.trim() === "" ? NaN : Number($(id).value));
     const params = {
@@ -367,14 +492,6 @@
     params.ok = !msg;
 
     chokePriceCap = params.ok ? computeChokePriceCap(params) : Infinity;
-    if (!params.ok) {
-      $("capDisplay").textContent = "—";
-    } else if (isFinite(chokePriceCap)) {
-      $("capDisplay").textContent = fmt(chokePriceCap);
-    } else {
-      $("capDisplay").textContent = "none (Boeing's demand never reaches 0 along Airbus's best response)";
-    }
-
     return params;
   }
 
@@ -406,12 +523,46 @@
     return Math.round(PA_cont);
   }
 
+  // Follower game: Airbus moves first, choosing the price that is best for it given that
+  // Boeing will best-respond, P_B = alpha + beta P_A (the leader problem with roles swapped).
+  function airbusLeaderPrice(params) {
+    const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
+    const alpha = (aB + bB * MC_B) / (2 * bB);
+    const beta = cB / (2 * bB);
+    const A = aA + cA * alpha;   // Airbus's demand along Boeing's best response: Q_A = A - B P_A
+    const B = bA - cA * beta;
+    return B > 0 ? Math.round((A + B * MC_A) / (2 * B)) : NaN;
+  }
+
+  // Simultaneous game, round 1: Airbus has not seen any price of yours yet, so it opens at its
+  // collusive price, the one that maximizes the two firms' joint profit.
+  function airbusOpeningPrice(params) {
+    const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
+    const s = cA + cB;
+    const det = 4 * bA * bB - s * s;
+    const PA = (2 * bB * (aA + bA * MC_A - cB * MC_B) + s * (aB + bB * MC_B - cA * MC_A)) / det;
+    return det > 0 && PA > 0 ? Math.round(PA) : bestResponseAirbus(MC_B, params);
+  }
+
+  // Airbus's price this round, by game type
+  function airbusPrice(PB, params) {
+    if (game === "leader") return bestResponseAirbus(PB, params);   // sees your price, then responds
+    if (game === "follower") return airbusLeaderPrice(params);      // moved first
+    if (game === "collusion") return PB;                            // matches your price
+    // simultaneous: cannot see your price this round, so it best-responds to your last one
+    const last = history[history.length - 1];
+    return last ? bestResponseAirbus(last.PB, params) : airbusOpeningPrice(params);
+  }
+
   // Compute quantities and profits
   function compute(PA, PB, params) {
     const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
 
-    // For Airbus demand, only PB capped at choke enters the cross term
-    const PB_eff_for_A = Math.min(PB, chokePriceCap);
+    // For Airbus demand, only PB up to Boeing's choke price enters the cross term. Leader game:
+    // the choke price along Airbus's best response (as in the original game). Other games: the
+    // price at which Boeing sells nothing given Airbus's actual price.
+    const choke = game === "leader" ? chokePriceCap : (aB + cB * PA) / bB;
+    const PB_eff_for_A = Math.min(PB, choke);
 
     let QA_raw = aA - bA * PA + cA * PB_eff_for_A;
     let QA = Math.max(0, QA_raw);
@@ -426,6 +577,42 @@
       piA: (PA - MC_A) * QA,
       piB: (PB - MC_B) * QB
     };
+  }
+
+  // Re-reads the parameters and updates what depends on them and on the game type:
+  // how Airbus moves (with its price in the Follower game) and Boeing's choke price.
+  function refresh() {
+    const params = getParams();
+    let status = {
+      simultaneous: "Airbus sets its price at the same time as you: you see it after you play.",
+      leader: "You move first. Airbus sees your price and replies with its best response.",
+      follower: "Airbus moves first: fix the parameters in section 1 to see its price.",
+      collusion: "Airbus will match whatever price you set."
+    }[game];
+    let choke = "—";
+    if (params.ok) {
+      const { aB, bB, cB } = params;
+      if (game === "leader") {
+        choke = isFinite(chokePriceCap)
+          ? `${show(chokePriceCap)} (along Airbus’s best response)`
+          : "none (Boeing’s demand never reaches 0 along Airbus’s best response)";
+      } else if (game === "follower") {
+        const PA = airbusLeaderPrice(params);
+        if (isFinite(PA)) {
+          status = `Airbus moved first and charges <b class="num">${show(PA)}</b>. Now choose your price.`;
+          choke = `${show((aB + cB * PA) / bB)} (given Airbus’s price of ${show(PA)})`;
+        } else {
+          status = "With these parameters Airbus has no best price to lead with; change them in section 1.";
+        }
+      } else if (game === "collusion") {
+        choke = bB > cB ? `${show(aB / (bB - cB))} (when Airbus matches your price)` : "none";
+      } else {
+        choke = "depends on Airbus’s price this round";
+      }
+    }
+    $("gameStatus").innerHTML = status;
+    $("capDisplay").textContent = choke;
+    return params;
   }
 
   // History table. A parameter change between rounds gets its own marker row, so rounds
@@ -573,12 +760,16 @@
       return;
     }
 
-    const params = getParams();
+    const params = refresh();
     if (!params.ok) {
       setWarning("Fix the demand and cost parameters in section 1 first.");
       return;
     }
-    const PA = bestResponseAirbus(PB, params);
+    const PA = airbusPrice(PB, params);
+    if (!isFinite(PA)) {
+      setWarning("With these parameters Airbus has no best price to lead with; change them in section 1.");
+      return;
+    }
     const { QA, QB, piA, piB } = compute(PA, PB, params);
 
     round++;
@@ -598,13 +789,48 @@
     updateCharts();
   }
 
+  // Switching the game type starts a new game; the choice is kept in the address (?game=...)
+  // so a link can open a specific game.
+  function setGame(value) {
+    game = value;
+    const url = new URL(window.location.href);
+    url.searchParams.set("game", value);
+    window.history.replaceState(null, "", url);
+    resetGame();
+    refresh();
+  }
+
   window.addEventListener("DOMContentLoaded", () => {
     initCharts();
     $("playForm").addEventListener("submit", playRound);
     $("resetBtn").addEventListener("click", resetGame);
     // the choke price and parameter checks follow every edit, not only the next round
-    ["aA", "bA", "cA", "aB", "bB", "cB", "mcA", "mcB"].forEach(id => $(id).addEventListener("input", getParams));
-    getParams();
+    ["aA", "bA", "cA", "aB", "bB", "cB", "mcA", "mcB"].forEach(id => $(id).addEventListener("input", refresh));
+
+    // (i) pop-up: highlights the current game; closes with ×, Esc or a click outside the box
+    const info = $("gameInfo");
+    $("infoBtn").addEventListener("click", () => {
+      info.querySelectorAll("[data-game]").forEach(el => el.classList.toggle("current", el.dataset.game === game));
+      info.showModal();
+    });
+    $("infoClose").addEventListener("click", () => info.close());
+    info.addEventListener("click", e => { if (e.target === info) info.close(); });
+
+    const radios = document.querySelectorAll('input[name="game"]');
+    const requested = new URLSearchParams(window.location.search).get("game");
+    if (GAME_NAMES[requested]) {
+      game = requested;
+      radios.forEach(r => { r.checked = r.value === game; });
+    }
+    radios.forEach(radio => radio.addEventListener("change", () => {
+      if (history.length && !confirm(`Switch to the ${GAME_NAMES[radio.value]} game? This starts a new game and clears the rounds played so far.`)) {
+        radios.forEach(r => { r.checked = r.value === game; });
+        return;
+      }
+      setGame(radio.value);
+    }));
+
+    refresh();
     updateHistory();
   });
 </script>
