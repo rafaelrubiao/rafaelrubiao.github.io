@@ -23,6 +23,19 @@
   }
 }
 
+/* the theme sets nowrap on the sidebar's location/link lines, so a long one
+   ("University of California, Los Angeles") ran into the page text in the
+   narrow 925-1279px column. On desktop let them wrap, with a hanging indent so
+   the second line starts under the text, not under the icon. Below $large the
+   list is the "Follow" popover and keeps the theme's nowrap. */
+.sidebar .author__urls li {
+  @include breakpoint($large) {
+    white-space: normal;
+    padding-left: 1.6em;
+    text-indent: -1.6em;
+  }
+}
+
 /* section headers get a subtle rule under them */
 .page__content {
 
