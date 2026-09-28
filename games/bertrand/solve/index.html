@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>How to Solve the Pricing Games — Boeing vs Airbus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Unlisted class page: shared by link only, kept out of search engines. -->
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B2B4E'/%3E%3Crect y='27' width='32' height='5' fill='%23E09F3E'/%3E%3C/svg%3E" />
+  <!-- Fonts and colours follow the MGMT 405 course website (nvoigtla.github.io/MGMT-405-EMBA). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;600;700&display=swap" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.css"
+        integrity="sha384-lPx0C4zIUZLpveABMwOFcFeGZwsvKBJfhJ85FN1PYOV7xApBcFMhcAEMVKF8loOI" crossorigin="anonymous" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.js"
+          integrity="sha384-19KE2cFb3U+RUWmyhBz7aLOGDG8WrRC6hE3oY/HTZZlAAVWYTdmvLC//+TIV3zUx" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/contrib/auto-render.min.js"
+          integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+          onload="renderMathInElement(document.body, { delimiters: [ { left: '\\[', right: '\\]', display: true }, { left: '\\(', right: '\\)', display: false } ] });"></script>
+  <style>
+    :root {
+      --navy: #0B2B4E; --gold: #E09F3E; --palegold: #F6E8C9; --cream: #FDF6E6; --cream-edge: #E4D3A8;
+      --bg: #F1F4F8; --surface: #FFFFFF; --surface-2: #F7F9FC;
+      --rule: #D8DFE8; --rule-soft: #E7ECF3;
+      --ink: #0B2B4E; --ink-2: #4C5867; --ink-3: #77828F;
+      --shadow-sm: 0 1px 2px rgba(11, 43, 78, .08);
+      --focus: #1B6FC4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: Carlito, Calibri, "Segoe UI", system-ui, sans-serif;
+      font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+    .lbl {
+      font-family: "Source Sans 3", Carlito, system-ui, sans-serif; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em; font-size: 11px; color: var(--ink-3);
+    }
+
+    .topbar { background: var(--navy); color: #fff; border-bottom: 3px solid var(--gold); }
+    .topbar-in {
+      max-width: 900px; margin: 0 auto; padding: 11px 22px;
+      display: flex; justify-content: space-between; align-items: center; gap: 14px;
+    }
+    .tb-tag { font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 15.5px; }
+    .tb-sub { font-size: 13.5px; color: #B9CADB; }
+
+    .page { max-width: 900px; margin: 0 auto; padding: 18px 22px 48px; }
+    .band {
+      background: var(--navy); color: #fff; border-bottom: 4px solid var(--gold);
+      border-radius: 9px 9px 0 0; padding: 12px 18px; box-shadow: var(--shadow-sm);
+    }
+    .band-top { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 18px; flex-wrap: wrap; }
+    .band h1 { margin: 0; font-size: clamp(21px, 2.6vw, 27px); line-height: 1.16; letter-spacing: -.012em; }
+    .band .back {
+      display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; text-decoration: none;
+      font-family: "Source Sans 3", sans-serif; font-weight: 600; font-size: 13px; color: #fff;
+      background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .3); border-radius: 7px; padding: 4px 11px;
+    }
+    .band .back:hover { background: rgba(255, 255, 255, .22); border-color: var(--gold); }
+    .band .back .ar { color: var(--palegold); }
+    .band p { margin: 6px 0 0; font-size: 15.5px; color: #C3D4E5; }
+
+    .toc { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 0; padding: 0; list-style: none; }
+    .toc a {
+      display: inline-block; text-decoration: none; color: var(--ink); font-family: "Source Sans 3", sans-serif;
+      font-weight: 700; font-size: 13.5px; padding: 5px 12px; border-radius: 20px;
+      background: var(--surface); border: 1px solid var(--rule); box-shadow: var(--shadow-sm);
+    }
+    .toc a:hover { border-color: var(--gold); }
+
+    .panel {
+      background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+      box-shadow: var(--shadow-sm); overflow: hidden; margin-top: 16px; scroll-margin-top: 12px;
+    }
+    .box-hd {
+      margin: 0; background: var(--navy); color: #fff; padding: 9px 16px;
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+      font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 16px;
+    }
+    .box-hd small { font-weight: 600; font-size: 13px; color: #C3D4E5; }
+    .panel-bd { padding: 6px 20px 18px; }
+    .panel-bd p { margin: 12px 0; color: var(--ink-2); }
+    .panel-bd b { color: var(--ink); }
+    .step { font-family: "Source Sans 3", sans-serif; font-weight: 700; color: var(--ink); margin: 16px 0 4px; font-size: 16px; }
+    .katex-display { margin: .7em 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+    .katex { font-size: 1.08em; }
+    .note {
+      margin: 14px 0 0; padding: 9px 13px; border-radius: 8px; font-size: 15.5px; color: var(--ink-2);
+      background: var(--surface-2); border: 1px solid var(--rule-soft);
+    }
+
+    table.params, table.answers { border-collapse: collapse; margin: 10px 0; font-size: 15.5px; }
+    .params th, .params td, .answers th, .answers td { padding: 6px 12px; border-bottom: 1px solid var(--rule-soft); text-align: right; }
+    .params th:first-child, .params td:first-child, .answers th:first-child, .answers td:first-child { text-align: left; }
+    .params thead th, .answers thead th { color: var(--ink-3); font-weight: 400; font-size: 14px; border-bottom-color: var(--rule); }
+    .answers td { font-variant-numeric: tabular-nums; }
+    .table-wrap { overflow-x: auto; }
+
+    details.check {
+      margin-top: 14px; border: 1px solid var(--cream-edge); background: var(--cream); border-radius: 9px;
+    }
+    details.check summary {
+      cursor: pointer; padding: 9px 14px; font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 15px; color: #5E4210;
+    }
+    details.check summary:hover { color: var(--ink); }
+    details.check > div { padding: 0 16px 12px; }
+    details.check p { color: var(--ink-2); }
+
+    @media (max-width: 600px) {
+      .topbar-in { padding: 10px 14px; }
+      .page { padding: 14px 12px 36px; }
+      .panel-bd { padding: 4px 14px 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="tb-tag">Managerial Economics</span>
+    <span class="tb-sub">In-class game</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="band">
+    <div class="band-top">
+      <h1>How to solve the pricing games</h1>
+      <a class="back" href="../"><span class="ar">←</span> Back to the game</a>
+    </div>
+    <p>Step-by-step algebra for the four Boeing vs Airbus games. The method works for any numbers;
+      the “Check your answer” boxes use the game’s default numbers.</p>
+  </div>
+
+  <ul class="toc">
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#best-response">Best responses</a></li>
+    <li><a href="#simultaneous">Simultaneous (Bertrand)</a></li>
+    <li><a href="#leader">Leader (Stackelberg)</a></li>
+    <li><a href="#follower">Follower (Stackelberg)</a></li>
+    <li><a href="#collusion">Collusion (cartel)</a></li>
+    <li><a href="#summary">All answers</a></li>
+  </ul>
+
+  <!-- Setup -->
+  <section class="panel" id="setup">
+    <h2 class="box-hd">The setup</h2>
+    <div class="panel-bd">
+      <p>Each firm’s demand falls with its own price and rises with its rival’s price (the planes are substitutes):</p>
+      \[ Q_A = a_A - b_A P_A + c_A P_B, \qquad Q_B = a_B - b_B P_B + c_B P_A \]
+      <p>Each firm earns its markup on every plane it sells:</p>
+      \[ \pi_A = (P_A - MC_A)\,Q_A, \qquad \pi_B = (P_B - MC_B)\,Q_B \]
+      <p>The game’s default numbers are the same for both firms:</p>
+      <div class="table-wrap">
+        <table class="params">
+          <thead><tr><th></th><th>\(a\)</th><th>\(b\)</th><th>\(c\)</th><th>\(MC\)</th></tr></thead>
+          <tbody><tr><td>Airbus and Boeing</td><td>400</td><td>2</td><td>1</td><td>232</td></tr></tbody>
+        </table>
+      </div>
+      <p>so \(Q_A = 400 - 2P_A + P_B\) and \(Q_B = 400 - 2P_B + P_A\).</p>
+      <p class="note">Quantities cannot be negative. If Boeing’s price is so high that it sells nothing, the game stops
+        letting Boeing’s price push customers to Airbus (the “choke price” in the game). None of the answers below come
+        close to it, so you can ignore it when solving.</p>
+    </div>
+  </section>
+
+  <!-- Best responses -->
+  <section class="panel" id="best-response">
+    <h2 class="box-hd">Step 1 for every game: the best-response function</h2>
+    <div class="panel-bd">
+      <p>Take Airbus’s price \(P_A\) as given. Boeing chooses \(P_B\) to maximize</p>
+      \[ \pi_B = (P_B - MC_B)\,(a_B - b_B P_B + c_B P_A). \]
+      <p class="step">Set the derivative with respect to \(P_B\) to zero</p>
+      \[ \frac{\partial \pi_B}{\partial P_B} = a_B - 2\,b_B P_B + c_B P_A + b_B\,MC_B = 0 \]
+      <p class="step">Solve for \(P_B\)</p>
+      \[ P_B^{BR}(P_A) = \frac{a_B + b_B\,MC_B + c_B\,P_A}{2\,b_B} \]
+      <p>Airbus’s best response is the same with the letters swapped:</p>
+      \[ P_A^{BR}(P_B) = \frac{a_A + b_A\,MC_A + c_A\,P_B}{2\,b_A} \]
+      <p>Both slope upward: when your rival raises its price, your best price rises too, but by less
+        (prices are <b>strategic complements</b>).</p>
+      <p class="note"><b>Shortcut.</b> The first-order condition can be rewritten as \(Q_B = b_B\,(P_B - MC_B)\).
+        So whenever a firm is on its best response, its profit is \(\pi = b\,(P - MC)^2\).</p>
+      <details class="check">
+        <summary>Check your answer (game’s default numbers)</summary>
+        <div>
+          \[ P_B^{BR}(P_A) = \frac{400 + 2 \cdot 232 + P_A}{4} = 216 + \tfrac14\,P_A,
+             \qquad P_A^{BR}(P_B) = 216 + \tfrac14\,P_B \]
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Simultaneous -->
+  <section class="panel" id="simultaneous">
+    <h2 class="box-hd">Simultaneous <small>Bertrand–Nash equilibrium</small></h2>
+    <div class="panel-bd">
+      <p>Both firms choose at the same time, so in equilibrium each price must be a best response to the other.
+        Solve the two best-response functions together.</p>
+      <p class="step">With identical firms, \(P_A = P_B = P^*\)</p>
+      \[ P^* = \frac{a + b\,MC + c\,P^*}{2b} \quad\Longrightarrow\quad P^* = \frac{a + b\,MC}{2b - c} \]
+      <p class="step">Quantity and profit (from the shortcut)</p>
+      \[ Q^* = b\,(P^* - MC), \qquad \pi^* = b\,(P^* - MC)^2 \]
+      <p>With different firms, solving the two equations gives</p>
+      \[ P_A^* = \frac{2b_B\,(a_A + b_A MC_A) + c_A\,(a_B + b_B MC_B)}{4\,b_A b_B - c_A c_B},
+         \qquad P_B^* = \frac{2b_A\,(a_B + b_B MC_B) + c_B\,(a_A + b_A MC_A)}{4\,b_A b_B - c_A c_B} \]
+      <details class="check">
+        <summary>Check your answer (game’s default numbers)</summary>
+        <div>
+          \[ P^* = 216 + \tfrac14 P^* \;\Rightarrow\; \tfrac34 P^* = 216 \;\Rightarrow\; P^* = 288 \]
+          \[ Q^* = 2\,(288 - 232) = 112, \qquad \pi^* = 56 \times 112 = 6{,}272 \ \text{for each firm} \]
+        </div>
+      </details>
+      <p class="note"><b>In the game</b>, Airbus cannot see your price this round, so it best-responds to the price you
+        charged last round (in round 1 it opens at the collusive price, 316). If each round you best-respond to the price
+        you expect from Airbus, prices converge to 288. (Because Airbus reacts to your last price, a player who holds one
+        price for many rounds can steer it: that is the Leader game in disguise.)</p>
+    </div>
+  </section>
+
+  <!-- Leader -->
+  <section class="panel" id="leader">
+    <h2 class="box-hd">Leader <small>Stackelberg: you move first</small></h2>
+    <div class="panel-bd">
+      <p>You set your price first, and Airbus sees it before replying with its best response. So choose \(P_B\) knowing
+        that Airbus will answer with \(P_A = P_A^{BR}(P_B)\).</p>
+      <p class="step">1. Write Airbus’s reaction as a line</p>
+      \[ P_A = \alpha + \beta\,P_B, \qquad \alpha = \frac{a_A + b_A\,MC_A}{2\,b_A}, \quad \beta = \frac{c_A}{2\,b_A} \]
+      <p class="step">2. Substitute it into your demand</p>
+      \[ Q_B = a_B - b_B P_B + c_B(\alpha + \beta P_B) = \underbrace{(a_B + c_B\,\alpha)}_{\tilde a}
+         \;-\; \underbrace{(b_B - c_B\,\beta)}_{\tilde b}\,P_B \]
+      <p class="step">3. Maximize \((P_B - MC_B)(\tilde a - \tilde b\,P_B)\), like a monopolist facing this demand</p>
+      \[ P_B^{L} = \frac{\tilde a + \tilde b\,MC_B}{2\,\tilde b} \]
+      <p class="step">4. Airbus’s price follows from its reaction</p>
+      \[ P_A = \alpha + \beta\,P_B^{L} \]
+      <details class="check">
+        <summary>Check your answer (game’s default numbers)</summary>
+        <div>
+          \[ Q_B = 400 - 2P_B + \left(216 + \tfrac14 P_B\right) = 616 - \tfrac74\,P_B \]
+          \[ P_B^{L} = \frac{616 + \tfrac74 \cdot 232}{2 \cdot \tfrac74} = \frac{616 + 406}{3.5} = 292,
+             \qquad P_A = 216 + \tfrac{292}{4} = 289 \]
+          \[ Q_B = 616 - \tfrac74 \cdot 292 = 105, \qquad Q_A = 400 - 2 \cdot 289 + 292 = 114 \]
+          \[ \pi_B = (292 - 232) \times 105 = 6{,}300, \qquad \pi_A = (289 - 232) \times 114 = 6{,}498 \]
+          <p>The follower (Airbus) earns more than the leader: in price competition, moving second is an advantage.
+            In the game, Boeing sells nothing above 352, the price where \(616 - \tfrac74 P_B\) reaches zero.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Follower -->
+  <section class="panel" id="follower">
+    <h2 class="box-hd">Follower <small>Stackelberg: Airbus moves first</small></h2>
+    <div class="panel-bd">
+      <p>Now Airbus leads: it picks its price anticipating your best response, and you reply once you see it.
+        Airbus solves the Leader problem above with the roles swapped; your job is Step 1: find your best response.</p>
+      <p class="step">1. Airbus’s price: substitute your best response \(P_B = \alpha_B + \beta_B P_A\) into Airbus’s demand and maximize</p>
+      \[ P_A^{L} = \frac{\tilde a_A + \tilde b_A\,MC_A}{2\,\tilde b_A}, \qquad
+         \tilde a_A = a_A + c_A\,\alpha_B, \quad \tilde b_A = b_A - c_A\,\beta_B \]
+      <p class="step">2. Your price: your best response to Airbus’s price</p>
+      \[ P_B = P_B^{BR}\!\left(P_A^{L}\right) \]
+      <details class="check">
+        <summary>Check your answer (game’s default numbers)</summary>
+        <div>
+          <p>By symmetry Airbus leads with \(P_A = 292\). Your best response:</p>
+          \[ P_B = 216 + \tfrac{292}{4} = 289 \]
+          \[ Q_B = 400 - 2 \cdot 289 + 292 = 114, \qquad \pi_B = 57 \times 114 = 6{,}498 \]
+          \[ Q_A = 105, \qquad \pi_A = 60 \times 105 = 6{,}300 \]
+          <p>You are on your best response, so the shortcut works too: \(\pi_B = 2\,(289 - 232)^2 = 6{,}498\).</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Collusion -->
+  <section class="panel" id="collusion">
+    <h2 class="box-hd">Collusion <small>cartel</small></h2>
+    <div class="panel-bd">
+      <p>The firms agree on prices that maximize their <b>joint</b> profit \(\pi_A + \pi_B\). With identical firms they
+        charge the same price \(P\), and each sells \(Q = a - (b - c)\,P\):</p>
+      \[ \max_{P}\; 2\,(P - MC)\,\bigl(a - (b - c)\,P\bigr) \quad\Longrightarrow\quad
+         P^{C} = \frac{a + (b - c)\,MC}{2\,(b - c)} \]
+      <p>In the game, Airbus matches your price, so your own profit \((P - MC)\,\bigl(a - (b - c)P\bigr)\) is maximized at
+        the same price.</p>
+      <details class="check">
+        <summary>Check your answer (game’s default numbers)</summary>
+        <div>
+          \[ P^{C} = \frac{400 + 232}{2} = 316, \qquad Q = 400 - 316 = 84, \qquad \pi = 84 \times 84 = 7{,}056 \ \text{each} \]
+          <p>That beats the Nash profit of 6,272. But the cartel is fragile: Airbus’s best response to 316 is
+            \(216 + \tfrac{316}{4} = 295\), which would earn it \(63 \times 126 = 7{,}938\). Each firm is tempted to undercut.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Summary -->
+  <section class="panel" id="summary">
+    <h2 class="box-hd">All answers <small>game’s default numbers</small></h2>
+    <div class="panel-bd">
+      <details class="check">
+        <summary>Show the table</summary>
+        <div class="table-wrap">
+          <table class="answers">
+            <thead>
+              <tr><th>Game</th><th>Your price</th><th>Airbus’s price</th><th>Your quantity</th><th>Airbus’s quantity</th><th>Your profit</th><th>Airbus’s profit</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Simultaneous (Bertrand)</td><td>288</td><td>288</td><td>112</td><td>112</td><td>6,272</td><td>6,272</td></tr>
+              <tr><td>Leader (Stackelberg)</td><td>292</td><td>289</td><td>105</td><td>114</td><td>6,300</td><td>6,498</td></tr>
+              <tr><td>Follower (Stackelberg)</td><td>289</td><td>292</td><td>114</td><td>105</td><td>6,498</td><td>6,300</td></tr>
+              <tr><td>Collusion (cartel)</td><td>316</td><td>316</td><td>84</td><td>84</td><td>7,056</td><td>7,056</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>
