@@ -133,7 +133,7 @@
       <h1>How to solve the pricing games</h1>
       <a class="back" href="../"><span class="ar">←</span> Back to the game</a>
     </div>
-    <p>Step-by-step algebra for the four Boeing vs Airbus games. The method works for any numbers;
+    <p>Step-by-step algebra for the five Boeing vs Airbus games. The method works for any numbers;
       the “Check your answer” boxes use the game’s default numbers.</p>
   </div>
 
@@ -141,6 +141,7 @@
     <li><a href="#setup">Setup</a></li>
     <li><a href="#best-response">Best responses</a></li>
     <li><a href="#simultaneous">Simultaneous (Bertrand)</a></li>
+    <li><a href="#sequential">Sequential (take turns)</a></li>
     <li><a href="#leader">Leader (Stackelberg)</a></li>
     <li><a href="#follower">Follower (Stackelberg)</a></li>
     <li><a href="#collusion">Collusion (cartel)</a></li>
@@ -218,6 +219,38 @@
       <p class="note"><b>In the game</b>, Airbus cannot see your price, so it charges its equilibrium price in every round.
         Check that your profit is highest when you charge that same price: each price is then a best response to the
         other, which is what makes it an equilibrium.</p>
+    </div>
+  </section>
+
+  <!-- Sequential -->
+  <section class="panel" id="sequential">
+    <h2 class="box-hd">Sequential <small>take turns: prices converge to Nash</small></h2>
+    <div class="panel-bd">
+      <p>The firms take turns: each one sees its rival’s current price and replies with its best response. Nobody
+        solves for the equilibrium, yet prices end up there.</p>
+      <p class="step">Measure each reply by its distance from the Nash price \(P^*\)</p>
+      <p>\(P^*\) is a best response to itself, \(P^* = P^{BR}(P^*)\), so subtracting it from the best-response
+        function gives</p>
+      \[ P^{BR}(P_{\text{rival}}) - P^* = \frac{c}{2b}\,\bigl(P_{\text{rival}} - P^*\bigr) \]
+      <p class="step">Each reply shrinks the gap by the factor \(\frac{c}{2b}\)</p>
+      <p>After \(n\) replies the gap is \(\left(\frac{c}{2b}\right)^{n}\) times the starting gap, so prices converge to
+        \(P^*\) whenever the best response has a slope below one, \(c < 2b\). With different firms, two replies
+        multiply the gap by \(\frac{c_A c_B}{4\,b_A b_B}\), so the condition is \(4\,b_A b_B > c_A c_B\), the same one
+        the Nash price needs to exist.</p>
+      <details class="check">
+        <summary>Check your answer (game’s default numbers)</summary>
+        <div>
+          <p>The slope is \(\frac{c}{2b} = \frac14\): each reply closes three quarters of the gap to 288. Starting
+            from the cartel price, 316 (a gap of 28), and alternating Airbus, you, Airbus, …</p>
+          \[ 316 \;\to\; 295 \;\to\; 289.75 \;\to\; 288.44 \;\to\; 288.11 \;\to\; \cdots \;\to\; 288 \]
+          <p>The game rounds Airbus’s price to whole dollars, so Airbus charges 316, then 290, then 288.</p>
+          <p>A catch: convergence needs both firms to reply to the price they see today. A firm that knows its rival
+            will answer can do better by holding its price: stay at 292 and Airbus settles at 289, earning you 6,300 a
+            round instead of 6,272. That is the Leader game again.</p>
+        </div>
+      </details>
+      <p class="note"><b>In the game</b>, Airbus starts at the cartel price. Each round you see its current price and
+        choose yours, and that round’s profits use both prices. Airbus then switches to its best response to your price.</p>
     </div>
   </section>
 
@@ -309,6 +342,7 @@
             </thead>
             <tbody>
               <tr><td>Simultaneous (Bertrand)</td><td>288</td><td>288</td><td>112</td><td>112</td><td>6,272</td><td>6,272</td></tr>
+              <tr><td>Sequential (take turns), once prices settle</td><td>288</td><td>288</td><td>112</td><td>112</td><td>6,272</td><td>6,272</td></tr>
               <tr><td>Leader (Stackelberg)</td><td>292</td><td>289</td><td>105</td><td>114</td><td>6,300</td><td>6,498</td></tr>
               <tr><td>Follower (Stackelberg)</td><td>289</td><td>292</td><td>114</td><td>105</td><td>6,498</td><td>6,300</td></tr>
               <tr><td>Collusion (cartel)</td><td>316</td><td>316</td><td>84</td><td>84</td><td>7,056</td><td>7,056</td></tr>
