@@ -194,7 +194,7 @@
     .guide-link:hover { border-color: var(--gold); }
     .guide-link .ar { color: var(--gold); }
     .toggle {
-      display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; padding: 4px;
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; padding: 4px;
       background: var(--surface-2); border: 1px solid var(--rule); border-radius: 9px;
     }
     .toggle label { position: relative; display: block; }
@@ -208,10 +208,7 @@
     .toggle input:checked + span { background: var(--navy); color: #fff; box-shadow: var(--shadow-sm); }
     .toggle input:checked + span small { color: #C3D4E5; }
     .toggle input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
-    @media (max-width: 700px) {
-      .toggle { grid-template-columns: 1fr 1fr; }
-      .toggle label:last-child { grid-column: 1 / -1; }   /* the fifth button gets its own row */
-    }
+    @media (max-width: 700px) { .toggle { grid-template-columns: 1fr 1fr; } }
     /* (i) pop-up: what each game means */
     .info-pop {
       width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 0; color: var(--ink);
@@ -294,14 +291,13 @@
       </div>
       <div class="toggle" role="radiogroup" aria-labelledby="h-game">
         <label><input type="radio" name="game" value="simultaneous" checked /><span>Simultaneous <small>(Bertrand)</small></span></label>
-        <label><input type="radio" name="game" value="sequential" /><span>Sequential <small>(take turns)</small></span></label>
         <label><input type="radio" name="game" value="leader" /><span>Leader <small>(Stackelberg)</small></span></label>
         <label><input type="radio" name="game" value="follower" /><span>Follower <small>(Stackelberg)</small></span></label>
         <label><input type="radio" name="game" value="collusion" /><span>Collusion <small>(cartel)</small></span></label>
       </div>
       <dialog class="info-pop" id="gameInfo" aria-labelledby="gameInfoTitle">
         <div class="info-hd">
-          <h3 id="gameInfoTitle">What the five games mean</h3>
+          <h3 id="gameInfoTitle">What the four games mean</h3>
           <button type="button" class="info-close" id="infoClose" aria-label="Close">×</button>
         </div>
         <div class="info-body">
@@ -310,11 +306,6 @@
           <dd data-game="simultaneous">Both firms set their prices at the same time, as in the Bertrand model from class, so Airbus
             cannot see your price. It charges its Bertrand–Nash equilibrium price in every round. Find the price that
             maximizes your profit against it.</dd>
-          <dt data-game="sequential">Sequential <small>take turns</small></dt>
-          <dd data-game="sequential">You and Airbus take turns, starting from the cartel price. You see Airbus’s current price
-            and choose yours; this round’s profits use both prices. Airbus then switches to its best response to your price,
-            which you see before your next move. If both firms keep best-responding, prices converge to the Bertrand–Nash
-            equilibrium.</dd>
           <dt data-game="leader">Leader <small>Stackelberg: you move first</small></dt>
           <dd data-game="leader">You set your price first. Airbus sees it and replies with its best response, so choose your price
             anticipating that reaction.</dd>
@@ -460,24 +451,17 @@
   let chokePriceCap = Infinity; // recomputed from parameters
 
   const $ = id => document.getElementById(id);
-  const fmt = x => Math.round(x);
-  // Display only: thousands separators and a true minus sign.
-  const show = x => (fmt(x) || 0).toLocaleString("en-US").replace("-", "−");
+  // Display only: up to 2 decimals, thousands separators and a true minus sign.
+  const show = x => (Math.round(x * 100) / 100 || 0).toLocaleString("en-US", { maximumFractionDigits: 2 }).replace("-", "−");
 
   const GAME_NAMES = {
     simultaneous: "Simultaneous (Bertrand)",
-    sequential: "Sequential (take turns)",
     leader: "Leader (Stackelberg)",
     follower: "Follower (Stackelberg)",
     collusion: "Collusion (cartel)"
   };
 
-  // Shown when the parameters leave Airbus without a price to charge in this game
-  const NO_PRICE = {
-    simultaneous: "With these parameters there is no Nash equilibrium price for Airbus; change them in section 1.",
-    sequential: "With these parameters there is no cartel price for Airbus to start from; change them in section 1.",
-    follower: "With these parameters Airbus has no best price to lead with; change them in section 1."
-  };
+  const NO_NASH = "With these parameters there is no Nash equilibrium price for Airbus; change them in section 1.";
 
   const PARAM_LABELS = {
     aA: "a<sub>A</sub>", bA: "b<sub>A</sub>", cA: "c<sub>A</sub>", MC_A: "MC<sub>A</sub>",
@@ -537,7 +521,9 @@
 
     const PB_eff = Math.min(PB, chokePriceCap);
     const PA_cont = (aA + cA * PB_eff + bA * MC_A) / (2 * bA);
-    return Math.round(PA_cont);
+    // Not rounded to whole dollars (the original game rounded here): rounding let a leader beat
+    // the textbook price, e.g. 290 or 294 earned more than 292 with the default numbers.
+    return PA_cont;
   }
 
   // Follower game: Airbus moves first, choosing the price that is best for it given that
@@ -548,7 +534,7 @@
     const beta = cB / (2 * bB);
     const A = aA + cA * alpha;   // Airbus's demand along Boeing's best response: Q_A = A - B P_A
     const B = bA - cA * beta;
-    return B > 0 ? Math.round((A + B * MC_A) / (2 * B)) : NaN;
+    return B > 0 ? (A + B * MC_A) / (2 * B) : NaN;
   }
 
   // Simultaneous game: Airbus cannot see your price, so it charges its Bertrand-Nash price, where
@@ -557,23 +543,7 @@
     const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
     const det = 4 * bA * bB - cA * cB;
     const PA = (2 * bB * (aA + bA * MC_A) + cA * (aB + bB * MC_B)) / det;
-    return det > 0 && PA > 0 ? Math.round(PA) : NaN;
-  }
-
-  // Airbus's cartel price: its price when the two firms maximize their joint profit
-  function airbusCartelPrice(params) {
-    const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
-    const s = cA + cB;
-    const det = 4 * bA * bB - s * s;
-    const PA = (2 * bB * (aA + bA * MC_A - cB * MC_B) + s * (aB + bB * MC_B - cA * MC_A)) / det;
-    return det > 0 && PA > 0 ? Math.round(PA) : NaN;
-  }
-
-  // Sequential game: Airbus starts at its cartel price, then each round charges its best response
-  // to your previous price. You see this price before you choose yours.
-  function airbusTurnPrice(params) {
-    const last = history[history.length - 1];
-    return last ? bestResponseAirbus(last.PB, params) : airbusCartelPrice(params);
+    return det > 0 && PA > 0 ? PA : NaN;
   }
 
   // Airbus's price this round, by game type
@@ -581,7 +551,6 @@
     if (game === "leader") return bestResponseAirbus(PB, params);   // sees your price, then responds
     if (game === "follower") return airbusLeaderPrice(params);      // moved first
     if (game === "collusion") return PB;                            // matches your price
-    if (game === "sequential") return airbusTurnPrice(params);      // replied to your last price
     return airbusNashPrice(params);                                 // simultaneous: cannot see your price
   }
 
@@ -610,13 +579,12 @@
     };
   }
 
-  // Re-reads the parameters and updates what depends on them, on the game type and (Sequential
-  // game) on the last round: how Airbus moves, its price when you see it first, Boeing's choke price.
+  // Re-reads the parameters and updates what depends on them and on the game type:
+  // how Airbus moves (with its price in the Follower game) and Boeing's choke price.
   function refresh() {
     const params = getParams();
     let status = {
       simultaneous: "Airbus sets its price at the same time as you: you see it after you play.",
-      sequential: "You and Airbus take turns: fix the parameters in section 1 to see its price.",
       leader: "You move first. Airbus sees your price and replies with its best response.",
       follower: "Airbus moves first: fix the parameters in section 1 to see its price.",
       collusion: "Airbus will match whatever price you set."
@@ -634,24 +602,14 @@
           status = `Airbus moved first and charges <b class="num">${show(PA)}</b>. Now choose your price.`;
           choke = `${show((aB + cB * PA) / bB)} (given Airbus’s price of ${show(PA)})`;
         } else {
-          status = NO_PRICE.follower;
-        }
-      } else if (game === "sequential") {
-        const PA = airbusTurnPrice(params);
-        if (isFinite(PA)) {
-          status = history.length
-            ? `Airbus replied to your last price and now charges <b class="num">${show(PA)}</b>. Choose your price.`
-            : `Airbus starts at the cartel price, <b class="num">${show(PA)}</b>. Choose your price.`;
-          choke = `${show((aB + cB * PA) / bB)} (given Airbus’s current price of ${show(PA)})`;
-        } else {
-          status = NO_PRICE.sequential;
+          status = "With these parameters Airbus has no best price to lead with; change them in section 1.";
         }
       } else if (game === "collusion") {
         choke = bB > cB ? `${show(aB / (bB - cB))} (when Airbus matches your price)` : "none";
       } else if (isFinite(airbusNashPrice(params))) {
         choke = "depends on Airbus’s price";
       } else {
-        status = NO_PRICE.simultaneous;
+        status = NO_NASH;
       }
     }
     $("gameStatus").innerHTML = status;
@@ -811,7 +769,9 @@
     }
     const PA = airbusPrice(PB, params);
     if (!isFinite(PA)) {
-      setWarning(NO_PRICE[game]);
+      setWarning(game === "follower"
+        ? "With these parameters Airbus has no best price to lead with; change them in section 1."
+        : NO_NASH);
       return;
     }
     const { QA, QB, piA, piB } = compute(PA, PB, params);
@@ -822,7 +782,6 @@
     updateLatest();
     updateHistory();
     updateCharts();
-    refresh();   // Sequential game: shows Airbus's reply to this round's price
   }
 
   function resetGame() {
@@ -832,7 +791,6 @@
     updateLatest();
     updateHistory();
     updateCharts();
-    refresh();
   }
 
   // Switching the game type starts a new game; the choice is kept in the address (?game=...)
@@ -843,6 +801,7 @@
     url.searchParams.set("game", value);
     window.history.replaceState(null, "", url);
     resetGame();
+    refresh();
   }
 
   window.addEventListener("DOMContentLoaded", () => {

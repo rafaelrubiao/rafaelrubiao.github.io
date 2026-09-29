@@ -38,12 +38,14 @@ and the local build workflow don't break.
   never linked from the site. Each carries its own `noindex` tag; a
   `_config.yml` default keeps `games/` out of `sitemap.xml`. Styled after the
   MGMT 405 course site (navy/gold, Carlito + Source Sans 3). The Bertrand game
-  has five game types (Simultaneous default, where Airbus always charges its
-  Nash price; Sequential, where Airbus starts at its cartel price and then
-  best-responds to the student's previous price; Leader = the original game
-  logic; Follower; Collusion) and an algebra guide at `games/bertrand/solve/`,
-  whose worked answers assume the default parameters (a=400, b=2, c=1, MC=232
-  for both firms): change the guide if those defaults change.
+  has four game types (Simultaneous default, where Airbus always charges its
+  Nash price; Leader = the original game logic, except that Airbus's prices
+  are not rounded to whole dollars, since rounding let 290 or 294 beat the
+  textbook 292; Follower; Collusion) and an algebra guide at
+  `games/bertrand/solve/`, whose worked answers assume the default parameters
+  (a=400, b=2, c=1, MC=232 for both firms): change the guide if those defaults
+  change. A take-turns "Sequential" game was tried and removed: against a
+  computer that reacts to the student's price, it is Stackelberg in disguise.
 - Research page convention: Working Papers (figure beside abstract), then
   Work in Progress, then Policy and Other Writings — lists, modeled on
   jpchauvin.com/papers.
