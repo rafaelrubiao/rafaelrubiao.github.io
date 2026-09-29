@@ -17,6 +17,8 @@ and the local build workflow don't break.
 
 - Jekyll site on the academicpages theme (fork of Minimal Mistakes). GitHub
   Pages serves **master**; work on feature branches and merge via PR.
+  Merge your own PRs yourself (squash) once tested: the owner does not want to
+  click merge. The owner's `.claude/settings.json` allows the GitHub merge tool.
 - Content lives in `_pages/`: `about.md` (homepage, permalink `/`),
   `research.md`, `code.md`, `qualtrics-llm.md` (AI interview toolkit),
   `cv.md`. Custom styles in `_sass/_custom.scss` (imported from
