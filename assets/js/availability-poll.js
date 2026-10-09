@@ -1,12 +1,12 @@
-/* Availability poll for /femba-poll/ and /emba-poll/ (markup in
+/* Availability poll for /femba-midterm/ and /emba-midterm/ (markup in
    _includes/availability-poll.html). Sends {class, email, slots} to the Google
    Apps Script web app set in _config.yml (availability_poll_endpoint; the script
    is _apps-script/availability-poll.gs). Nothing is read back, so students never
    see other responses or counts. */
 (function () {
   // Must match DAYS and TIMES in _apps-script/availability-poll.gs.
-  var DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  var TIMES = ['5:00-6:00pm', '5:30-6:30pm', '6:00-7:00pm', '6:30-7:30pm', '7:00-8:00pm'];  // Pacific Time
+  var DAYS = ['Fri Oct 30', 'Sat Oct 31'];
+  var TIMES = ['9am-12pm', '10am-1pm', '11am-2pm', '12-3pm', '1-4pm', '2-5pm', '3-6pm', '4-7pm', '5-8pm'];  // 3-hour windows, Pacific Time
   var EMAIL = /^[a-z0-9][a-z0-9._%+'-]*@anderson\.ucla\.edu$/;
 
   var poll = document.querySelector('.poll');
@@ -18,14 +18,14 @@
   var submitError = poll.querySelector('.poll__error--submit');
   var endpoint = poll.getAttribute('data-endpoint');
 
-  // One row per day, one column per time slot. Clicking a slot toggles it.
+  // One column per day, one row per time window. Clicking a slot toggles it.
   var html = '<span></span>';
-  TIMES.forEach(function (t) {
-    html += '<span class="poll__time">' + t.replace('-', '–').replace('pm', '') + '</span>';
-  });
   DAYS.forEach(function (d) {
     html += '<span class="poll__day">' + d + '</span>';
-    TIMES.forEach(function (t) {
+  });
+  TIMES.forEach(function (t) {
+    html += '<span class="poll__time">' + t.replace('-', '–') + '</span>';
+    DAYS.forEach(function (d) {
       html += '<button type="button" class="poll__slot" aria-pressed="false" data-slot="' + d + ' ' + t +
               '" aria-label="' + d + ' ' + t + '"></button>';
     });

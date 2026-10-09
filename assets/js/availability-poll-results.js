@@ -55,9 +55,9 @@
     button.disabled = refresh.disabled = false;
   }
 
-  // "5:00-6:00pm" -> "5:00–6:00"
+  // "9am-12pm" -> "9am–12pm"
   function time(t) {
-    return t.replace('-', '–').replace('pm', '');
+    return t.replace('-', '–');
   }
 
   function el(tag, className, text) {
@@ -80,14 +80,14 @@
       var table = el('table', 'poll__table');
       var head = table.createTHead().insertRow();
       head.appendChild(el('th'));
-      result.times.forEach(function (t) { head.appendChild(el('th', '', time(t))); });
+      result.days.forEach(function (d) { head.appendChild(el('th', '', d)); });
       var body = table.createTBody();
-      result.days.forEach(function (d, i) {
+      result.times.forEach(function (t, j) {
         var row = body.insertRow();
-        var day = el('th', '', d);
-        day.scope = 'row';
-        row.appendChild(day);
-        result.times.forEach(function (t, j) {
+        var label = el('th', '', time(t));
+        label.scope = 'row';
+        row.appendChild(label);
+        result.days.forEach(function (d, i) {
           var n = data.counts[i][j];
           var cell = el('td', '', String(n));
           if (n > 0) {
@@ -96,7 +96,7 @@
             cell.style.color = step < 4 ? '#111' : '#fff';
           }
           cell.tabIndex = 0;
-          cell.setAttribute('data-tip', d + ' ' + time(t) + ' pm' +
+          cell.setAttribute('data-tip', d + ', ' + time(t) +
             (data.respondents ? ' · ' + n + ' of ' + data.respondents + ' respondents (' +
               Math.round(100 * n / data.respondents) + '%)' : ''));
           row.appendChild(cell);
@@ -110,7 +110,7 @@
       new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   }
 
-  // "12 respondents. Most available (9): Tue 6:00–7:00 pm, Wed 6:30–7:30 pm"
+  // "12 respondents. Most available (9): Fri Oct 30 1pm–4pm, Sat Oct 31 10am–1pm"
   function headline(result, data, max) {
     if (!data.respondents) return 'No responses yet.';
     var text = data.respondents + (data.respondents === 1 ? ' respondent.' : ' respondents.');
@@ -118,7 +118,7 @@
     var best = [];
     result.days.forEach(function (d, i) {
       result.times.forEach(function (t, j) {
-        if (data.counts[i][j] === max) best.push(d + ' ' + time(t) + ' pm');
+        if (data.counts[i][j] === max) best.push(d + ' ' + time(t));
       });
     });
     return text + ' Most available (' + max + '): ' + best.join(', ');
