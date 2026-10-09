@@ -153,7 +153,7 @@
   }
 }
 
-/* availability polls (/femba-poll/, /emba-poll/; see _includes/availability-poll.html).
+/* availability polls (/femba-midterm/, /emba-midterm/; see _includes/availability-poll.html).
    Rules are nested (.poll .poll__x) so they outrank the theme's .page__content p. */
 .poll {
   max-width: 40em;
@@ -198,22 +198,23 @@
 
   .poll__grid {
     display: grid;
-    grid-template-columns: auto repeat(5, minmax(0, 1fr));
+    grid-template-columns: auto repeat(2, minmax(0, 1fr));  // time label + one column per day
     gap: 6px;
     align-items: center;
   }
 
   .poll__time {
+    padding-right: 0.4em;
     font-size: $type-size-6;
     line-height: 1.25;
-    text-align: center;
+    white-space: nowrap;
     color: $dark-gray;
   }
 
   .poll__day {
-    padding-right: 0.4em;
     font-size: $type-size-6;
     font-weight: bold;
+    text-align: center;
   }
 
   .poll__slot {
@@ -329,7 +330,7 @@
     }
 
     tbody th {
-      width: 3em;
+      width: 5.5em;
       text-align: left;
     }
 

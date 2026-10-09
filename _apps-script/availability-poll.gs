@@ -1,8 +1,8 @@
 /** @OnlyCurrentDoc */
 
 /*
- * Backend for the availability polls at rafaelrubiao.github.io/femba-poll/ and
- * /emba-poll/. The poll pages send each response here and this script writes it
+ * Backend for the availability polls at rafaelrubiao.github.io/femba-midterm/ and
+ * /emba-midterm/ (3-hour TA sessions before the midterm, Oct 30-31). The poll pages send each response here and this script writes it
  * to the Google Sheet it is attached to. The poll pages never get anything back
  * except "recorded" or an error, so students cannot see other responses or counts.
  * The password-protected page rafaelrubiao.github.io/poll-results/ shows the
@@ -39,15 +39,20 @@
  * After replacing the code with a new version of this file, publish it under the
  * same URL: Deploy > Manage deployments > pencil icon > Version: New version >
  * Deploy (Implantar > Gerenciar implantações > lápis > Versão: Nova versão > Implantar).
+ *
+ * New slots: when DAYS or TIMES change, the FEMBA and EMBA tabs no longer match and
+ * the next setup() (run by hand, or by the first submission) deletes them and the
+ * Log and starts empty ones: the previous poll's answers are erased (they remain
+ * in the sheet's File > Version history). Summary is rebuilt; Settings is kept.
  */
 
 const CLASSES = ['FEMBA', 'EMBA'];
 
 // Must match DAYS and TIMES in assets/js/availability-poll.js.
-const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const TIMES = ['5:00-6:00pm', '5:30-6:30pm', '6:00-7:00pm', '6:30-7:30pm', '7:00-8:00pm'];  // Pacific Time
+const DAYS = ['Fri Oct 30', 'Sat Oct 31'];
+const TIMES = ['9am-12pm', '10am-1pm', '11am-2pm', '12-3pm', '1-4pm', '2-5pm', '3-6pm', '4-7pm', '5-8pm'];  // 3-hour windows, Pacific Time
 
-const SLOTS = DAYS.flatMap(d => TIMES.map(t => d + ' ' + t));  // "Mon 5:00-6:00pm", ..., "Sun 7:00-8:00pm"
+const SLOTS = DAYS.flatMap(d => TIMES.map(t => d + ' ' + t));  // "Fri Oct 30 9am-12pm", ..., "Sat Oct 31 5-8pm"
 const HEADER = ['Email', 'Last submitted', 'Submissions'].concat(SLOTS);
 
 // Anderson address; the first character is a letter or digit so that Sheets can
@@ -56,14 +61,21 @@ const EMAIL = /^[a-z0-9][a-z0-9._%+'-]*@anderson\.ucla\.edu$/;
 
 
 // Creates the tabs. Safe to run again: responses and the password are kept and
-// only Summary (formulas only) is rebuilt. It is first in the file so that it is
-// the function the editor's Run button picks.
+// only Summary (formulas only) is rebuilt, unless the slots changed (see "New
+// slots" above). It is first in the file so that it is the function the editor's
+// Run button picks.
 function setup() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   ss.setSpreadsheetTimeZone('America/Los_Angeles');
 
+  let erased = false;
   CLASSES.forEach(cls => {
-    if (ss.getSheetByName(cls)) return;
+    const old = ss.getSheetByName(cls);
+    if (old && headerOk_(old)) return;
+    if (old) {
+      ss.deleteSheet(old);  // answers to a previous poll with other slots
+      erased = true;
+    }
     const sheet = ss.insertSheet(cls);
     sheet.appendRow(HEADER);
     sheet.setFrozenRows(1);
@@ -71,6 +83,7 @@ function setup() {
     sheet.getRange('B:B').setNumberFormat('yyyy-mm-dd hh:mm:ss');
   });
 
+  if (erased && ss.getSheetByName('Log')) ss.deleteSheet(ss.getSheetByName('Log'));
   if (!ss.getSheetByName('Log')) {
     const log = ss.insertSheet('Log');
     log.appendRow(['Received', 'Class', 'Email', 'Number of slots', 'Slots']);
@@ -89,10 +102,10 @@ function setup() {
   // Each count is the sum of that slot's column in the class tab.
   const summary = ss.getSheetByName('Summary') || ss.insertSheet('Summary', 0);
   summary.clear();
-  summary.getRange('A1').setValue('Number of students available in each slot (latest response per email). All times pm, Pacific Time.');
+  summary.getRange('A1').setValue('Number of students available in each 3-hour window (latest response per email). Pacific Time.');
   const rules = [];
   CLASSES.forEach((cls, k) => {
-    const top = 3 + k * (TIMES.length + 4);  // FEMBA block starts in row 3, EMBA in row 12
+    const top = 3 + k * (TIMES.length + 4);  // FEMBA block starts in row 3, EMBA below it
     summary.getRange(top, 1, 1, 3).setValues([[cls, 'Respondents', '=COUNTA(' + cls + '!A2:A)']]);
     const grid = [[''].concat(DAYS)].concat(TIMES.map(t => [t].concat(DAYS.map(d => {
       const col = colLetter_(HEADER.indexOf(d + ' ' + t) + 1);
@@ -138,7 +151,7 @@ function doPost(e) {
     }
     try {
       const ss = SpreadsheetApp.getActiveSpreadsheet();
-      if (!ss.getSheetByName('Log')) setup();
+      if (!ss.getSheetByName('Log') || !headerOk_(ss.getSheetByName(cls))) setup();
       const now = new Date();
 
       ss.getSheetByName('Log').appendRow([now, cls, email, chosen.length, chosen.join(', ')]);
@@ -199,7 +212,14 @@ function results_(password) {
 
 // Opening the web-app URL in a browser shows this; handy to check the deployment.
 function doGet() {
-  return ContentService.createTextOutput('The availability poll is running. Responses are visible only to the poll owner.');
+  return ContentService.createTextOutput('The availability poll (midterm TA sessions, Oct 30-31) is running. Responses are visible only to the poll owner.');
+}
+
+
+// True when a class tab has this version's header (same slots in the same order).
+function headerOk_(sheet) {
+  return sheet.getLastColumn() === HEADER.length &&
+    sheet.getRange(1, 1, 1, HEADER.length).getDisplayValues()[0].join('|') === HEADER.join('|');
 }
 
 
