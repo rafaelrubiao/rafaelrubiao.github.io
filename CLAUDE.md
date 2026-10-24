@@ -55,6 +55,11 @@ and the local build workflow don't break.
   deflated by BEA 2024 RPPs. Same treatment as `games/`: `noindex` tag, kept
   out of `sitemap.xml`, shared by link only. Built from a separate replication
   package (Stata do-file + input CSVs); regenerate there, don't hand-edit data.
+- Analytics: GoatCounter, private dashboard at rafaelrubiao.goatcounter.com
+  (`analytics.provider: "custom"`, `analytics.goatcounter_code` in
+  `_config.yml`, snippet in `_includes/analytics-providers/custom.html`, loaded
+  by `default` and `poll` layouts). Pages that skip the theme (`games/`,
+  `minimum-wage/`) carry the snippet by hand; add it to any new standalone page.
 - Research page convention: Working Papers (figure beside abstract), then
   Work in Progress, then Policy and Other Writings — lists, modeled on
   jpchauvin.com/papers.
