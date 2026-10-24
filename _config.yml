@@ -253,6 +253,11 @@ defaults:
       path: "games"
     values:
       sitemap: false
+  # unlisted class maps (plain HTML files under minimum-wage/): same treatment
+  - scope:
+      path: "minimum-wage"
+    values:
+      sitemap: false
 
 # Sass/SCSS
 sass:

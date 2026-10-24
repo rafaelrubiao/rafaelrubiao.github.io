@@ -49,6 +49,12 @@ and the local build workflow don't break.
   (a=400, b=2, c=1, MC=232 for both firms): change the guide if those defaults
   change. A take-turns "Sequential" game was tried and removed: against a
   computer that reacts to the student's price, it is Stackelberg in disguise.
+- Unlisted class maps: `minimum-wage/` (landing page) with `states/` and
+  `counties/`, plain self-contained HTML (data and TopoJSON embedded; d3 and
+  topojson from cdnjs). US minimum wages in effect 2026-10-24, nominal vs.
+  deflated by BEA 2024 RPPs. Same treatment as `games/`: `noindex` tag, kept
+  out of `sitemap.xml`, shared by link only. Built from a separate replication
+  package (Stata do-file + input CSVs); regenerate there, don't hand-edit data.
 - Research page convention: Working Papers (figure beside abstract), then
   Work in Progress, then Policy and Other Writings — lists, modeled on
   jpchauvin.com/papers.
