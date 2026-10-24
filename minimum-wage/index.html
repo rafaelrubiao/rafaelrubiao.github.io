@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minimum Wage Maps</title>
+<!-- Unlisted class page: shared by link only, kept out of search engines. -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5fa8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap">
+<style>
+:root { --bg: #f7f8fa; --panel: #ffffff; --fg: #15202b; --muted: #5a6573; --rule: #dde2e8; --accent: #1f5fa8; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0f141a; --panel: #161d25; --fg: #e8edf2; --muted: #9aa6b4; --rule: #2a3440; --accent: #7fb0ea; color-scheme: dark } }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font-family: "Public Sans", "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 40px max(16px, env(safe-area-inset-left, 0px)) 56px; display: flex; flex-direction: column; gap: 24px; }
+h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; max-width: 68ch; }
+.muted { color: var(--muted); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+a.card { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; color: var(--fg); text-decoration: none; }
+a.card:hover, a.card:focus-visible { border-color: var(--accent); outline: none; }
+a.card strong { font-size: 1.1rem; color: var(--accent); }
+.small { font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>US minimum wages, nominal and price-adjusted</h1>
+  </header>
+  <p>Minimum wages in effect on October 24, 2026, shown side by side in dollars and adjusted for local price levels (BEA Regional Price Parities, 2024). Each page lets you hover or search for a place and see its nominal wage, price level and real wage.</p>
+  <div class="cards">
+    <a class="card" href="states/"><strong>By state →</strong><span class="muted small">Statewide rates for the 50 states and DC, with a sortable table of how ranks change after the price adjustment.</span></a>
+    <a class="card" href="counties/"><strong>By county →</strong><span class="muted small">3,144 counties, including regional tiers and city and county ordinances (population-weighted), with metro or nonmetro price levels.</span></a>
+  </div>
+  <p class="muted small">Sources: US Department of Labor, state and city labor offices, BEA Regional Price Parities, Census population estimates. Data choices are listed at the bottom of each page. Prepared by Rafael Macedo-Rubião.</p>
+</div>
+</body>
+</html>
