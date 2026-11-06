@@ -405,32 +405,9 @@
         </div>
       </section>
 
-      <!-- 3. Best responses -->
-      <section class="panel" aria-labelledby="h-br">
-        <h2 class="box-hd" id="h-br"><span class="step">3</span> Best responses</h2>
-        <div class="panel-bd">
-          <p>The two lines are the firms’ best-response functions; they cross at the Nash equilibrium.
-            Blue arrows are your new price, gold arrows are Airbus’s answer.</p>
-          <div class="zoombar" role="group" aria-label="Zoom the best-response chart">
-            <button type="button" class="btn" id="zoomNash">Zoom to Nash</button>
-            <button type="button" class="btn" id="zoomIn" aria-label="Zoom in">Zoom in +</button>
-            <button type="button" class="btn" id="zoomOut" aria-label="Zoom out">Zoom out −</button>
-            <button type="button" class="btn" id="zoomReset">Show everything</button>
-            <p class="hint">Or pinch, or Ctrl + scroll; drag to move.</p>
-          </div>
-          <div class="chart-box br-box">
-            <canvas id="brChart" role="img" aria-label="Chart of Boeing's and Airbus's best-response lines, which cross at the Nash equilibrium, with arrows showing the prices played each round. The same numbers are in the History of play table."></canvas>
-            <p class="empty">Play a round to draw your path.</p>
-          </div>
-          <p class="footnote">Note: this is a simplification that follows the Bertrand model from class. Because Airbus sees
-            your price before it answers, the rounds are really played in turns. If the firms took that into account, the
-            prices would end up a bit different (slightly above the Nash price).</p>
-        </div>
-      </section>
-
-      <!-- 4. Graphs -->
+      <!-- 3. Graphs -->
       <section class="panel" aria-labelledby="h-charts">
-        <h2 class="box-hd" id="h-charts"><span class="step">4</span> Prices and profits over time</h2>
+        <h2 class="box-hd" id="h-charts"><span class="step">3</span> Prices and profits over time</h2>
         <div class="panel-bd">
           <p>Track the evolution of prices and profits round by round.</p>
           <div class="charts">
@@ -449,6 +426,29 @@
               </div>
             </figure>
           </div>
+        </div>
+      </section>
+
+      <!-- 4. Best responses -->
+      <section class="panel" aria-labelledby="h-br">
+        <h2 class="box-hd" id="h-br"><span class="step">4</span> Best responses</h2>
+        <div class="panel-bd">
+          <p>The two lines are the firms’ best-response functions; they cross at the Nash equilibrium.
+            Blue arrows are your new price, gold arrows are Airbus’s answer.</p>
+          <div class="zoombar" role="group" aria-label="Zoom the best-response chart">
+            <button type="button" class="btn" id="zoomNash">Zoom to Nash</button>
+            <button type="button" class="btn" id="zoomIn" aria-label="Zoom in">Zoom in +</button>
+            <button type="button" class="btn" id="zoomOut" aria-label="Zoom out">Zoom out −</button>
+            <button type="button" class="btn" id="zoomReset">Show everything</button>
+            <p class="hint">Or pinch, or Ctrl + scroll; drag to move.</p>
+          </div>
+          <div class="chart-box br-box">
+            <canvas id="brChart" role="img" aria-label="Chart of Boeing's and Airbus's best-response lines, which cross at the Nash equilibrium, with arrows showing the prices played each round. The same numbers are in the History of play table."></canvas>
+            <p class="empty">Play a round to draw your path.</p>
+          </div>
+          <p class="footnote">Note: this is a simplification that follows the Bertrand model from class. Because Airbus sees
+            your price before it answers, the rounds are really played in turns. If the firms took that into account, the
+            prices would end up a bit different (slightly above the Nash price).</p>
         </div>
       </section>
 
