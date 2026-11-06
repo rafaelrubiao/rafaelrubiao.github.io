@@ -54,8 +54,7 @@ and the local build workflow don't break.
   its worked answers assume the default parameters (a=400, b=2, c=1, MC=232
   for both firms): change the guide if those defaults change. History: Leader
   and Follower games and a take-turns "Sequential" game existed before and were
-  removed. `games/bertrand/graph/` is an unlisted explainer of the leader case,
-  not linked from the game.
+  removed.
 - Unlisted class maps: `minimum-wage/` (landing page) with `states/` and
   `counties/`, plain self-contained HTML (data and TopoJSON embedded; d3 and
   topojson from cdnjs). US minimum wages in effect 2026-10-24, nominal vs.
