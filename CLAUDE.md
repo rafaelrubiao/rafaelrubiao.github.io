@@ -41,14 +41,21 @@ and the local build workflow don't break.
   never linked from the site. Each carries its own `noindex` tag; a
   `_config.yml` default keeps `games/` out of `sitemap.xml`. Styled after the
   MGMT 405 course site (navy/gold, Carlito + Source Sans 3). The Bertrand game
-  has four game types (Simultaneous default, where Airbus always charges its
-  Nash price; Leader = the original game logic, except that Airbus's prices
-  are not rounded to whole dollars, since rounding let 290 or 294 beat the
-  textbook 292; Follower; Collusion) and an algebra guide at
-  `games/bertrand/solve/`, whose worked answers assume the default parameters
-  (a=400, b=2, c=1, MC=232 for both firms): change the guide if those defaults
-  change. A take-turns "Sequential" game was tried and removed: against a
-  computer that reacts to the student's price, it is Stackelberg in disguise.
+  has two game types, with no Stackelberg wording anywhere for students
+  (simplified 2026-11 at the owner's request): Bertrand (default) and
+  Collusion (Airbus matches the student's price). In Bertrand, Airbus answers
+  each price with its best response (216 + P/4), so play walks toward Nash;
+  once the student's price is between the Nash price (288) and the leader
+  price (292), Airbus charges its Nash price for the rest of the game. A
+  best-response chart draws both lines and the path of play as arrows (across =
+  student, up/down = Airbus), with a footnote that this simplifies the
+  turn-taking. Old links `?game=simultaneous|leader|follower` open Bertrand.
+  The algebra guide at `games/bertrand/solve/` covers Bertrand and Collusion;
+  its worked answers assume the default parameters (a=400, b=2, c=1, MC=232
+  for both firms): change the guide if those defaults change. History: Leader
+  and Follower games and a take-turns "Sequential" game existed before and were
+  removed. `games/bertrand/graph/` is an unlisted explainer of the leader case,
+  not linked from the game.
 - Unlisted class maps: `minimum-wage/` (landing page) with `states/` and
   `counties/`, plain self-contained HTML (data and TopoJSON embedded; d3 and
   topojson from cdnjs). US minimum wages in effect 2026-10-24, nominal vs.

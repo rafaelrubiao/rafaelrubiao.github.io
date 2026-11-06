@@ -133,16 +133,14 @@
       <h1>How to solve the pricing games</h1>
       <a class="back" href="../"><span class="ar">←</span> Back to the game</a>
     </div>
-    <p>Step-by-step algebra for the four Boeing vs Airbus games. The method works for any numbers;
+    <p>Step-by-step algebra for the two Boeing vs Airbus games. The method works for any numbers;
       the “Check your answer” boxes use the game’s default numbers.</p>
   </div>
 
   <ul class="toc">
     <li><a href="#setup">Setup</a></li>
     <li><a href="#best-response">Best responses</a></li>
-    <li><a href="#simultaneous">Simultaneous (Bertrand)</a></li>
-    <li><a href="#leader">Leader (Stackelberg)</a></li>
-    <li><a href="#follower">Follower (Stackelberg)</a></li>
+    <li><a href="#simultaneous">Bertrand</a></li>
     <li><a href="#collusion">Collusion (cartel)</a></li>
     <li><a href="#summary">All answers</a></li>
   </ul>
@@ -195,9 +193,9 @@
     </div>
   </section>
 
-  <!-- Simultaneous -->
+  <!-- Bertrand -->
   <section class="panel" id="simultaneous">
-    <h2 class="box-hd">Simultaneous <small>Bertrand–Nash equilibrium</small></h2>
+    <h2 class="box-hd">Bertrand <small>Bertrand–Nash equilibrium</small></h2>
     <div class="panel-bd">
       <p>Both firms choose at the same time, so in equilibrium each price must be a best response to the other.
         Solve the two best-response functions together.</p>
@@ -212,8 +210,7 @@
         current price with its best response. Since \(P^* = P^{BR}(P^*)\), each reply satisfies
         \(P^{BR}(P_{\text{rival}}) - P^* = \frac{c}{2b}\,(P_{\text{rival}} - P^*)\): it shrinks the gap to \(P^*\) by the
         factor \(\frac{c}{2b}\), so prices converge to \(P^*\) whenever \(c < 2b\) (with different firms, whenever
-        \(4\,b_A b_B > c_A c_B\)). This needs both firms to reply only to today’s price. A firm that knows its rival will
-        answer does better by holding its price, and that is the Leader game.</p>
+        \(4\,b_A b_B > c_A c_B\)). This is what the game shows in its best-response chart.</p>
       <details class="check">
         <summary>Check your answer (game’s default numbers)</summary>
         <div>
@@ -223,63 +220,12 @@
             \(316 \to 295 \to 289.75 \to 288.44 \to \cdots \to 288\).</p>
         </div>
       </details>
-      <p class="note"><b>In the game</b>, Airbus cannot see your price, so it charges its equilibrium price in every round.
-        Check that your profit is highest when you charge that same price: each price is then a best response to the
-        other, which is what makes it an equilibrium.</p>
-    </div>
-  </section>
-
-  <!-- Leader -->
-  <section class="panel" id="leader">
-    <h2 class="box-hd">Leader <small>Stackelberg: you move first</small></h2>
-    <div class="panel-bd">
-      <p>You set your price first, and Airbus sees it before replying with its best response. So choose \(P_B\) knowing
-        that Airbus will answer with \(P_A = P_A^{BR}(P_B)\).</p>
-      <p class="step">1. Write Airbus’s reaction as a line</p>
-      \[ P_A = \alpha + \beta\,P_B, \qquad \alpha = \frac{a_A + b_A\,MC_A}{2\,b_A}, \quad \beta = \frac{c_A}{2\,b_A} \]
-      <p class="step">2. Substitute it into your demand</p>
-      \[ Q_B = a_B - b_B P_B + c_B(\alpha + \beta P_B) = \underbrace{(a_B + c_B\,\alpha)}_{\tilde a}
-         \;-\; \underbrace{(b_B - c_B\,\beta)}_{\tilde b}\,P_B \]
-      <p class="step">3. Maximize \((P_B - MC_B)(\tilde a - \tilde b\,P_B)\), like a monopolist facing this demand</p>
-      \[ P_B^{L} = \frac{\tilde a + \tilde b\,MC_B}{2\,\tilde b} \]
-      <p class="step">4. Airbus’s price follows from its reaction</p>
-      \[ P_A = \alpha + \beta\,P_B^{L} \]
-      <details class="check">
-        <summary>Check your answer (game’s default numbers)</summary>
-        <div>
-          \[ Q_B = 400 - 2P_B + \left(216 + \tfrac14 P_B\right) = 616 - \tfrac74\,P_B \]
-          \[ P_B^{L} = \frac{616 + \tfrac74 \cdot 232}{2 \cdot \tfrac74} = \frac{616 + 406}{3.5} = 292,
-             \qquad P_A = 216 + \tfrac{292}{4} = 289 \]
-          \[ Q_B = 616 - \tfrac74 \cdot 292 = 105, \qquad Q_A = 400 - 2 \cdot 289 + 292 = 114 \]
-          \[ \pi_B = (292 - 232) \times 105 = 6{,}300, \qquad \pi_A = (289 - 232) \times 114 = 6{,}498 \]
-          <p>The follower (Airbus) earns more than the leader: in price competition, moving second is an advantage.
-            In the game, Boeing sells nothing above 352, the price where \(616 - \tfrac74 P_B\) reaches zero.</p>
-        </div>
-      </details>
-    </div>
-  </section>
-
-  <!-- Follower -->
-  <section class="panel" id="follower">
-    <h2 class="box-hd">Follower <small>Stackelberg: Airbus moves first</small></h2>
-    <div class="panel-bd">
-      <p>Now Airbus leads: it picks its price anticipating your best response, and you reply once you see it.
-        Airbus solves the Leader problem above with the roles swapped; your job is Step 1: find your best response.</p>
-      <p class="step">1. Airbus’s price: substitute your best response \(P_B = \alpha_B + \beta_B P_A\) into Airbus’s demand and maximize</p>
-      \[ P_A^{L} = \frac{\tilde a_A + \tilde b_A\,MC_A}{2\,\tilde b_A}, \qquad
-         \tilde a_A = a_A + c_A\,\alpha_B, \quad \tilde b_A = b_A - c_A\,\beta_B \]
-      <p class="step">2. Your price: your best response to Airbus’s price</p>
-      \[ P_B = P_B^{BR}\!\left(P_A^{L}\right) \]
-      <details class="check">
-        <summary>Check your answer (game’s default numbers)</summary>
-        <div>
-          <p>By symmetry Airbus leads with \(P_A = 292\). Your best response:</p>
-          \[ P_B = 216 + \tfrac{292}{4} = 289 \]
-          \[ Q_B = 400 - 2 \cdot 289 + 292 = 114, \qquad \pi_B = 57 \times 114 = 6{,}498 \]
-          \[ Q_A = 105, \qquad \pi_A = 60 \times 105 = 6{,}300 \]
-          <p>You are on your best response, so the shortcut works too: \(\pi_B = 2\,(289 - 232)^2 = 6{,}498\).</p>
-        </div>
-      </details>
+      <p class="note"><b>In the game</b>, Airbus sees your price and answers with its best response, so the rounds walk toward
+        \(P^*\). Once your price is between \(P^*\) and a few dollars above it, Airbus settles on \(P^*\) for the rest of
+        the game. Check that your profit is then highest when you charge \(P^*\) too: each price is a best response to
+        the other, which is what makes it an equilibrium.</p>
+      <p class="note">This is a simplification that follows the Bertrand model from class. If the firms took into account
+        that they answer each other in turns, the prices would end up a bit different (slightly above \(P^*\)).</p>
     </div>
   </section>
 
@@ -316,9 +262,7 @@
               <tr><th>Game</th><th>Your price</th><th>Airbus’s price</th><th>Your quantity</th><th>Airbus’s quantity</th><th>Your profit</th><th>Airbus’s profit</th></tr>
             </thead>
             <tbody>
-              <tr><td>Simultaneous (Bertrand)</td><td>288</td><td>288</td><td>112</td><td>112</td><td>6,272</td><td>6,272</td></tr>
-              <tr><td>Leader (Stackelberg)</td><td>292</td><td>289</td><td>105</td><td>114</td><td>6,300</td><td>6,498</td></tr>
-              <tr><td>Follower (Stackelberg)</td><td>289</td><td>292</td><td>114</td><td>105</td><td>6,498</td><td>6,300</td></tr>
+              <tr><td>Bertrand</td><td>288</td><td>288</td><td>112</td><td>112</td><td>6,272</td><td>6,272</td></tr>
               <tr><td>Collusion (cartel)</td><td>316</td><td>316</td><td>84</td><td>84</td><td>7,056</td><td>7,056</td></tr>
             </tbody>
           </table>
