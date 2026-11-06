@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Moving First vs. Moving Together — Boeing vs Airbus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Unlisted class page: shared by link only, kept out of search engines. -->
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B2B4E'/%3E%3Crect y='27' width='32' height='5' fill='%23E09F3E'/%3E%3C/svg%3E" />
+  <!-- Fonts and colours follow the MGMT 405 course website (nvoigtla.github.io/MGMT-405-EMBA). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;600;700&display=swap" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"
+          integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ"
+          crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --navy: #0B2B4E; --gold: #E09F3E; --palegold: #F6E8C9; --cream: #FDF6E6; --cream-edge: #E4D3A8;
+      --bg: #F1F4F8; --surface: #FFFFFF; --surface-2: #F7F9FC;
+      --rule: #D8DFE8; --rule-soft: #E7ECF3;
+      --ink: #0B2B4E; --ink-2: #4C5867; --ink-3: #77828F;
+      --shadow-sm: 0 1px 2px rgba(11, 43, 78, .08);
+      --focus: #1B6FC4;
+      --boeing: #1F5A96; --airbus: #B7791F; --collude: #2E7D5B;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: Carlito, Calibri, "Segoe UI", system-ui, sans-serif;
+      font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+    .topbar { background: var(--navy); color: #fff; border-bottom: 3px solid var(--gold); }
+    .topbar-in {
+      max-width: 900px; margin: 0 auto; padding: 11px 22px;
+      display: flex; justify-content: space-between; align-items: center; gap: 14px;
+    }
+    .tb-tag { font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 15.5px; }
+    .tb-sub { font-size: 13.5px; color: #B9CADB; }
+
+    .page { max-width: 900px; margin: 0 auto; padding: 18px 22px 48px; }
+    .band {
+      background: var(--navy); color: #fff; border-bottom: 4px solid var(--gold);
+      border-radius: 9px 9px 0 0; padding: 12px 18px; box-shadow: var(--shadow-sm);
+    }
+    .band-top { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 18px; flex-wrap: wrap; }
+    .band h1 { margin: 0; font-size: clamp(21px, 2.6vw, 27px); line-height: 1.16; letter-spacing: -.012em; }
+    .band .back {
+      display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; text-decoration: none;
+      font-family: "Source Sans 3", sans-serif; font-weight: 600; font-size: 13px; color: #fff;
+      background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .3); border-radius: 7px; padding: 4px 11px;
+    }
+    .band .back:hover { background: rgba(255, 255, 255, .22); border-color: var(--gold); }
+    .band .back .ar { color: var(--palegold); }
+    .band p { margin: 6px 0 0; font-size: 15.5px; color: #C3D4E5; }
+
+    .panel {
+      background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+      box-shadow: var(--shadow-sm); overflow: hidden; margin-top: 16px;
+    }
+    .box-hd {
+      margin: 0; background: var(--navy); color: #fff; padding: 9px 16px;
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+      font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 16px;
+    }
+    .box-hd small { font-weight: 600; font-size: 13px; color: #C3D4E5; }
+    .panel-bd { padding: 6px 20px 18px; }
+    .panel-bd p, .panel-bd li { color: var(--ink-2); }
+    .panel-bd p { margin: 12px 0; }
+    .panel-bd ol { margin: 8px 0; padding-left: 22px; }
+    .panel-bd li { margin: 5px 0; }
+    .panel-bd b { color: var(--ink); }
+    .eq {
+      display: block; margin: 10px 0; padding: 8px 12px; border-radius: 8px; overflow-x: auto;
+      background: var(--surface-2); border: 1px solid var(--rule-soft); color: var(--ink);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 12px 0 6px; font-size: 14.5px; color: var(--ink-2); }
+    .legend > span { display: inline-block; }
+    .legend i { display: inline-block; width: 24px; border-top: 3px solid; vertical-align: middle; margin-right: 7px; }
+    .legend b.pt { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin-right: 7px; }
+    .legend i.dash { border-top-style: dashed; }
+    .legend i.dot { border-top-style: dotted; }
+    .chart { position: relative; width: 100%; height: 440px; }
+
+    .table-wrap { overflow-x: auto; }
+    table.answers { border-collapse: collapse; margin: 10px 0; font-size: 15.5px; }
+    .answers th, .answers td { padding: 6px 12px; border-bottom: 1px solid var(--rule-soft); text-align: right; }
+    .answers th:first-child, .answers td:first-child { text-align: left; }
+    .answers thead th { color: var(--ink-3); font-weight: 400; font-size: 14px; border-bottom-color: var(--rule); }
+    .answers td { font-variant-numeric: tabular-nums; }
+
+    .note {
+      margin: 14px 0 0; padding: 9px 13px; border-radius: 8px; font-size: 15.5px; color: var(--ink-2);
+      background: var(--cream); border: 1px solid var(--cream-edge);
+    }
+
+    @media (max-width: 600px) {
+      .topbar-in { padding: 10px 14px; }
+      .page { padding: 14px 12px 36px; }
+      .panel-bd { padding: 4px 14px 16px; }
+      .chart { height: 340px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="tb-tag">Managerial Economics</span>
+    <span class="tb-sub">In-class game</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="band">
+    <div class="band-top">
+      <h1>Why moving first changes the price</h1>
+      <a class="back" href="../"><span class="ar">←</span> Back to the game</a>
+    </div>
+    <p>Simultaneous (Bertrand) vs. Boeing as the leader (Stackelberg), with the game’s default numbers:
+      demand Q = 400 − 2·P<sub>own</sub> + P<sub>rival</sub>, marginal cost 232 for both firms.</p>
+  </div>
+
+  <!-- 1. Best responses crossing -->
+  <section class="panel">
+    <h2 class="box-hd">1. The best responses cross at Nash <small>each firm’s best price, given the other’s</small></h2>
+    <div class="panel-bd">
+      <div class="legend">
+        <span><i style="border-color: var(--boeing)"></i>Boeing: P<sub>B</sub> = 216 + P<sub>A</sub>/4</span>
+        <span><i class="dash" style="border-color: var(--airbus)"></i>Airbus: P<sub>A</sub> = 216 + P<sub>B</sub>/4</span>
+      </div>
+      <div class="chart"><canvas id="ch-br" role="img"
+        aria-label="Boeing's and Airbus's best-response lines cross at 288 and 288. The leader outcome, 292 and 289, lies on Airbus's line only."></canvas></div>
+      <ol>
+        <li><b>Simultaneous.</b> Neither firm can move the other’s price, so each one stays on its own line.
+          The only point where both are happy is where the lines cross: <b>288 and 288</b>, profit <b>6,272 each</b>.</li>
+        <li><b>Boeing leads.</b> Boeing knows Airbus will answer along the orange line, so Boeing picks the point
+          on <i>Airbus’s</i> line that is best for itself: <b>292</b>, and Airbus answers <b>289</b>.
+          Boeing is now off its own line.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 2. Profit curves -->
+  <section class="panel">
+    <h2 class="box-hd">2. Boeing’s profit at each price it could charge</h2>
+    <div class="panel-bd">
+      <div class="legend">
+        <span><i style="border-color: var(--boeing)"></i>Simultaneous: Airbus’s price stays at 288</span>
+        <span><i class="dash" style="border-color: var(--airbus)"></i>Boeing leads: Airbus answers 216 + P<sub>B</sub>/4</span>
+        <span><i class="dot" style="border-color: var(--collude)"></i>Collusion: Airbus matches Boeing’s price</span>
+      </div>
+      <div class="chart"><canvas id="ch-profit" role="img"
+        aria-label="Boeing's profit against its price. With Airbus fixed at 288 the curve peaks at 288 with 6,272. With Airbus reacting it peaks at 292 with 6,300. With Airbus matching it peaks at 316 with 7,056."></canvas></div>
+      <p>All three curves meet at 288: there Airbus charges 288 whatever the story. They differ in how much Airbus
+        follows when Boeing raises its price: not at all (simultaneous), $1 for every $4 (leader), or one for one
+        (collusion). The more Airbus follows, the fewer customers Boeing loses, and the higher Boeing’s best price.</p>
+      <p>Why does the peak move right? When Boeing raises its price by $4, Airbus raises its own by $1.
+        Airbus’s higher price sends some customers back to Boeing, so a price increase costs Boeing fewer sales.
+        Put Airbus’s answer into Boeing’s demand:</p>
+      <span class="eq">Q<sub>B</sub> = 400 − 2P<sub>B</sub> + (216 + P<sub>B</sub>/4) = 616 − 1.75·P<sub>B</sub></span>
+      <p>Boeing’s sales now fall by <b>1.75</b> per dollar instead of <b>2</b>. Less price-sensitive demand means a
+        higher price: maximising (P<sub>B</sub> − 232)(616 − 1.75·P<sub>B</sub>) gives <b>292</b> and profit <b>6,300</b>.</p>
+      <p>The leader can never do worse than Nash: Boeing could always choose 288, Airbus would answer 288, and
+        Boeing would get 6,272 again. It moves only because something better is available.</p>
+    </div>
+  </section>
+
+  <!-- 3. Iso-profit -->
+  <section class="panel">
+    <h2 class="box-hd">3. The same thing with iso-profit curves <small>zoomed in</small></h2>
+    <div class="panel-bd">
+      <div class="legend">
+        <span><i style="border-color: var(--boeing)"></i>Boeing’s best response</span>
+        <span><i class="dash" style="border-color: var(--airbus)"></i>Airbus’s best response</span>
+        <span><i class="dot" style="border-color: #6B7684"></i>Boeing earns 6,272 / 6,300 on these curves</span>
+        <span><b class="pt" style="background: var(--navy)"></b>Nash (288, 288): 6,272</span>
+        <span><b class="pt" style="background: var(--airbus)"></b>Boeing leads (292, 289): 6,300</span>
+      </div>
+      <div class="chart"><canvas id="ch-iso" role="img"
+        aria-label="Boeing's 6,272 iso-profit curve is flat at Nash, 288 and 288. Boeing's 6,300 iso-profit curve just touches Airbus's best-response line at 292 and 289."></canvas></div>
+      <p>Each dotted curve joins the price pairs that give Boeing the same profit; curves higher up pay Boeing more,
+        because a higher Airbus price helps Boeing. At Nash, Boeing’s curve is flat: against a fixed 288, 288 is the
+        best it can do. As the leader, Boeing slides along Airbus’s line to the highest curve that still touches it,
+        at <b>(292, 289)</b>.</p>
+      <p class="note"><b>Who gains more?</b> Airbus, the follower: 6,498 against Boeing’s 6,300. In price competition
+        a higher price helps the rival, and the follower slightly undercuts the leader (289 vs. 292). So here moving
+        second is the advantage, the opposite of quantity (Cournot/Stackelberg) competition.</p>
+    </div>
+  </section>
+
+  <!-- 4. Comparison -->
+  <section class="panel">
+    <h2 class="box-hd">4. How the games compare <small>game’s default numbers</small></h2>
+    <div class="panel-bd">
+      <div class="table-wrap">
+        <table class="answers">
+          <thead><tr><th>Game</th><th>Boeing’s price</th><th>Airbus’s price</th><th>Boeing’s profit</th><th>Airbus’s profit</th></tr></thead>
+          <tbody>
+            <tr><td>Simultaneous</td><td>288</td><td>288</td><td>6,272</td><td>6,272</td></tr>
+            <tr><td>Boeing leads</td><td>292</td><td>289</td><td>6,300</td><td>6,498</td></tr>
+            <tr><td>Collusion</td><td>316</td><td>316</td><td>7,056</td><td>7,056</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Collusion pays both firms the most, because they act like one firm and set the monopoly price together:
+        maximising (P − 232)(400 − P) gives <b>316</b>.</p>
+      <p class="note"><b>Why the cartel is fragile.</b> In chart 1, the collusion point (316, 316) is on
+        <i>neither</i> best-response line. If Boeing charges 316, Airbus’s best answer is 216 + 316/4 = <b>295</b>,
+        which earns Airbus (295 − 232)(400 − 590 + 316) = <b>7,938</b>, more than 7,056. Each firm is tempted to
+        undercut, which is why collusion needs enforcement (or repeated play) to hold.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Default game numbers (keep in sync with ../index.html and ../solve/).
+  const a = 400, b = 2, c = 1, MC = 232;
+  const br = p => (a + c * p + b * MC) / (2 * b);                    // best response to rival price p
+  const nash = (a + b * MC) / (2 * b - c);                            // 288
+  const k = (a + b * MC) / (2 * b), s = c / (2 * b);                  // Airbus: P_A = k + s * P_B
+  const lead = ((a + c * k) / (b - c * s) + MC) / 2;                  // 292
+  const follow = br(lead);                                            // 289
+  const profit = (p, q) => (p - MC) * (a - b * p + c * q);
+  const piNash = profit(nash, nash), piLead = profit(lead, follow);   // 6,272 and 6,300
+  const cart = (a / (b - c) + MC) / 2, piCart = profit(cart, cart);  // 316 and 7,056
+  const isoA = (pi, pB) => (pi / (pB - MC) - a + b * pB) / c;         // Airbus price that gives Boeing profit pi
+
+  const BOEING = "#1F5A96", AIRBUS = "#B7791F", COLLUDE = "#2E7D5B", GREY = "#6B7684", INK = "#4C5867", GRID = "#E7ECF3";
+  const small = () => window.innerWidth < 600;
+  const fmt = v => Math.round(v).toLocaleString("en-US");
+  const range = (lo, hi, step) => { const out = []; for (let x = lo; x <= hi + 1e-9; x += step) out.push(+x.toFixed(2)); return out; };
+
+  Chart.defaults.font.family = 'Carlito, Calibri, "Segoe UI", system-ui, sans-serif';
+  Chart.defaults.font.size = 14;
+  Chart.defaults.color = INK;
+
+  const line = (data, color, dash, width) => ({ data, borderColor: color, borderWidth: width || 3, borderDash: dash || [],
+    showLine: true, pointRadius: 0, pointHoverRadius: 0, tension: 0 });
+  const dot = (x, y, color) => ({ data: [{ x, y }], backgroundColor: color, borderColor: "#fff", borderWidth: 2,
+    pointRadius: 8, pointHoverRadius: 9, showLine: false });
+  const axis = (title, min, max, step) => ({ type: "linear", min, max, title: { display: true, text: title, font: { size: 15, weight: "bold" } },
+    ticks: { stepSize: step }, grid: { color: GRID } });
+
+  // Text labels next to the marked points: [x, y, text, dx, dy, align]
+  const pointLabels = {
+    id: "pointLabels",
+    afterDatasetsDraw(chart) {
+      const g = chart.ctx, list = chart.options.plugins.pointLabels || [];
+      g.save();
+      g.font = (small() ? "13px " : "15px ") + Chart.defaults.font.family;
+      g.fillStyle = "#0B2B4E";
+      list.forEach(([x, y, text, dx, dy, align]) => {
+        g.textAlign = align;
+        g.fillText(text, chart.scales.x.getPixelForValue(x) + dx, chart.scales.y.getPixelForValue(y) + dy);
+      });
+      g.restore();
+    }
+  };
+  const options = (x, y, labels) => ({
+    responsive: true, maintainAspectRatio: false, animation: false,
+    layout: { padding: { right: 8, top: 6 } },
+    scales: { x, y },
+    plugins: { legend: { display: false }, pointLabels: labels,
+      tooltip: { callbacks: { label: ctx => "(" + fmt(ctx.parsed.x) + ", " + fmt(ctx.parsed.y) + ")" } } }
+  });
+
+  // 1. Best responses crossing
+  const g1 = range(240, 340, 2);
+  new Chart(document.getElementById("ch-br"), {
+    type: "scatter", plugins: [pointLabels],
+    data: { datasets: [
+      line(g1.map(y => ({ x: br(y), y })), BOEING),
+      line(g1.map(x => ({ x, y: br(x) })), AIRBUS, [9, 5]),
+      dot(nash, nash, "#0B2B4E"), dot(lead, follow, AIRBUS), dot(cart, cart, COLLUDE)
+    ] },
+    options: options(axis("Boeing’s price", 240, 340, 10), axis("Airbus’s price", 240, 340, 10), [
+      [nash, nash, "Nash (288, 288)", -12, 30, "right"],
+      [lead, follow, "Boeing leads (292, 289)", 14, 30, "left"],
+      [cart, cart, "Collusion (316, 316)", -12, -12, "right"]
+    ])
+  });
+
+  // 2. Boeing's profit: Airbus fixed at Nash, Airbus reacting, Airbus matching
+  const g2 = range(260, 344, 0.5);
+  new Chart(document.getElementById("ch-profit"), {
+    type: "scatter", plugins: [pointLabels],
+    data: { datasets: [
+      line(g2.map(p => ({ x: p, y: profit(p, nash) })), BOEING),
+      line(g2.map(p => ({ x: p, y: profit(p, br(p)) })), AIRBUS, [9, 5]),
+      line(g2.map(p => ({ x: p, y: profit(p, p) })), COLLUDE, [2, 4]),
+      dot(nash, piNash, BOEING), dot(lead, piLead, AIRBUS), dot(cart, piCart, COLLUDE)
+    ] },
+    options: options(axis("Boeing’s price", 260, 344, 8), axis("Boeing’s profit", 4800, 7400, 400), [
+      [nash, piNash, "288 → " + fmt(piNash), -12, -12, "right"],
+      [lead, piLead, "292 → " + fmt(piLead), 40, -6, "left"],
+      [cart, piCart, "316 → " + fmt(piCart), 0, -16, "center"]
+    ])
+  });
+
+  // 3. Iso-profit curves, zoomed in
+  const g3 = range(268, 316, 0.25);
+  const iso = pi => g3.map(x => ({ x, y: isoA(pi, x) })).filter(d => d.y >= 276 && d.y <= 304);
+  const g3y = range(276, 304, 1);
+  new Chart(document.getElementById("ch-iso"), {
+    type: "scatter", plugins: [pointLabels],
+    data: { datasets: [
+      line(g3y.map(y => ({ x: br(y), y })), BOEING),
+      line(g3.map(x => ({ x, y: br(x) })), AIRBUS, [9, 5]),
+      line(iso(piNash), GREY, [2, 4], 2), line(iso(piLead), GREY, [2, 4], 2),
+      dot(nash, nash, "#0B2B4E"), dot(lead, follow, AIRBUS)
+    ] },
+    options: options(axis("Boeing’s price", 268, 316, 4), axis("Airbus’s price", 276, 304, 4), [])
+  });
+</script>
+
+<!-- GoatCounter (private analytics; dashboard: rafaelrubiao.goatcounter.com) -->
+<script data-goatcounter="https://rafaelrubiao.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
