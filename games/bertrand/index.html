@@ -194,7 +194,7 @@
     .guide-link:hover { border-color: var(--gold); }
     .guide-link .ar { color: var(--gold); }
     .toggle {
-      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; padding: 4px;
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; padding: 4px;
       background: var(--surface-2); border: 1px solid var(--rule); border-radius: 9px;
     }
     .toggle label { position: relative; display: block; }
@@ -250,8 +250,13 @@
     }
     .status b { color: var(--airbus); font-size: 18px; }
 
+    /* best-response chart */
+    .br-box { height: 400px; }
+    .footnote { margin: 12px 0 0; font-size: 14px; line-height: 1.45; color: var(--ink-3); }
+
     /* phones: a little more room for the content */
     @media (max-width: 600px) {
+      .br-box { height: 330px; }
       .topbar-in { padding: 10px 14px; }
       .page { padding: 14px 12px 32px; }
       .panel-bd { padding: 12px 13px; }
@@ -274,7 +279,7 @@
   <div class="band">
     <div class="band-top">
       <h1>Boeing vs Airbus</h1>
-      <span class="kicker">Differentiated price competition</span>
+      <span class="kicker">Bertrand price competition</span>
     </div>
     <p>You are Boeing (Firm B). The computer plays Airbus (Firm A).
       Each round you pick Boeing’s price. How Airbus sets its price depends on the game you choose below.</p>
@@ -290,32 +295,28 @@
         <a class="guide-link" href="solve/" target="_blank" rel="noopener">How to solve each game (algebra) <span class="ar">→</span></a>
       </div>
       <div class="toggle" role="radiogroup" aria-labelledby="h-game">
-        <label><input type="radio" name="game" value="simultaneous" checked /><span>Simultaneous <small>(Bertrand)</small></span></label>
-        <label><input type="radio" name="game" value="leader" /><span>Leader <small>(Stackelberg)</small></span></label>
-        <label><input type="radio" name="game" value="follower" /><span>Follower <small>(Stackelberg)</small></span></label>
+        <label><input type="radio" name="game" value="bertrand" checked /><span>Bertrand <small>(as seen in class)</small></span></label>
         <label><input type="radio" name="game" value="collusion" /><span>Collusion <small>(cartel)</small></span></label>
       </div>
       <dialog class="info-pop" id="gameInfo" aria-labelledby="gameInfoTitle">
         <div class="info-hd">
-          <h3 id="gameInfoTitle">What the four games mean</h3>
+          <h3 id="gameInfoTitle">What the two games mean</h3>
           <button type="button" class="info-close" id="infoClose" aria-label="Close">×</button>
         </div>
         <div class="info-body">
         <dl>
-          <dt data-game="simultaneous">Simultaneous <small>Bertrand</small></dt>
-          <dd data-game="simultaneous">Both firms set their prices at the same time, as in the Bertrand model from class, so Airbus
-            cannot see your price. It charges its Bertrand–Nash equilibrium price in every round. Find the price that
-            maximizes your profit against it.</dd>
-          <dt data-game="leader">Leader <small>Stackelberg: you move first</small></dt>
-          <dd data-game="leader">You set your price first. Airbus sees it and replies with its best response, so choose your price
-            anticipating that reaction.</dd>
-          <dt data-game="follower">Follower <small>Stackelberg: Airbus moves first</small></dt>
-          <dd data-game="follower">Airbus commits to its price first (you see it before you choose), anticipating your best response.
-            Your job is to find the best response to Airbus’s price.</dd>
+          <dt data-game="bertrand">Bertrand <small>as seen in class</small></dt>
+          <dd data-game="bertrand">Each round Airbus sees your price and answers with its best response. Follow the arrows in
+            the best-response chart: your price, Airbus’s answer, your next price, and so on, as the prices walk toward the
+            Bertrand–Nash equilibrium. Once your price is between the Nash price and a few dollars above it, Airbus settles on
+            its Nash price for the rest of the game, and your best answer is the Nash price too.</dd>
           <dt data-game="collusion">Collusion <small>cartel</small></dt>
           <dd data-game="collusion">Airbus matches whatever price you set, as if the two firms had agreed to charge the same price.
             With identical firms, the price that maximizes your profit then also maximizes the two firms’ joint profit.</dd>
         </dl>
+        <p class="footnote">Note: this is a simplification that follows the Bertrand model from class. Because Airbus sees
+            your price before it answers, the rounds are really played in turns. If the firms took that into account, the
+            prices would end up a bit different (slightly above the Nash price).</p>
         <p class="info-foot">Want the algebra? <a href="solve/" target="_blank" rel="noopener">How to solve each game, step by step</a>.</p>
         </div>
       </dialog>
@@ -394,9 +395,25 @@
         </div>
       </section>
 
-      <!-- 3. Graphs -->
+      <!-- 3. Best responses -->
+      <section class="panel" aria-labelledby="h-br">
+        <h2 class="box-hd" id="h-br"><span class="step">3</span> Best responses</h2>
+        <div class="panel-bd">
+          <p>The two lines are the firms’ best-response functions; they cross at the Nash equilibrium.
+            Blue arrows are your new price, gold arrows are Airbus’s answer.</p>
+          <div class="chart-box br-box">
+            <canvas id="brChart" role="img" aria-label="Chart of Boeing's and Airbus's best-response lines, which cross at the Nash equilibrium, with arrows showing the prices played each round. The same numbers are in the History of play table."></canvas>
+            <p class="empty">Play a round to draw your path.</p>
+          </div>
+          <p class="footnote">Note: this is a simplification that follows the Bertrand model from class. Because Airbus sees
+            your price before it answers, the rounds are really played in turns. If the firms took that into account, the
+            prices would end up a bit different (slightly above the Nash price).</p>
+        </div>
+      </section>
+
+      <!-- 4. Graphs -->
       <section class="panel" aria-labelledby="h-charts">
-        <h2 class="box-hd" id="h-charts"><span class="step">3</span> Prices and profits over time</h2>
+        <h2 class="box-hd" id="h-charts"><span class="step">4</span> Prices and profits over time</h2>
         <div class="panel-bd">
           <p>Track the evolution of prices and profits round by round.</p>
           <div class="charts">
@@ -418,9 +435,9 @@
         </div>
       </section>
 
-      <!-- 4. History table -->
+      <!-- 5. History table -->
       <section class="panel" aria-labelledby="h-history">
-        <h2 class="box-hd" id="h-history"><span class="step">4</span> History of play</h2>
+        <h2 class="box-hd" id="h-history"><span class="step">5</span> History of play</h2>
         <div class="table-wrap">
           <table class="hist">
             <thead>
@@ -446,7 +463,9 @@
 <script>
   let round = 0;
   const history = [];   // one entry per round, including the parameters it was played with
-  let game = "simultaneous";
+  let game = "bertrand";
+  let airbusAtNash = false;   // Bertrand game: once true, Airbus charges its Nash price until the game is reset
+  let currentParams = null;   // last parameters read by getParams()
 
   let chokePriceCap = Infinity; // recomputed from parameters
 
@@ -455,11 +474,11 @@
   const show = x => (Math.round(x * 100) / 100 || 0).toLocaleString("en-US", { maximumFractionDigits: 2 }).replace("-", "−");
 
   const GAME_NAMES = {
-    simultaneous: "Simultaneous (Bertrand)",
-    leader: "Leader (Stackelberg)",
-    follower: "Follower (Stackelberg)",
+    bertrand: "Bertrand",
     collusion: "Collusion (cartel)"
   };
+  // Links made before the game was simplified (?game=simultaneous, leader, follower) open the Bertrand game.
+  const OLD_GAMES = { simultaneous: "bertrand", leader: "bertrand", follower: "bertrand" };
 
   const NO_NASH = "With these parameters there is no Nash equilibrium price for Airbus; change them in section 1.";
 
@@ -493,6 +512,7 @@
     params.ok = !msg;
 
     chokePriceCap = params.ok ? computeChokePriceCap(params) : Infinity;
+    currentParams = params;
     return params;
   }
 
@@ -526,19 +546,8 @@
     return PA_cont;
   }
 
-  // Follower game: Airbus moves first, choosing the price that is best for it given that
-  // Boeing will best-respond, P_B = alpha + beta P_A (the leader problem with roles swapped).
-  function airbusLeaderPrice(params) {
-    const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
-    const alpha = (aB + bB * MC_B) / (2 * bB);
-    const beta = cB / (2 * bB);
-    const A = aA + cA * alpha;   // Airbus's demand along Boeing's best response: Q_A = A - B P_A
-    const B = bA - cA * beta;
-    return B > 0 ? (A + B * MC_A) / (2 * B) : NaN;
-  }
-
-  // Simultaneous game: Airbus cannot see your price, so it charges its Bertrand-Nash price, where
-  // the two best responses cross: P_A = (2 bB (aA + bA MC_A) + cA (aB + bB MC_B)) / (4 bA bB - cA cB).
+  // Bertrand-Nash prices, where the two best responses cross:
+  // P_A = (2 bB (aA + bA MC_A) + cA (aB + bB MC_B)) / (4 bA bB - cA cB), and P_B with the roles swapped.
   function airbusNashPrice(params) {
     const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
     const det = 4 * bA * bB - cA * cB;
@@ -546,22 +555,47 @@
     return det > 0 && PA > 0 ? PA : NaN;
   }
 
+  function boeingNashPrice(params) {
+    const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
+    const det = 4 * bA * bB - cA * cB;
+    const PB = (2 * bA * (aB + bB * MC_B) + cB * (aA + bA * MC_A)) / det;
+    return det > 0 && PB > 0 ? PB : NaN;
+  }
+
+  function bestResponseBoeing(PA, params) {
+    const { aB, bB, cB, MC_B } = params;
+    return (aB + cB * PA + bB * MC_B) / (2 * bB);
+  }
+
+  // The price Boeing would charge if it moved first and Airbus best-responded (292 with the default
+  // numbers). Between the Nash price and this price Airbus settles on its Nash price, so that a
+  // student who keeps answering Airbus converges to Nash instead of a turn-taking outcome.
+  function boeingLeaderPrice(params) {
+    const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
+    const k = (aA + bA * MC_A) / (2 * bA), s = cA / (2 * bA);   // Airbus's best response: P_A = k + s P_B
+    const A = aB + cB * k, B = bB - cB * s;                     // Boeing's demand along it: Q_B = A - B P_B
+    return B > 0 ? (A / B + MC_B) / 2 : NaN;
+  }
+
+  function inNashZone(PB, params) {
+    const n = boeingNashPrice(params), l = boeingLeaderPrice(params);
+    return isFinite(n) && isFinite(l) && PB >= Math.min(n, l) - 1e-6 && PB <= Math.max(n, l) + 1e-6;
+  }
+
   // Airbus's price this round, by game type
   function airbusPrice(PB, params) {
-    if (game === "leader") return bestResponseAirbus(PB, params);   // sees your price, then responds
-    if (game === "follower") return airbusLeaderPrice(params);      // moved first
     if (game === "collusion") return PB;                            // matches your price
-    return airbusNashPrice(params);                                 // simultaneous: cannot see your price
+    if (!airbusAtNash && inNashZone(PB, params)) airbusAtNash = true;
+    return airbusAtNash ? airbusNashPrice(params) : bestResponseAirbus(PB, params);
   }
 
   // Compute quantities and profits
   function compute(PA, PB, params) {
     const { aA, bA, cA, aB, bB, cB, MC_A, MC_B } = params;
 
-    // For Airbus demand, only PB up to Boeing's choke price enters the cross term. Leader game:
-    // the choke price along Airbus's best response (as in the original game). Other games: the
-    // price at which Boeing sells nothing given Airbus's actual price.
-    const choke = game === "leader" ? chokePriceCap : (aB + cB * PA) / bB;
+    // For Airbus demand, only PB up to Boeing's choke price enters the cross term: the price at
+    // which Boeing sells nothing given Airbus's actual price.
+    const choke = (aB + cB * PA) / bB;
     const PB_eff_for_A = Math.min(PB, choke);
 
     let QA_raw = aA - bA * PA + cA * PB_eff_for_A;
@@ -580,40 +614,29 @@
   }
 
   // Re-reads the parameters and updates what depends on them and on the game type:
-  // how Airbus moves (with its price in the Follower game) and Boeing's choke price.
+  // the status line, Boeing's choke price and the best-response chart.
   function refresh() {
     const params = getParams();
-    let status = {
-      simultaneous: "Airbus sets its price at the same time as you: you see it after you play.",
-      leader: "You move first. Airbus sees your price and replies with its best response.",
-      follower: "Airbus moves first: fix the parameters in section 1 to see its price.",
-      collusion: "Airbus will match whatever price you set."
-    }[game];
+    let status = game === "collusion"
+      ? "Airbus will match whatever price you set."
+      : "Airbus sees your price and answers with its best response. Once your price gets close to the equilibrium, Airbus settles on its Nash price.";
     let choke = "—";
     if (params.ok) {
       const { aB, bB, cB } = params;
-      if (game === "leader") {
-        choke = isFinite(chokePriceCap)
-          ? `${show(chokePriceCap)} (along Airbus’s best response)`
-          : "none (Boeing’s demand never reaches 0 along Airbus’s best response)";
-      } else if (game === "follower") {
-        const PA = airbusLeaderPrice(params);
-        if (isFinite(PA)) {
-          status = `Airbus moved first and charges <b class="num">${show(PA)}</b>. Now choose your price.`;
-          choke = `${show((aB + cB * PA) / bB)} (given Airbus’s price of ${show(PA)})`;
-        } else {
-          status = "With these parameters Airbus has no best price to lead with; change them in section 1.";
-        }
-      } else if (game === "collusion") {
+      if (game === "collusion") {
         choke = bB > cB ? `${show(aB / (bB - cB))} (when Airbus matches your price)` : "none";
       } else if (isFinite(airbusNashPrice(params))) {
         choke = "depends on Airbus’s price";
+        if (airbusAtNash) {
+          status = `Airbus has settled on its Nash price, <b class="num">${show(airbusNashPrice(params))}</b>, and charges it every round until you reset the game.`;
+        }
       } else {
         status = NO_NASH;
       }
     }
     $("gameStatus").innerHTML = status;
     $("capDisplay").textContent = choke;
+    updateBRChart();
     return params;
   }
 
@@ -638,6 +661,12 @@
           note.innerHTML = `<td colspan="7">Parameters changed before round ${h.round}: ${changed.join(", ")}</td>`;
           body.appendChild(note);
         }
+      }
+      if (h.switched) {
+        const note = document.createElement("tr");
+        note.className = "change";
+        note.innerHTML = `<td colspan="7">Your price is close to the equilibrium: from round ${h.round} on, Airbus charges its Nash price, ${show(h.PA)}</td>`;
+        body.appendChild(note);
       }
       const tr = document.createElement("tr");
       if (i === history.length - 1) tr.className = "latest";
@@ -727,11 +756,141 @@
     });
   }
 
+  // Best-response chart: both best-response lines, the Nash point, and the path of play.
+  // Arrows: across = your new price (Boeing), up or down = Airbus's answer.
+  let brChart;
+  const arrowPlugin = {
+    id: "arrows",
+    afterDatasetsDraw(chart) {
+      const { ctx, chartArea: area, scales: { x, y } } = chart;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(area.left, area.top, area.width, area.height);
+      ctx.clip();
+      ctx.lineWidth = 2;
+      (chart.$arrows || []).forEach(a => {
+        const x0 = x.getPixelForValue(a.x0), y0 = y.getPixelForValue(a.y0);
+        const x1 = x.getPixelForValue(a.x1), y1 = y.getPixelForValue(a.y1);
+        const len = Math.hypot(x1 - x0, y1 - y0);
+        if (len < 3) return;
+        const ang = Math.atan2(y1 - y0, x1 - x0), head = Math.min(10, len * 0.6);
+        ctx.strokeStyle = ctx.fillStyle = a.color;
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1 - Math.cos(ang) * head * 0.8, y1 - Math.sin(ang) * head * 0.8);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x1 - head * Math.cos(ang - 0.42), y1 - head * Math.sin(ang - 0.42));
+        ctx.lineTo(x1 - head * Math.cos(ang + 0.42), y1 - head * Math.sin(ang + 0.42));
+        ctx.closePath();
+        ctx.fill();
+      });
+      ctx.font = '600 12px "Source Sans 3", sans-serif';
+      ctx.fillStyle = "#4C5867";
+      (chart.$labels || []).forEach(l => ctx.fillText(l.text, x.getPixelForValue(l.x) + 7, y.getPixelForValue(l.y) - 7));
+      ctx.restore();
+    }
+  };
+
+  function initBRChart() {
+    const css = getComputedStyle(document.documentElement);
+    const color = name => css.getPropertyValue(name).trim();
+    const lineSet = (label, c, dash) => ({ label, data: [], showLine: true, borderColor: c, backgroundColor: c,
+      borderWidth: 2.5, borderDash: dash, pointStyle: "line", pointRadius: 0, pointHoverRadius: 0, pointHitRadius: 0 });
+    brChart = new Chart($("brChart"), {
+      type: "scatter",
+      plugins: [arrowPlugin],
+      data: {
+        datasets: [
+          lineSet("Boeing’s best response", color("--boeing"), []),
+          lineSet("Airbus’s best response", color("--airbus"), [6, 4]),
+          { label: "Nash equilibrium", data: [], pointStyle: "rectRot", pointRadius: 8, pointHoverRadius: 9,
+            backgroundColor: color("--navy"), borderColor: "#fff", borderWidth: 1.5 },
+          { label: "Prices each round", data: [], pointRadius: 4, pointHoverRadius: 6,
+            backgroundColor: color("--ink-2"), borderColor: "#fff", borderWidth: 1 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: {
+            position: "top", align: "end",
+            labels: { usePointStyle: true, pointStyleWidth: 18, padding: 12, color: color("--ink-2") }
+          },
+          tooltip: {
+            backgroundColor: "#fff", titleColor: color("--ink"), bodyColor: color("--ink-2"),
+            borderColor: color("--rule"), borderWidth: 1, padding: 10,
+            callbacks: {
+              label: item => item.raw.round
+                ? ` Round ${item.raw.round}: you ${show(item.raw.x)}, Airbus ${show(item.raw.y)}`
+                : ` Nash: Boeing ${show(item.raw.x)}, Airbus ${show(item.raw.y)}`
+            }
+          }
+        },
+        scales: {
+          x: { type: "linear", title: { display: true, text: "Boeing’s price (you)", color: color("--ink-3") },
+               grid: { color: color("--rule-soft") }, ticks: { color: color("--ink-3"), callback: v => show(v) } },
+          y: { type: "linear", title: { display: true, text: "Airbus’s price", color: color("--ink-3") },
+               grid: { color: color("--rule-soft") }, ticks: { color: color("--ink-3"), callback: v => show(v) } }
+        }
+      }
+    });
+  }
+
+  function updateBRChart() {
+    if (!brChart) return;
+    const params = currentParams;
+    const css = getComputedStyle(document.documentElement);
+    const BOEING = css.getPropertyValue("--boeing").trim(), AIRBUS = css.getPropertyValue("--airbus").trim();
+    const sets = brChart.data.datasets;
+    sets.forEach(d => { d.data = []; });
+    const arrows = [], labels = [];
+    const nA = params && params.ok ? airbusNashPrice(params) : NaN;
+    const nB = params && params.ok ? boeingNashPrice(params) : NaN;
+
+    // Same range on both axes, around the Nash point and every price played
+    const values = history.flatMap(h => [h.PA, h.PB]).concat(isFinite(nA) && isFinite(nB) ? [nA, nB] : []);
+    if (values.length) {
+      const lo = Math.max(0, Math.floor((Math.min(...values) - 12) / 10) * 10);
+      const hi = Math.ceil((Math.max(...values) + 12) / 10) * 10;
+      ["x", "y"].forEach(k => { brChart.options.scales[k].min = lo; brChart.options.scales[k].max = hi; });
+
+      if (isFinite(nA) && isFinite(nB)) {
+        for (let i = 0; i <= 80; i++) {
+          const v = lo + (hi - lo) * i / 80;
+          sets[0].data.push({ x: bestResponseBoeing(v, params), y: v });
+          sets[1].data.push({ x: v, y: bestResponseAirbus(v, params) });
+        }
+        sets[2].data.push({ x: nB, y: nA });
+      }
+
+      // Round 1 starts from your price on the bottom axis; then across to your new price, up or down to Airbus's answer
+      history.forEach((h, i) => {
+        sets[3].data.push({ x: h.PB, y: h.PA, round: h.round });
+        labels.push({ x: h.PB, y: h.PA, text: String(h.round) });
+        if (i === 0) {
+          arrows.push({ x0: h.PB, y0: lo, x1: h.PB, y1: h.PA, color: AIRBUS });
+        } else {
+          const g = history[i - 1];
+          arrows.push({ x0: g.PB, y0: g.PA, x1: h.PB, y1: g.PA, color: BOEING });
+          arrows.push({ x0: h.PB, y0: g.PA, x1: h.PB, y1: h.PA, color: AIRBUS });
+        }
+      });
+    }
+    brChart.$arrows = arrows;
+    brChart.$labels = labels;
+    brChart.update();
+  }
+
   function initCharts() {
     Chart.defaults.font.family = 'Carlito, Calibri, "Segoe UI", system-ui, sans-serif';
     Chart.defaults.font.size = 13;
     priceChart = lineChart("priceChart", "Price", "price");
     profitChart = lineChart("profitChart", "Profit", "profit");
+    initBRChart();
   }
 
   function updateCharts() {
@@ -744,6 +903,7 @@
     profitChart.data.datasets[1].data = history.map(h => h.piA);
     priceChart.update();
     profitChart.update();
+    updateBRChart();
     document.querySelectorAll(".chart-box .empty").forEach(p => { p.hidden = history.length > 0; });
   }
 
@@ -767,30 +927,32 @@
       setWarning("Fix the demand and cost parameters in section 1 first.");
       return;
     }
+    const wasAtNash = airbusAtNash;
     const PA = airbusPrice(PB, params);
     if (!isFinite(PA)) {
-      setWarning(game === "follower"
-        ? "With these parameters Airbus has no best price to lead with; change them in section 1."
-        : NO_NASH);
+      setWarning(NO_NASH);
       return;
     }
     const { QA, QB, piA, piB } = compute(PA, PB, params);
 
     round++;
-    history.push({ round, PA, PB, QA, QB, piA, piB, params });
+    history.push({ round, PA, PB, QA, QB, piA, piB, params, switched: airbusAtNash && !wasAtNash });
 
     updateLatest();
     updateHistory();
     updateCharts();
+    refresh();
   }
 
   function resetGame() {
     round = 0;
     history.length = 0;
+    airbusAtNash = false;
     setWarning("");
     updateLatest();
     updateHistory();
     updateCharts();
+    refresh();
   }
 
   // Switching the game type starts a new game; the choice is kept in the address (?game=...)
@@ -821,7 +983,8 @@
     info.addEventListener("click", e => { if (e.target === info) info.close(); });
 
     const radios = document.querySelectorAll('input[name="game"]');
-    const requested = new URLSearchParams(window.location.search).get("game");
+    const asked = new URLSearchParams(window.location.search).get("game");
+    const requested = OLD_GAMES[asked] || asked;
     if (GAME_NAMES[requested]) {
       game = requested;
       radios.forEach(r => { r.checked = r.value === game; });
