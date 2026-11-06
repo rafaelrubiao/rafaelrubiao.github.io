@@ -776,6 +776,7 @@
   // Best-response chart: both best-response lines, the Nash point, and the path of play.
   // Arrows: across = your new price (Boeing), up or down = Airbus's answer.
   let brChart;
+  const PRICE_MIN = 150, PRICE_MAX = 500;   // the prices a student can choose
   const arrowPlugin = {
     id: "arrows",
     afterDatasetsDraw(chart) {
@@ -838,6 +839,7 @@
             labels: { usePointStyle: true, pointStyleWidth: 18, padding: 12, color: color("--ink-2") }
           },
           zoom: {
+            limits: { x: { min: PRICE_MIN, max: PRICE_MAX }, y: { min: PRICE_MIN, max: PRICE_MAX } },
             zoom: { wheel: { enabled: true, modifierKey: "ctrl" }, pinch: { enabled: true }, mode: "xy" },
             pan: { enabled: true, mode: "xy" }
           },
@@ -875,26 +877,26 @@
     // Same range on both axes, around the Nash point and every price played
     const values = history.flatMap(h => [h.PA, h.PB]).concat(isFinite(nA) && isFinite(nB) ? [nA, nB] : []);
     if (values.length) {
-      const lo = Math.max(0, Math.floor((Math.min(...values) - 12) / 10) * 10);
-      const hi = Math.ceil((Math.max(...values) + 12) / 10) * 10;
+      const lo = Math.max(PRICE_MIN, Math.floor((Math.min(...values) - 12) / 10) * 10);
+      const hi = Math.min(PRICE_MAX, Math.ceil((Math.max(...values) + 12) / 10) * 10);
       if (brChart.resetZoom) brChart.resetZoom("none");   // every new round shows the whole path again
       ["x", "y"].forEach(k => { brChart.options.scales[k].min = lo; brChart.options.scales[k].max = hi; });
 
       if (isFinite(nA) && isFinite(nB)) {
-        for (let i = 0; i <= 80; i++) {
-          const v = lo + (hi - lo) * i / 80;
+        // over the whole price range, so the lines never end when the chart is zoomed out
+        for (let v = PRICE_MIN; v <= PRICE_MAX; v += 2.5) {
           sets[0].data.push({ x: bestResponseBoeing(v, params), y: v });
           sets[1].data.push({ x: v, y: bestResponseAirbus(v, params) });
         }
         sets[2].data.push({ x: nB, y: nA });
       }
 
-      // Round 1 starts from your price on the bottom axis; then across to your new price, up or down to Airbus's answer
+      // Round 1 starts from your price at the bottom of the price range; then across to your new price, up or down to Airbus's answer
       history.forEach((h, i) => {
         sets[3].data.push({ x: h.PB, y: h.PA, round: h.round });
         labels.push({ x: h.PB, y: h.PA, text: String(h.round) });
         if (i === 0) {
-          arrows.push({ x0: h.PB, y0: lo, x1: h.PB, y1: h.PA, color: AIRBUS });
+          arrows.push({ x0: h.PB, y0: PRICE_MIN, x1: h.PB, y1: h.PA, color: AIRBUS });
         } else {
           const g = history[i - 1];
           arrows.push({ x0: g.PB, y0: g.PA, x1: h.PB, y1: g.PA, color: BOEING });
